@@ -1,8 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ProjectileController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/PlayerController.cs">
     <Files>
-      <File FileName="Assets/Scripts/ProjectileController.cs" Line="4" Column="14" />
+      <File FileName="Assets/Scripts/ProjectileController.cs" Line="10" Column="28" />
+      <File FileName="Assets/Scripts/PlayerController.cs" Line="29" Column="100" />
+      <File FileName="Assets/Scripts/GameController.cs" Line="36" Column="54" />
+      <File FileName="Assets/RadialBar.cs" Line="25" Column="20" />
+      <File FileName="../../sp-unity-3dBattles/Assets/Game/Scripts/BuildMap/Misc/MapZoomController.cs" Line="319" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
