@@ -21,8 +21,8 @@ public class GameController : MonoBehaviour {
 		_tirachinas = GameObject.Find("Tirachinas").GetComponent<SpriteRenderer>();
 		_arrow = GameObject.Find("Arrow").GetComponent<SpriteRenderer>();
 		_uiRoot = GameObject.Find("UI Root").GetComponent<UIRoot>();
-		//_tirachinas.enabled = false;
-		//_arrow.enabled = false;
+		_tirachinas.enabled = false;
+		_arrow.enabled = false;
 	}
 
 	public GameObject InstantiateUI(string path)

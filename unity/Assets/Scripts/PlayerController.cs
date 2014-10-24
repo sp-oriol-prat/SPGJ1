@@ -6,8 +6,12 @@ public class PlayerController : MonoBehaviour {
 	private EState _state = EState.Idle;
 	private Vector3 _positionOnPress;
 	public float Friction = 0.8f;
-	private ProgressBar _healthBar;
+	//private ProgressBar _healthBar;
+	private float _stamina = 1.0f;
+	public float StaminaCharge = 0.1f;
+	public float StaminaSpend = 0.4f;
 	private RadialBar _radialBar;
+	private Animator _animator;
 
 	public enum EState
 	{
@@ -21,18 +25,26 @@ public class PlayerController : MonoBehaviour {
 	void Start () 
 	{
 		//Health
-		_healthBar = GameController.me.InstantiateUI("HealthBar").GetComponent<ProgressBar>();
-		GameController.me.SetWorldToUIPosition(transform.position, _healthBar.transform, new Vector2(0, -100));
-		_healthBar.SetProgress(Random.value);
+		//_healthBar = GameController.me.InstantiateUI("HealthBar").GetComponent<ProgressBar>();
+		//GameController.me.SetWorldToUIPosition(transform.position, _healthBar.transform, new Vector2(0, -100));
+		//_healthBar.SetProgress(Random.value);
 		//Stamina
 		_radialBar = GameController.me.InstantiateUI("StaminaBar").GetComponent<RadialBar>();
 		GameController.me.SetWorldToUIPosition(transform.position, _radialBar.transform, new Vector2(-140, -90));
 		_radialBar.SetProgress(Random.value);
+		//Animator
+		_animator = GetComponentInChildren<Animator>();
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
+		if (Stamina<=1)
+		{
+			Stamina += StaminaCharge*Time.deltaTime;
+		} else {
+			Stamina = 1;
+		}
 		switch(State)
 		{
 		case EState.Drag:
@@ -54,7 +66,8 @@ public class PlayerController : MonoBehaviour {
 	
 	void OnMouseDown() 
 	{
-		if (State == EState.Idle)
+		//Mira tambe si te prou stamina
+		if (State == EState.Idle && Stamina >= StaminaSpend)
 		{
 			GameController.me.Arrow.enabled = true;
 			GameController.me.Tirachinas.enabled = true;
@@ -75,6 +88,21 @@ public class PlayerController : MonoBehaviour {
 			GameObject projectileGo = Instantiate(projectileRes, transform.position, Quaternion.identity) as GameObject;
 			projectileGo.GetComponent<ProjectileController>().Shot(force);
 			State = EState.Idle;
+			_animator.SetTrigger("Attack");
+			Stamina -= StaminaSpend;
+		}
+	}
+
+	private float Stamina
+	{
+		get
+		{
+			return _stamina;
+		}
+		set
+		{
+			_stamina = value;
+			_radialBar.SetProgress(_stamina);
 		}
 	}
 

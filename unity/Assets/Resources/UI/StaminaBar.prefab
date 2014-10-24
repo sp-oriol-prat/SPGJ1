@@ -124,7 +124,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 100004}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3dd4b8ec879f46b398b269ffd6b9b61, type: 3}
+  m_Script: {fileID: 11500000, guid: f6568f9ff45b54a51ba67068b94436be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Bar: {fileID: 11400008}
@@ -208,7 +208,7 @@ MonoBehaviour:
   mPivot: 4
   mWidth: 80
   mHeight: 80
-  mDepth: 2
+  mDepth: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
@@ -292,14 +292,14 @@ MonoBehaviour:
   mPivot: 4
   mWidth: 80
   mHeight: 80
-  mDepth: 3
+  mDepth: 2
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
   aspectRatio: 1
   mAtlas: {fileID: 11400000, guid: e8c06bda32c134d7fa3d9c3b569eced5, type: 2}
   mSpriteName: barRound
-  mType: 0
+  mType: 3
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
