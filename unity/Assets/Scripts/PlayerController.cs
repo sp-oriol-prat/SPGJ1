@@ -12,8 +12,7 @@ public class PlayerController : MonoBehaviour {
 		Idle,
 		//Press,
 		Drag,
-		Release,
-		Moving
+		Release
 	}
 
 	// Use this for initialization
@@ -31,23 +30,7 @@ public class PlayerController : MonoBehaviour {
 			break;
 		}
 	}
-
-	void FixedUpdate()
-	{
-		switch(State)
-		{
-		case EState.Moving:
-			//Debug.Log ("VEL: " + rigidbody2D.velocity.magnitude);
-			if(rigidbody2D.velocity.magnitude <= 0.25f)
-			{
-				rigidbody2D.velocity = Vector3.zero;
-				rigidbody2D.angularVelocity = 0;
-				State = EState.Idle;
-			}
-			break;
-		}
-	}
-
+	
 	void OnMouseDown() 
 	{
 		if (State == EState.Idle)
@@ -62,12 +45,11 @@ public class PlayerController : MonoBehaviour {
 		if (State == EState.Drag)
 		{
 			Vector3 positionOnRelease = GameController.me.GetPosMouse3D;
-			Vector3 force = (_positionOnPress - positionOnRelease)*5000;
-			//Debug.Log ("ADD0: " + force.ToString() + " Sleep: " + rigidbody2D.IsSleeping());
-
-			rigidbody2D.AddForce(force);
-			//Debug.Log ("ADD1: " + force.ToString() + " Sleep: " + rigidbody2D.IsSleeping());
-			State = EState.Moving;
+			Vector3 force = (_positionOnPress - positionOnRelease);
+			GameObject projectileRes = Resources.Load ("Projectile") as GameObject;
+			GameObject projectileGo = Instantiate(projectileRes, transform.position, Quaternion.identity) as GameObject;
+			projectileGo.GetComponent<ProjectileController>().Shot(force);
+			State = EState.Idle;
 		}
 	}
 
