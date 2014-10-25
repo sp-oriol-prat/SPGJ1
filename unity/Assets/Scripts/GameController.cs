@@ -127,6 +127,7 @@ public class GameController : MonoBehaviour {
 			for (int i=0; i<Players.Length; i++)
 			{
 				Players[i].Enable();
+				Players[i].InitParams();
 			}
 			
 			_enemiesManager.doCanStart();

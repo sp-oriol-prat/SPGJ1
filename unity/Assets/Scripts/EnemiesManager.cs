@@ -87,7 +87,7 @@ public class EnemiesManager : MonoBehaviour
 	
 	IEnumerator parseEnemies()
 	{
-		string enemiesUrl = "https://dl.dropboxusercontent.com/u/64292958/spgj1/__enemies.txt";
+		string enemiesUrl = "https://dl.dropboxusercontent.com/u/64292958/spgj1/enemies.txt";
 		WWW www = new WWW(enemiesUrl);
 		//Debug.Log ("downloading... " + enemiesUrl);
 
@@ -117,7 +117,7 @@ public class EnemiesManager : MonoBehaviour
 
 	IEnumerator parseWaves()
 	{
-		string wavesUrl = "https://dl.dropboxusercontent.com/u/64292958/spgj1/__waves.txt";
+		string wavesUrl = "https://dl.dropboxusercontent.com/u/64292958/spgj1/waves.txt";
 		WWW www = new WWW(wavesUrl);
 		//Debug.Log ("downloading... " + wavesUrl);
 

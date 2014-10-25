@@ -12,6 +12,7 @@ public class ProjectileController : MonoBehaviour {
 	public EProjectileType ProjectileType;
 	private bool _isOnFire = false;
 	private ParticleSystem _fx;
+	private float _baseDamage;
 
 	public enum EProjectileType
 	{
@@ -28,7 +29,19 @@ public class ProjectileController : MonoBehaviour {
 
 	class WeaponsParams
 	{
+		public class PhysicsParams {
+			public float force;
+			public float mass;
+			public float drag;
+		};
+
 		public int boomerangDamage;
+		public float babosaGlueTime;
+
+		public PhysicsParams boomerangPhysics;
+		public PhysicsParams firePhysics;
+		public PhysicsParams babosaPhysics;
+
 	};
 	static WeaponsParams _weaponsParams = null;
 
@@ -40,9 +53,31 @@ public class ProjectileController : MonoBehaviour {
 		_particlesDead = Resources.Load ("ProjectileDead") as GameObject;
 		_fx = GetComponentInChildren<ParticleSystem>();
 	}
+
+	public void applyParams()
+	{
+		Debug.Log ("Apply physics!");
+		switch ( ProjectileType )
+		{
+		case EProjectileType.Babosa:
+			_baseDamage = 0;
+			applyPhysicParams(_weaponsParams.babosaPhysics);
+			break;
+		case EProjectileType.Boomerang:
+			_baseDamage = _weaponsParams.boomerangDamage;
+			applyPhysicParams(_weaponsParams.boomerangPhysics);
+			break;
+		case EProjectileType.Fire:
+			_baseDamage = 0;
+			applyPhysicParams(_weaponsParams.firePhysics);
+			break;
+		}
+	}
 	
 	public void Shot(Vector3 dir)
 	{
+		applyParams();
+
 		rigidbody2D.AddForce(dir * Force);
 	}
 
@@ -96,22 +131,7 @@ public class ProjectileController : MonoBehaviour {
 		if (enemy != null)
 		{
 			bool isFrontHit = rigidbody2D.velocity.x > 0.0f;
-
-			int baseDamage = 1;
-			switch ( ProjectileType )
-			{
-			case EProjectileType.Babosa:
-				baseDamage = 1;
-				break;
-			case EProjectileType.Boomerang:
-				baseDamage = _weaponsParams.boomerangDamage;
-				break;
-			case EProjectileType.Fire:
-				baseDamage = 1;
-				break;
-			}
-
-			enemy.Hit(baseDamage, isFrontHit, _isOnFire);
+			enemy.Hit(_baseDamage, isFrontHit, _isOnFire);
 			DestroyProjectile();
 		}
 	}
@@ -148,7 +168,30 @@ public class ProjectileController : MonoBehaviour {
 		//yield return new WaitForSeconds(2);
 		JSONNode json = JSONNode.Parse(www.text);
 		_weaponsParams = new WeaponsParams();
+
 		_weaponsParams.boomerangDamage = json["boomerang_damage"].AsInt;
+		_weaponsParams.babosaGlueTime = json["babosa_glue_time"].AsFloat;
+
+		_weaponsParams.boomerangPhysics = parsePhysicsParams(json["boomerang_physics"]);
+		_weaponsParams.babosaPhysics 	= parsePhysicsParams(json["fire_physics"]);
+		_weaponsParams.firePhysics 		= parsePhysicsParams(json["babosa_physics"]);
+	}
+
+	static WeaponsParams.PhysicsParams parsePhysicsParams(JSONNode json)
+	{
+		WeaponsParams.PhysicsParams p = new WeaponsParams.PhysicsParams();
+		p.force = json["force"].AsFloat;
+		p.mass = json["mass"].AsFloat;
+		p.drag = json["drag"].AsFloat;
+
+		return p;
+	}
+
+	void applyPhysicParams(WeaponsParams.PhysicsParams p)
+	{
+		transform.rigidbody2D.mass = p.mass;
+		transform.rigidbody2D.drag = p.drag;
+		Force = p.force;
 	}
 
 	static public bool isParseDone()

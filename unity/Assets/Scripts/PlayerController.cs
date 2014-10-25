@@ -23,11 +23,11 @@ public class PlayerController : MonoBehaviour {
 	class CharacterParams
 	{
 		public float chargeTime_paladin;
-		public int attackSpend_paladin;
+		public float attackSpend_paladin;
 		public float chargeTime_mago;
-		public int attackSpend_mago;
+		public float attackSpend_mago;
 		public float chargeTime_babosa;
-		public int attackSpend_babosa;
+		public float attackSpend_babosa;
 	};
 	static CharacterParams _characterParams = null;
 
@@ -61,6 +61,28 @@ public class PlayerController : MonoBehaviour {
 		//Animator
 		_animator = GetComponentInChildren<Animator>();
 		_sprite = GetComponent<SpriteRenderer>();
+	}
+
+	public void InitParams()
+	{
+		// override data with json parsed.
+		switch (PlayerType)
+		{
+		case ETypes.Paladin:
+			StaminaCharge = _characterParams.chargeTime_paladin;
+			StaminaSpend = _characterParams.attackSpend_paladin;
+			break;
+		case ETypes.Babosa:
+			StaminaCharge = _characterParams.chargeTime_babosa;
+			StaminaSpend = _characterParams.attackSpend_babosa;
+			break;
+		case ETypes.Mago:
+			StaminaCharge = _characterParams.chargeTime_mago;
+			StaminaSpend = _characterParams.attackSpend_mago;
+			break;
+		}
+
+		Debug.Log("saminta: charge " + StaminaCharge + ", " + StaminaSpend);
 	}
 	
 	// Update is called once per frame
@@ -242,9 +264,9 @@ public class PlayerController : MonoBehaviour {
 		_characterParams.chargeTime_paladin 	= 1.0f/(float)json["paladin_stamina_charge_time"].AsInt;
 		_characterParams.chargeTime_mago 		= 1.0f/(float)json["mago_stamina_charge_time"].AsInt;
 		_characterParams.chargeTime_babosa 		= 1.0f/(float)json["babosa_stamina_charge_time"].AsInt;
-		_characterParams.attackSpend_paladin 	= json["paladin_stamina_charge_time"].AsInt;
-		_characterParams.attackSpend_mago 		= json["mago_stamina_charge_time"].AsInt;
-		_characterParams.attackSpend_babosa 	= json["babosa_stamina_charge_time"].AsInt;
+		_characterParams.attackSpend_paladin 	= (float)json["paladin_stamina_attack_spend"].AsInt/100.0f;
+		_characterParams.attackSpend_mago 		= (float)json["mago_stamina_attack_spend"].AsInt/100.0f;
+		_characterParams.attackSpend_babosa 	= (float)json["babosa_stamina_attack_spend"].AsInt/100.0f;
 	}
 	
 	static public bool isParseDone()
