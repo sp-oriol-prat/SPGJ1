@@ -61,8 +61,9 @@ public class EnemiesManager : MonoBehaviour
 			}
 			else
 			{
+				Debug.Log ("STARTEDD!!!");
 				_isStarted = true;
-				_startTime = Time.fixedDeltaTime;
+				_startTime = Time.fixedTime;
 			}
 		}
 
@@ -85,7 +86,7 @@ public class EnemiesManager : MonoBehaviour
 	{
 		string enemiesUrl = "https://dl.dropboxusercontent.com/u/64292958/spgj1/enemies_v2.txt";
 		WWW www = new WWW(enemiesUrl);
-		Debug.Log ("downloading... " + enemiesUrl);
+		//Debug.Log ("downloading... " + enemiesUrl);
 
 		yield return www;
 		JSONNode jEnemies = JSONNode.Parse(www.text).AsArray;
@@ -132,7 +133,7 @@ public class EnemiesManager : MonoBehaviour
 	{
 		string wavesUrl = "https://dl.dropboxusercontent.com/u/64292958/spgj1/waves.txt";
 		WWW www = new WWW(wavesUrl);
-		Debug.Log ("downloading... " + wavesUrl);
+		//Debug.Log ("downloading... " + wavesUrl);
 
 		yield return www;
 		JSONNode jWaves = JSONNode.Parse (www.text).AsArray;
@@ -193,19 +194,6 @@ public class EnemiesManager : MonoBehaviour
 				case "A":	prefab = _enemyPrefab_A;	break;
 				case "B":	prefab = _enemyPrefab_B;	break;
 				case "C":	prefab = _enemyPrefab_C;	break;
-				}
-
-				if (wave.enemiesId[i] == "A")
-				{
-					prefab = _enemyPrefab_A;
-				}
-				else if ( wave.enemiesId[i] == "B")
-				{
-					prefab = _enemyPrefab_B;
-				}
-				else if ( wave.enemiesId[i] == "C" )
-				{
-					prefab = _enemyPrefab_C;
 				}
 
 				if (prefab)
