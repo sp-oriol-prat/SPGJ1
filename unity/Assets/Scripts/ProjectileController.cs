@@ -9,12 +9,13 @@ public class ProjectileController : MonoBehaviour {
 	public float Force = 5000;
 	private GameObject _particlesDead;
 	public EProjectileType ProjectileType;
+	private bool _isOnFire = false;
 
 	public enum EProjectileType
 	{
 		Boomerang,
-		Rock,
-		Magic
+		Fire,
+		Babosa
 	}
 
 	public enum EState
@@ -80,6 +81,18 @@ public class ProjectileController : MonoBehaviour {
 		{
 			enemy.Hit(ProjectileType);
 			DestroyProjectile();
+		}
+	}
+
+	public bool IsOnFire
+	{
+		get 
+		{
+			return _isOnFire;
+		}
+		set
+		{
+			_isOnFire = value;
 		}
 	}
 
