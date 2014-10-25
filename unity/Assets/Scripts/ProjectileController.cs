@@ -79,7 +79,23 @@ public class ProjectileController : MonoBehaviour {
 		EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
 		if (enemy != null)
 		{
-			enemy.Hit(ProjectileType);
+			bool isFrontHit = rigidbody2D.velocity.x > 0.0f;
+
+			int baseDamage = 1;
+			switch ( ProjectileType )
+			{
+			case EProjectileType.Babosa:
+				baseDamage = 1;
+				break;
+			case EProjectileType.Boomerang:
+				baseDamage = 1;
+				break;
+			case EProjectileType.Fire:
+				baseDamage = 1;
+				break;
+			}
+
+			enemy.Hit(baseDamage, isFrontHit, _isOnFire);
 			DestroyProjectile();
 		}
 	}

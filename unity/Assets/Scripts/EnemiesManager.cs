@@ -88,7 +88,7 @@ public class EnemiesManager : MonoBehaviour
 	
 	IEnumerator parseEnemies()
 	{
-		string enemiesUrl = "https://dl.dropboxusercontent.com/u/64292958/spgj1/enemies_v2.txt";
+		string enemiesUrl = "https://dl.dropboxusercontent.com/u/64292958/spgj1/__enemies.txt";
 		WWW www = new WWW(enemiesUrl);
 		//Debug.Log ("downloading... " + enemiesUrl);
 
@@ -106,9 +106,7 @@ public class EnemiesManager : MonoBehaviour
 			eData.walkSpeed = (float)jEnemy["walk_speed"].AsInt / 100.0f;
 			eData.attackDamage = jEnemy["attack_damage"].AsInt;
 			eData.attackSpeed = (float)jEnemy["attack_speed"].AsInt / 100.0f;
-			eData.stopTimeOnHit = (float)jEnemy["hit_stop_time"].AsInt / 100.0f;
-			eData.damageOnFrontHit = jEnemy["hit_damage_font"].AsInt;
-			eData.damageOnBackHit = jEnemy["hit_damage_back"].AsInt;
+			eData.stopTimeOnHit = jEnemy["hit_stop_time"].AsFloat;
 			eData.hasShield = jEnemy["shield"].AsInt == 1;
 			eData.isElemental = jEnemy["elemental"].AsInt == 1;
 
@@ -120,7 +118,7 @@ public class EnemiesManager : MonoBehaviour
 
 	IEnumerator parseWaves()
 	{
-		string wavesUrl = "https://dl.dropboxusercontent.com/u/64292958/spgj1/waves.txt";
+		string wavesUrl = "https://dl.dropboxusercontent.com/u/64292958/spgj1/__waves.txt";
 		WWW www = new WWW(wavesUrl);
 		//Debug.Log ("downloading... " + wavesUrl);
 

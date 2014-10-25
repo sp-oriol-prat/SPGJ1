@@ -10,7 +10,13 @@ public class EnemyController : MonoBehaviour
 		Dying
 	};
 
-	public enum Element { Fire = 0, Ice = 1, Wind = 2 };
+	public enum Element
+	{
+		Fire = 0,
+		Ice = 1,
+		Wind = 2
+	};
+
 	public class Data
 	{
 		public string id;
@@ -19,16 +25,14 @@ public class EnemyController : MonoBehaviour
 		public float attackDamage;
 		public float attackSpeed;
 		public float stopTimeOnHit;
-		public int damageOnFrontHit;
-		public int damageOnBackHit;
 		public bool hasShield;
 		public bool isElemental;
 
-		public Data()
+		public Data ()
 		{
 		}
 
-		public Data(Data d)
+		public Data (Data d)
 		{
 			id = d.id;
 			life = d.life;
@@ -36,33 +40,29 @@ public class EnemyController : MonoBehaviour
 			attackDamage = d.attackDamage;
 			attackSpeed = d.attackSpeed;
 			stopTimeOnHit = d.stopTimeOnHit;
-			damageOnFrontHit = d.damageOnFrontHit;
-			damageOnBackHit = d.damageOnBackHit;
 			hasShield = d.hasShield;
 			isElemental = d.isElemental;
 		}
 	};
 
 	private Data _data;
-
 	public EState _state;
 	private float _velocity;
-	private int _health;
+	private float _health;
 	private SpriteRenderer _sprite;
 	private float _timeChangeState;
 	private float _timeIntermitent;
 	private float kTimeIntermitent = 0.15f;
-
 	private int _streetIndex;
 
 	void Start ()
 	{
-		_sprite = GetComponent<SpriteRenderer>();
+		_sprite = GetComponent<SpriteRenderer> ();
 	}
 
-	public void Init(Data data, int streetIndex)
+	public void Init (Data data, int streetIndex)
 	{
-		_data = new Data(data);	
+		_data = new Data (data);	
 		_streetIndex = streetIndex;
 
 		_velocity = _data.walkSpeed;
@@ -70,41 +70,36 @@ public class EnemyController : MonoBehaviour
 		_state = EState.Moving;
 	}
 
-	public int Health
-	{
-		get
-		{
+	public float Health {
+		get {
 			return _health;
 		}
-		set
-		{
+		set {
 			_health = value;
-			if (_health <= 0)
-			{
-				SetStateDie();
+			if (_health <= 0) {
+					SetStateDie ();
 			}
 		}
 	}
 
 	void FixedUpdate ()
 	{
-		switch (_state)
-		{
-		case EState.Moving:
-			FixedUpdate_Moving();
-			break;
+			switch (_state) {
+			case EState.Moving:
+					FixedUpdate_Moving ();
+					break;
 
-		case EState.Attacking:
-			FixedUpdate_Attacking();
-			break;
+			case EState.Attacking:
+					FixedUpdate_Attacking ();
+					break;
 
-		case EState.Dying:
-			FixedUpdate_Dying();
-			break;
-		}
+			case EState.Dying:
+					FixedUpdate_Dying ();
+					break;
+			}
 	}
 
-	private void SetStateDie()
+	private void SetStateDie ()
 	{
 		collider2D.enabled = false;
 		_state = EState.Dying;
@@ -112,60 +107,75 @@ public class EnemyController : MonoBehaviour
 		_timeIntermitent = 0;
 	}
 
-	private void SetStateAttacking()
+	private void SetStateAttacking ()
 	{
 		_state = EState.Attacking;
 		_timeChangeState = Time.time;
 	}
 
-	void FixedUpdate_Moving()
+	void FixedUpdate_Moving ()
 	{
-		Vector3 moveDir = new Vector3(-1,0,0);
+		Vector3 moveDir = new Vector3 (-1, 0, 0);
 		transform.position += moveDir * _velocity * Time.fixedDeltaTime;
-		if (transform.position.x < GameController.me.GetPositionPlayers().x)
-		{
-			SetStateAttacking();
+		if (transform.position.x < GameController.me.GetPositionPlayers ().x) {
+				SetStateAttacking ();
 		}
 	}
 
-	void FixedUpdate_Attacking()
+	void FixedUpdate_Attacking ()
 	{
-		if (Time.time > _timeChangeState + 1.0f)
-		{
+		if (Time.time > _timeChangeState + 1.0f) {
 			//TODO: Attack animation and selecciona el player correcte per atacar (passant com a valor el tipus d'enemic del quer es tracta)
-			PlayerController player = GameController.me.GetPlayer(0);
-			if (player != null)
-			{
-				GameController.me.GetPlayer(0).Hit("A");
+			PlayerController player = GameController.me.GetPlayer (0);
+			if (player != null) {
+				GameController.me.GetPlayer (0).Hit ("A");
 			}
-			SetStateDie();
+			SetStateDie ();
 		}
 	}
 
-	void FixedUpdate_Dying()
+	void FixedUpdate_Dying ()
 	{
 		_timeIntermitent -= Time.deltaTime;
-		if (_timeIntermitent <= 0)
-		{
+		if (_timeIntermitent <= 0) {
 			_timeIntermitent = kTimeIntermitent;
 			_sprite.enabled = !_sprite.enabled;
 		}
-		if (Time.time > _timeChangeState + 2.0f)
-		{
+		if (Time.time > _timeChangeState + 2.0f) {
 			Destroy (this.gameObject);
 		}
 	}
 
-	public void Hit(ProjectileController.EProjectileType projectileType)
+	public void Hit (float baseDamage, bool isFrontHit, bool isFireHit)
 	{
-		//TODO: Treure la vida que toqui
-		Health = Health -100;
+		float damage = baseDamage;
+		if (_data.hasShield && isFrontHit || _data.isElemental && !isFireHit)
+		{
+			damage = 0.0f;
+		}
+
+		if (damage != 0.0f)
+		{
+			if (isFireHit)
+			{
+				const float FireBoostDamage = 1.5f;
+				damage *= FireBoostDamage;
+			}
+		}
+		Debug.Log ("damage: " + damage + " -- " + _health + " -> " + (_health - damage));
+		_health -= damage;
+
+		const float injuredFactor = 0.4f;
+		bool isDead = _health <= 0.0f;				
+		bool isInjured = _health <= _data.life * injuredFactor;
+
+		if (isDead)
+		{
+			SetStateDie();
+		}
+		else if ( isInjured )
+		{
+			//onInjured();
+		}
 	}
-
-	void OnDrawGizmos ()
-	{
-		//Gizmos.DrawGUITexture(Rect(10, 10, 20, 20), myTexture);
-	}
-
-
 }
