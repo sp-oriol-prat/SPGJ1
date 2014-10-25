@@ -9,6 +9,14 @@ public class ProjectileController : MonoBehaviour {
 	public float TimeDuration = 2.0f;
 	public float Force = 5000;
 	private GameObject _particlesDead;
+	public EProjectileType ProjectileType;
+
+	public enum EProjectileType
+	{
+		Boomerang,
+		Rock,
+		Magic
+	}
 
 	public enum EState
 	{
@@ -64,6 +72,15 @@ public class ProjectileController : MonoBehaviour {
 		set
 		{
 			_state = value;
+		}
+	}
+
+	void OnCollisionEnter2D(Collision2D collision) 
+	{
+		EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
+		if (enemy != null)
+		{
+			enemy.Hit(ProjectileType);
 		}
 	}
 

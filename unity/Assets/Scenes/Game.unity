@@ -560,6 +560,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TimeDuration: 3
   Force: 2000
+  ProjectileType: 0
 --- !u!58 &436481323
 CircleCollider2D:
   m_ObjectHideFlags: 0
