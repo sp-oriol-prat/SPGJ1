@@ -55,12 +55,18 @@ public class EnemyController : MonoBehaviour
 	private float kTimeIntermitent = 0.15f;
 	private int _streetIndex;
 	private SpriteRenderer _babosa;
+	private Animator _animator;
 
 	void Start ()
 	{
-		_sprite = GetComponent<SpriteRenderer> ();
+		_sprite = GetComponent<SpriteRenderer>();
+		if (_sprite ==null)
+		{
+			_sprite = transform.Find ("Inside").GetComponent<SpriteRenderer>();
+		}
 		_babosa = transform.Find("babosa_attack").GetComponent<SpriteRenderer>();
 		_babosa.enabled = false;
+		_animator = GetComponentInChildren<Animator>();
 	}
 
 	public void Init (Data data, int streetIndex)
@@ -132,7 +138,7 @@ public class EnemyController : MonoBehaviour
 			//TODO: Attack animation and selecciona el player correcte per atacar (passant com a valor el tipus d'enemic del quer es tracta)
 			PlayerController player = GameController.me.GetPlayer (0);
 			if (player != null) {
-				GameController.me.GetPlayer (0).Hit ("A");
+				GameController.me.GetPlayer (_streetIndex).Hit (_data.id);
 			}
 			SetStateDie ();
 		}
@@ -152,6 +158,10 @@ public class EnemyController : MonoBehaviour
 
 	public void Hit (float baseDamage, bool isFrontHit, bool isFireHit)
 	{
+		if (_animator != null)
+		{
+			_animator.SetTrigger("Hit");
+		}
 		float damage = baseDamage;
 		if (_data.hasShield && isFrontHit || _data.isElemental && !isFireHit)
 		{

@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour {
 	private float _timeIntermitent;
 	private float kTimeIntermitent = 0.15f;
 	private SpriteRenderer _sprite;
+	private CircleCollider2D _collider2D;
 
 	class CharacterParams
 	{
@@ -50,6 +51,7 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		_collider2D = (CircleCollider2D)collider2D;
 		//Health
 		//_healthBar = GameController.me.InstantiateUI("HealthBar").GetComponent<ProgressBar>();
 		//GameController.me.SetWorldToUIPosition(transform.position, _healthBar.transform, new Vector2(0, -100));
@@ -57,7 +59,7 @@ public class PlayerController : MonoBehaviour {
 		//Stamina
 		_radialBar = GameController.me.InstantiateUI("StaminaBar").GetComponent<RadialBar>();
 		_radialBar.transform.localScale = Vector3.one *0.65f;
-		GameController.me.SetWorldToUIPosition(transform.position, _radialBar.transform, new Vector2(-60, 0));
+		GameController.me.SetWorldToUIPosition(transform.position + new Vector3(_collider2D.center.x, _collider2D.center.y, 0), _radialBar.transform, new Vector2(-80, -60));
 		_radialBar.SetProgress(Random.value);
 		//Animator
 		_animator = GetComponentInChildren<Animator>();
