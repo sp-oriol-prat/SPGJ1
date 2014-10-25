@@ -69,7 +69,7 @@ Rigidbody2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_Mass: 4
-  m_LinearDrag: .100000001
+  m_LinearDrag: .5
   m_AngularDrag: .200000003
   m_GravityScale: 0
   m_FixedAngle: 1
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeDuration: 1000
-  Force: 2000
+  Force: 2500
   ProjectileType: 0
 --- !u!198 &19800000
 ParticleSystem:
