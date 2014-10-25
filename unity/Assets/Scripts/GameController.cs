@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour {
 	private UIRoot _uiRoot;
 	private PlayerController[] _players;
 	private MainMenu _mainMenu;
+	private EnemiesManager _enemiesManager;
 
 	// Use this for initialization
 	void Start () 
@@ -23,6 +24,7 @@ public class GameController : MonoBehaviour {
 		_tirachinas = GameObject.Find("Tirachinas").GetComponent<SpriteRenderer>();
 		_arrow = GameObject.Find("Arrow").GetComponent<SpriteRenderer>();
 		_uiRoot = GameObject.Find("UI Root").GetComponent<UIRoot>();
+		_enemiesManager = GameObject.Find ("EnemyManager").GetComponent<EnemiesManager> ();
 		_tirachinas.enabled = false;
 		_arrow.enabled = false;
 		_players = FindObjectsOfType<PlayerController>();
@@ -94,5 +96,7 @@ public class GameController : MonoBehaviour {
 		{
 			_players[i].Enable();
 		}
+
+		_enemiesManager.doCanStart();
 	}
 }

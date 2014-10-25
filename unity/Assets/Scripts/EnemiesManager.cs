@@ -29,23 +29,29 @@ public class EnemiesManager : MonoBehaviour
 	EnemyData[] _enemiesData;
 	WaveData[] _wavesData;
 
-	int _currentWave;
-	bool _dataReady;
-	float _onStartTime;
+	float _startTime = 0.0f;
+	bool _isStarted = false;
+	bool _canStart = false;
+	bool _enemiesDataReady = false;
+	bool _wavesDataReady = false;
+
+	int _currentWave = 0;
+
 
 
 	void Start()
 	{
-		_currentWave = 0;
-		_onStartTime = 0;
-		_dataReady = false;
-
 		StartCoroutine(parseEnemies());
 		StartCoroutine(parseWaves());
 
 		_enemyPrefab_A = Resources.Load("Enemy_A") as GameObject;
 		_enemyPrefab_B = Resources.Load("Enemy_B") as GameObject;
 		_enemyPrefab_C = Resources.Load("Enemy_C") as GameObject;
+	}
+
+	public void doCanStart()
+	{
+		_canStart = true;
 	}
 	
 
@@ -55,19 +61,27 @@ public class EnemiesManager : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		if (!_dataReady)
+		if (!_isStarted)
 		{
-			return;
+			bool canUpdate = _canStart && _enemiesDataReady & _wavesDataReady;
+			if (!canUpdate)
+			{
+				return;
+			}
+			else
+			{
+				_isStarted = true;
+				_startTime = Time.fixedDeltaTime;
+			}
 		}
 
 		if (_currentWave == _wavesData.Length)
 		{
+			onFinishedEnemies();
 			return;
 		}
 
-		float t = Time.fixedTime;
-		float dt = t - _onStartTime;
-		Debug.Log("dt: " + dt);
+		float dt = Time.fixedTime - _startTime;
 		if ( dt > _wavesData[_currentWave].time )
 		{
 			spawnWave(_wavesData[_currentWave]);
@@ -112,6 +126,8 @@ public class EnemiesManager : MonoBehaviour
 				j++;				
 			}
 		}
+
+		_enemiesDataReady = true;
 	}
 
 	IEnumerator parseWaves()
@@ -143,8 +159,7 @@ public class EnemiesManager : MonoBehaviour
 			}
 		}
 
-		_onStartTime = Time.fixedTime;
-		_dataReady = true;
+		_wavesDataReady = true;
 	}
 
 	static bool isValidEnemyId(string s)
@@ -186,6 +201,10 @@ public class EnemiesManager : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	void onFinishedEnemies()
+	{
 	}
 
 	void OnDrawGizmos()
