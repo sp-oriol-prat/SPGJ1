@@ -13,6 +13,7 @@ public class ProjectileController : MonoBehaviour {
 	private bool _isOnFire = false;
 	private ParticleSystem _fx;
 	private float _baseDamage;
+	private CircleCollider2D _collider2D;
 
 	public enum EProjectileType
 	{
@@ -48,6 +49,7 @@ public class ProjectileController : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		_collider2D = (CircleCollider2D)collider2D;
 		GameController.me.RegisterProjectile(this, true);
 		_timeCreation = Time.time;
 		_particlesDead = Resources.Load ("ProjectileDead") as GameObject;
@@ -87,7 +89,7 @@ public class ProjectileController : MonoBehaviour {
 		//Mira si un boomerang entra dintre d'un foc
 		if (ProjectileType == EProjectileType.Fire)
 		{
-			GameController.me.CheckProjectileOnRadius(transform.position, 0.6f);
+			GameController.me.CheckProjectileOnRadius(transform.position + new Vector3(_collider2D.center.x, _collider2D.center.y, 0), 0.6f);
 		}
 		switch(State)
 		{

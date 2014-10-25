@@ -5,7 +5,7 @@ AnimatorController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: DragonAnimatorController
+  m_Name: MageAnimatorController
   serializedVersion: 2
   m_AnimatorParameters:
   - m_Name: Attack
@@ -147,24 +147,9 @@ State:
   m_Speed: 1
   m_CycleOffset: 0
   m_Motions:
-  - {fileID: 7400000, guid: 68fa3fc9f282b4b1f98b09bbfd959bdd, type: 2}
+  - {fileID: 7400000, guid: 98128fb6946954ed49db91728bdb3de6, type: 2}
   m_ParentStateMachine: {fileID: 110700000}
   m_Position: {x: 264, y: -60, z: 0}
-  m_IKOnFeet: 0
-  m_Mirror: 0
-  m_Tag: 
---- !u!1102 &110206640
-State:
-  m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: AnimBabosaIdle
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Motions:
-  - {fileID: 7400000, guid: b46ed59c538ab4551b3faaf67bbb9f63, type: 2}
-  m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: 299, y: 5, z: 0}
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
@@ -177,7 +162,7 @@ State:
   m_Speed: 1
   m_CycleOffset: 0
   m_Motions:
-  - {fileID: 7400000, guid: 9dd3c8698cc854a7484811c5ad51e089, type: 2}
+  - {fileID: 7400000, guid: 15187f6bbd60a46b2bcaed16f3d239bc, type: 2}
   m_ParentStateMachine: {fileID: 110700000}
   m_Position: {x: 264, y: 12, z: 0}
   m_IKOnFeet: 0
@@ -192,39 +177,9 @@ State:
   m_Speed: 1
   m_CycleOffset: 0
   m_Motions:
-  - {fileID: 7400000, guid: 91ffdb169aafe42ee92509365f2d91d0, type: 2}
+  - {fileID: 7400000, guid: 3ba6e0bcb3e2d477885f6e6196d7ae39, type: 2}
   m_ParentStateMachine: {fileID: 110700000}
   m_Position: {x: 132, y: -144, z: 0}
-  m_IKOnFeet: 0
-  m_Mirror: 0
-  m_Tag: 
---- !u!1102 &110229332
-State:
-  m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: AnimMageAttackAttack
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Motions:
-  - {fileID: 7400000, guid: 15187f6bbd60a46b2bcaed16f3d239bc, type: 2}
-  m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: 509, y: 395, z: 0}
-  m_IKOnFeet: 0
-  m_Mirror: 0
-  m_Tag: 
---- !u!1102 &110235276
-State:
-  m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: AnimBabosaAttackPrepare
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Motions:
-  - {fileID: 7400000, guid: 5be54a631606047c6a551fc688756a09, type: 2}
-  m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: 334, y: 70, z: 0}
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
@@ -237,84 +192,24 @@ State:
   m_Speed: 1
   m_CycleOffset: 0
   m_Motions:
-  - {fileID: 7400000, guid: d38a73ae4f5af42929606e47f7078cb5, type: 2}
+  - {fileID: 7400000, guid: 24b199ed62744470893a6d569fec3627, type: 2}
   m_ParentStateMachine: {fileID: 110700000}
   m_Position: {x: 24, y: -60, z: 0}
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
---- !u!1102 &110253862
+--- !u!1102 &110247589
 State:
   m_ObjectHideFlags: 3
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: AnimMageIdle
+  m_Name: AnimMonster2Idle
   m_Speed: 1
   m_CycleOffset: 0
   m_Motions:
-  - {fileID: 7400000, guid: 24b199ed62744470893a6d569fec3627, type: 2}
+  - {fileID: 7400000, guid: fd4e552cdf44747989d0f5f2ae0bbef0, type: 2}
   m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: 439, y: 265, z: 0}
-  m_IKOnFeet: 0
-  m_Mirror: 0
-  m_Tag: 
---- !u!1102 &110254695
-State:
-  m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: AnimMageHit
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Motions:
-  - {fileID: 7400000, guid: 3ba6e0bcb3e2d477885f6e6196d7ae39, type: 2}
-  m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: 544, y: 460, z: 0}
-  m_IKOnFeet: 0
-  m_Mirror: 0
-  m_Tag: 
---- !u!1102 &110259375
-State:
-  m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: AnimBabosaAttack
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Motions:
-  - {fileID: 7400000, guid: aa327c2dc0b4041fa8616fc4ab2f9284, type: 2}
-  m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: 369, y: 135, z: 0}
-  m_IKOnFeet: 0
-  m_Mirror: 0
-  m_Tag: 
---- !u!1102 &110268923
-State:
-  m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: AnimMageAttackPreparation
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Motions:
-  - {fileID: 7400000, guid: 98128fb6946954ed49db91728bdb3de6, type: 2}
-  m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: 474, y: 330, z: 0}
-  m_IKOnFeet: 0
-  m_Mirror: 0
-  m_Tag: 
---- !u!1102 &110273208
-State:
-  m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: AnimBabosaHit
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Motions:
-  - {fileID: 7400000, guid: 871733abd673049ceb2a7d16e70fa9c4, type: 2}
-  m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: 404, y: 200, z: 0}
+  m_Position: {x: 299, y: 5, z: 0}
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
@@ -331,14 +226,7 @@ StateMachine:
   - {fileID: 110212682}
   - {fileID: 110224081}
   - {fileID: 110200000}
-  - {fileID: 110206640}
-  - {fileID: 110235276}
-  - {fileID: 110259375}
-  - {fileID: 110273208}
-  - {fileID: 110253862}
-  - {fileID: 110268923}
-  - {fileID: 110229332}
-  - {fileID: 110254695}
+  - {fileID: 110247589}
   m_ChildStateMachine: []
   m_ChildStateMachinePosition: []
   m_OrderedTransitions:
@@ -347,11 +235,6 @@ StateMachine:
       second:
       - {fileID: 110109710}
     data:
-      first: {fileID: 110241875}
-      second:
-      - {fileID: 110134288}
-      - {fileID: 110173658}
-    data:
       first: {fileID: 110212682}
       second:
       - {fileID: 110184383}
@@ -359,6 +242,11 @@ StateMachine:
       first: {fileID: 110224081}
       second:
       - {fileID: 110182423}
+    data:
+      first: {fileID: 110241875}
+      second:
+      - {fileID: 110134288}
+      - {fileID: 110173658}
   m_MotionSetCount: 1
   m_AnyStatePosition: {x: -156, y: -48, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}

@@ -1,7 +1,10 @@
 fileFormatVersion: 2
 guid: 7c84bca4121e941a89c451367010caf7
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: cr_mage_hit_0
+    21300002: cr_mage_hit_1
+    21300004: cr_mage_hit_2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -25,23 +28,53 @@ TextureImporter:
   maxTextureSize: 1024
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 1
     mipBias: -1
-    wrapMode: -1
+    wrapMode: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 240
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: cr_mage_hit_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 459
+        height: 512
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cr_mage_hit_1
+      rect:
+        serializedVersion: 2
+        x: 459
+        y: 0
+        width: 477
+        height: 512
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cr_mage_hit_2
+      rect:
+        serializedVersion: 2
+        x: 936
+        y: 0
+        width: 439
+        height: 512
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
