@@ -29,9 +29,14 @@ public class EnemiesManager : MonoBehaviour
 	EnemyData[] _enemiesData;
 	WaveData[] _wavesData;
 
-	int _currentWave;
-	bool _dataReady;
-	float _onStartTime;
+	float _startTime = 0.0f;
+	bool _isStarted = false;
+	bool _canStart = false;
+	bool _enemiesDataReady = false;
+	bool _wavesDataReady = false;
+
+	int _currentWave = 0;
+
 
 
 	void Start()
@@ -76,8 +81,12 @@ public class EnemiesManager : MonoBehaviour
 			return;
 		}
 
+<<<<<<< HEAD
 		float t = Time.fixedTime;
 		float dt = t - _onStartTime;
+=======
+		float dt = Time.fixedTime - _startTime;
+>>>>>>> feature/enemies-manager-more-robust
 		if ( dt > _wavesData[_currentWave].time )
 		{
 			spawnWave(_wavesData[_currentWave]);
