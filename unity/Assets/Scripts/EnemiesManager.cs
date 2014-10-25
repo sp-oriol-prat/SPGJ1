@@ -219,7 +219,7 @@ public class EnemiesManager : MonoBehaviour
 
 	IEnumerator parseWaves()
 	{
-		string wavesUrl = "https://dl.dropboxusercontent.com/u/64292958/spgj1/waves_v2.txt";
+		string wavesUrl = "https://dl.dropboxusercontent.com/u/64292958/spgj1/waves.txt";
 		WWW www = new WWW(wavesUrl);
 		//Debug.Log ("downloading... " + wavesUrl);
 
