@@ -82,8 +82,6 @@ public class PlayerController : MonoBehaviour {
 			StaminaSpend = _characterParams.attackSpend_mago;
 			break;
 		}
-
-		Debug.Log("saminta: charge " + StaminaCharge + ", " + StaminaSpend);
 	}
 	
 	// Update is called once per frame
@@ -255,7 +253,7 @@ public class PlayerController : MonoBehaviour {
 	{
 		string url = "https://dl.dropboxusercontent.com/u/64292958/spgj1/characters.txt";
 		WWW www = new WWW(url);
-		Debug.Log ("downloading... " + url);
+		//Debug.Log ("downloading... " + url);
 		
 		yield return www;
 		//yield return new WaitForSeconds(2);

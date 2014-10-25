@@ -13,8 +13,14 @@ public class EnemiesManager : MonoBehaviour
 	GameObject _enemyPrefab_C;
 	GameObject _enemyPrefab_D;
 	GameObject _enemyPrefab_E;
-	
+
 	class WaveData
+	{
+		public float delayTime;
+		public SpawnData[] spawns;
+	}
+
+	class SpawnData
 	{
 		public float time;
 		public string[] enemiesId = new string[kNumStreets];
@@ -76,13 +82,14 @@ public class EnemiesManager : MonoBehaviour
 			return;
 		}
 
-		float t = Time.fixedTime;
+		/*float t = Time.fixedTime;
 		float dt = t - _startTime;
 		if ( dt > _wavesData[_currentWave].time )
 		{
 			spawnWave(_wavesData[_currentWave]);
 			_currentWave++;
 		}
+		*/
 	}
 	
 	IEnumerator parseEnemies()
@@ -117,17 +124,20 @@ public class EnemiesManager : MonoBehaviour
 
 	IEnumerator parseWaves()
 	{
-		string wavesUrl = "https://dl.dropboxusercontent.com/u/64292958/spgj1/waves.txt";
+		string wavesUrl = "https://dl.dropboxusercontent.com/u/64292958/spgj1/waves_v2.txt";
 		WWW www = new WWW(wavesUrl);
 		//Debug.Log ("downloading... " + wavesUrl);
 
 		yield return www;
-		JSONNode jWaves = JSONNode.Parse (www.text).AsArray;
+		JSONNode jWaves = JSONNode.Parse(www.text).AsArray;
 		_wavesData = new WaveData[jWaves.Count];
 
 		for (int i = 0; i < jWaves.Count; i++)
 		{
-			_wavesData[i] = new WaveData();
+			_wavesData[i] = parseWavesData(jWaves[i]);
+
+
+			/*_wavesData[i] = new WaveData();
 			JSONNode jWave = jWaves[i];
 			_wavesData[i].time = (float)jWave["time"].AsFloat;
 
@@ -139,10 +149,38 @@ public class EnemiesManager : MonoBehaviour
 			for (int j = 0; j < jEnemies.Count; j++)
 			{
 				_wavesData[i].enemiesId[j] = jEnemies[j];
-			}
+			}*/
 		}
 
 		_wavesDataReady = true;
+	}
+
+	WaveData parseWavesData(JSONNode jWave)
+	{
+		WaveData waveData = new WaveData();
+
+		waveData.delayTime = jWave["delay_time"].AsFloat;
+		JSONArray jSpawns = jWave["spawns"].AsArray;
+
+		waveData.spawns = new SpawnData[jSpawns.Count];
+		for (int i = 0; i < jSpawns.Count; i++)
+		{
+			SpawnData spawnData = waveData.spawns[i] = new SpawnData();
+			JSONNode jSpawn = jSpawns[i];
+			spawnData.time = (float)jSpawn["delay_time"].AsFloat;
+			
+			JSONArray jEnemies = jSpawn["enemies"].AsArray;
+			if ( jEnemies.Count != kNumStreets ){
+				Debug.LogWarning("JSON: wave" + i + " num streets failed (" + jEnemies.Count + ")");
+			}
+			
+			for (int j = 0; j < jEnemies.Count; j++)
+			{
+				spawnData.enemiesId[j] = jEnemies[j];
+			}
+		}
+
+		return waveData;
 	}
 
 	EnemyController.Data getEnemyDataById(string id)
@@ -163,7 +201,7 @@ public class EnemiesManager : MonoBehaviour
 		return s != "_";
 	}
 
-	void spawnWave(WaveData wave)
+	/*void spawnWave(WaveData wave)
 	{
 		// for each street....
 		for ( int i = 0; i < wave.enemiesId.Length; i++ )
@@ -190,7 +228,7 @@ public class EnemiesManager : MonoBehaviour
 			}
 		}
 	}
-
+*/
 	void onFinishedEnemies()
 	{
 	}
