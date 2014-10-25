@@ -189,8 +189,9 @@ public class EnemiesManager : MonoBehaviour
 
 	IEnumerator parseEnemies()
 	{
-		string enemiesUrl = "https://dl.dropboxusercontent.com/u/64292958/spgj1/enemies.txt";
-		WWW www = new WWW(enemiesUrl);
+		string v = GameObject.Find ("GameController").GetComponent<GameController> ().json_version;
+		string url = "https://dl.dropboxusercontent.com/u/64292958/spgj1"+v+"/enemies.txt";
+		WWW www = new WWW(url);
 		//Debug.Log ("downloading... " + enemiesUrl);
 
 		yield return www;
@@ -219,8 +220,9 @@ public class EnemiesManager : MonoBehaviour
 
 	IEnumerator parseWaves()
 	{
-		string wavesUrl = "https://dl.dropboxusercontent.com/u/64292958/spgj1/waves.txt";
-		WWW www = new WWW(wavesUrl);
+		string v = GameObject.Find ("GameController").GetComponent<GameController> ().json_version;
+		string url = "https://dl.dropboxusercontent.com/u/64292958/spgj1"+v+"/waves.txt";
+		WWW www = new WWW(url);
 		//Debug.Log ("downloading... " + wavesUrl);
 
 		yield return www;

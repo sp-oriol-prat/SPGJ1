@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class GameController : MonoBehaviour {
 
+	public string json_version = "/";
+
 	private Camera _cameraRef;
 	private Camera _cameraUI;
 	public static GameController me;

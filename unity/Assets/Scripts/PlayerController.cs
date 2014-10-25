@@ -268,7 +268,8 @@ public class PlayerController : MonoBehaviour {
 
 	static public IEnumerator parseCharacters()
 	{
-		string url = "https://dl.dropboxusercontent.com/u/64292958/spgj1/characters.txt";
+		string v = GameObject.Find ("GameController").GetComponent<GameController> ().json_version;
+		string url = "https://dl.dropboxusercontent.com/u/64292958/spgj1"+v+"/characters.txt";
 		WWW www = new WWW(url);
 		//Debug.Log ("downloading... " + url);
 		

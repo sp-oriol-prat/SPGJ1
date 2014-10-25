@@ -57,6 +57,11 @@ public class EnemyController : MonoBehaviour
 	private int _streetIndex;
 	private SpriteRenderer _babosa;
 	private Animator _animator;
+	private GameObject _debugStatsGo;
+	private float _babosaFriction = 1.0f;
+	private float _babosaDuration;
+	private float _babosaStartTime;
+	private float _previousXPos = 0.0f;
 
 	void Start ()
 	{
@@ -68,6 +73,14 @@ public class EnemyController : MonoBehaviour
 		_babosa = transform.Find("babosa_attack").GetComponent<SpriteRenderer>();
 		_babosa.enabled = false;
 		_animator = GetComponentInChildren<Animator>();
+
+
+		// Enemy stats.
+		_debugStatsGo = (GameObject)GameObject.Instantiate(Resources.Load("EnemyStats"), Vector3.zero, Quaternion.identity);
+		_debugStatsGo.transform.parent = transform;
+		_debugStatsGo.transform.localPosition = new Vector3(-5.10f, 0.69f, 0.0f);
+
+		_previousXPos = transform.position.x;
 	}
 
 	public void Init (Data data, int streetIndex)
@@ -104,16 +117,27 @@ public class EnemyController : MonoBehaviour
 
 	void FixedUpdate ()
 	{
-		switch (_state) {
+			switch (_state) {
 		case EState.Moving:
-				FixedUpdate_Moving ();
-				break;
+			FixedUpdate_Moving ();
+			break;
+
 		case EState.Attacking:
-				FixedUpdate_Attacking ();
-				break;
+			FixedUpdate_Attacking ();
+			break;
+
 		case EState.Dying:
-				FixedUpdate_Dying ();
-				break;
+			FixedUpdate_Dying ();
+			break;
+		}
+
+		updateDebugState();
+
+		// update babosa
+		if ( _babosa.enabled && (Time.fixedTime - _babosaStartTime > _babosaDuration))
+		{
+			_babosa.enabled = false;
+			_babosaFriction = 1.0f;
 		}
 	}
 
@@ -138,8 +162,9 @@ public class EnemyController : MonoBehaviour
 	void FixedUpdate_Moving ()
 	{
 		Vector3 moveDir = new Vector3 (-1, 0, 0);
-		transform.position += moveDir * _velocity * Time.fixedDeltaTime;
-		if (transform.position.x < GameController.me.GetPositionPlayers ().x) {
+		transform.position += moveDir * _velocity * Time.fixedDeltaTime * _babosaFriction;
+		if (transform.position.x < GameController.me.GetPositionPlayers().x)
+		{
 			SetStateAttacking ();
 		}
 	}
@@ -169,7 +194,7 @@ public class EnemyController : MonoBehaviour
 		}
 	}
 
-	public void Hit (float baseDamage, bool isFrontHit, bool isFireHit)
+	public void Hit (float baseDamage, bool isFrontHit, bool isFireHit, float fireBoostDamage)
 	{
 		if (_animator != null)
 		{
@@ -185,21 +210,34 @@ public class EnemyController : MonoBehaviour
 		{
 			if (isFireHit)
 			{
-				const float FireBoostDamage = 1.5f;
-				damage *= FireBoostDamage;
+				damage *= fireBoostDamage;
 			}
 		}
-		Debug.Log ("damage: " + damage + " -- " + _health + " -> " + (_health - damage));
+		Debug.Log ("damage(" + damage + ") " + _health + " -> " + (_health - damage));
 		Health -= damage;
 	}
 
-	public void Escupit()
+	public void Escupit(float babosaFriction, float babosaDuration)
 	{
-		Debug.Log ("Escupit!!!");
-		//TODO: Aqui hauria de disminuïr la velocitat!!
+		_babosaFriction = babosaFriction;
+		_babosaDuration = babosaDuration;
+		_babosaStartTime = Time.fixedTime;
+
 		if (_babosa != null)
 		{
 			_babosa.enabled = true;
+		}
+	}
+
+	void updateDebugState()
+	{
+		TextMesh tm = GetComponentInChildren<TextMesh>();
+		if (tm)
+		{
+			float velx = (transform.position.x - _previousXPos)/Time.fixedDeltaTime;
+			_previousXPos = transform.position.x;
+			string textStr = "live(" + _health + ") vel(" + velx.ToString("0.00") + ")";
+			tm.text = textStr;
 		}
 	}
 }

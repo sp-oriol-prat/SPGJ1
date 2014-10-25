@@ -38,11 +38,11 @@ public class ProjectileController : MonoBehaviour {
 
 		public int boomerangDamage;
 		public float babosaGlueTime;
-
+		public float babosaFrictionFactor;
+		public float fireDamageBoost;
 		public PhysicsParams boomerangPhysics;
 		public PhysicsParams firePhysics;
 		public PhysicsParams babosaPhysics;
-
 	};
 	static WeaponsParams _weaponsParams = null;
 
@@ -165,15 +165,13 @@ public class ProjectileController : MonoBehaviour {
 		{
 			bool isFrontHit = rigidbody2D.velocity.x > 0.0f;
 
-			int baseDamage = 1;
 			switch ( ProjectileType )
 			{
 			case EProjectileType.Babosa:
-				enemy.Escupit();
+				enemy.Escupit(_weaponsParams.babosaFrictionFactor, _weaponsParams.babosaGlueTime);
 				break;
 			case EProjectileType.Boomerang:
-				baseDamage = 1;
-				enemy.Hit(_baseDamage, isFrontHit, _isOnFire);
+				enemy.Hit(_baseDamage, isFrontHit, _isOnFire, _weaponsParams.fireDamageBoost);
 				break;
 			case EProjectileType.Fire:
 				break;
@@ -206,7 +204,8 @@ public class ProjectileController : MonoBehaviour {
 
 	static public IEnumerator parseWeapons()
 	{
-		string url = "https://dl.dropboxusercontent.com/u/64292958/spgj1/weapons.txt";
+		string v = GameObject.Find ("GameController").GetComponent<GameController> ().json_version;
+		string url = "https://dl.dropboxusercontent.com/u/64292958/spgj1"+v+"/weapons.txt";
 		WWW www = new WWW(url);
 		//Debug.Log ("downloading... " + url);
 		
@@ -217,6 +216,8 @@ public class ProjectileController : MonoBehaviour {
 
 		_weaponsParams.boomerangDamage = json["boomerang_damage"].AsInt;
 		_weaponsParams.babosaGlueTime = json["babosa_glue_time"].AsFloat;
+		_weaponsParams.babosaFrictionFactor = json["babosa_friction_factor"].AsFloat;
+		_weaponsParams.fireDamageBoost = json["fire_damage_boost"].AsFloat;
 
 		_weaponsParams.boomerangPhysics = parsePhysicsParams(json["boomerang_physics"]);
 		_weaponsParams.babosaPhysics 	= parsePhysicsParams(json["babosa_physics"]);
