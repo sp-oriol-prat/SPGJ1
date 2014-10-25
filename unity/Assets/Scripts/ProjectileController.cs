@@ -219,8 +219,8 @@ public class ProjectileController : MonoBehaviour {
 		_weaponsParams.babosaGlueTime = json["babosa_glue_time"].AsFloat;
 
 		_weaponsParams.boomerangPhysics = parsePhysicsParams(json["boomerang_physics"]);
-		_weaponsParams.babosaPhysics 	= parsePhysicsParams(json["fire_physics"]);
-		_weaponsParams.firePhysics 		= parsePhysicsParams(json["babosa_physics"]);
+		_weaponsParams.babosaPhysics 	= parsePhysicsParams(json["babosa_physics"]);
+		_weaponsParams.firePhysics 		= parsePhysicsParams(json["fire_physics"]);
 	}
 
 	static WeaponsParams.PhysicsParams parsePhysicsParams(JSONNode json)

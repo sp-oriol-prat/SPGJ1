@@ -53,6 +53,7 @@ public class EnemyController : MonoBehaviour
 	private float _timeChangeState;
 	private float _timeIntermitent;
 	private float kTimeIntermitent = 0.15f;
+	private float kTimeIntermitentTotal = 0.9f;
 	private int _streetIndex;
 	private SpriteRenderer _babosa;
 	private Animator _animator;
@@ -92,10 +93,20 @@ public class EnemyController : MonoBehaviour
 		}
 		set {
 			_health = value;
-			if (_health <= 0) {
-					SetStateDie ();
+			if (_health <= 0)
+			{
+				SetStateDie ();
+			} else {
+				_sprite.color = new Color(1, 0.25f, 0.25f, 1);
+				StartCoroutine(GoBackToNormalColor());
 			}
 		}
+	}
+
+	private IEnumerator GoBackToNormalColor()
+	{
+		yield return new WaitForSeconds(0.6f);
+		_sprite.color = new Color(1, 1, 1, 1);
 	}
 
 	void FixedUpdate ()
@@ -119,6 +130,7 @@ public class EnemyController : MonoBehaviour
 
 	private void SetStateDie ()
 	{
+		_sprite.color = new Color(1, 0.25f, 0.25f, 1);
 		collider2D.enabled = false;
 		_state = EState.Dying;
 		_timeChangeState = Time.time;
@@ -139,7 +151,7 @@ public class EnemyController : MonoBehaviour
 		Vector3 moveDir = new Vector3 (-1, 0, 0);
 		transform.position += moveDir * _velocity * Time.fixedDeltaTime;
 		if (transform.position.x < GameController.me.GetPositionPlayers ().x) {
-				SetStateAttacking ();
+			SetStateAttacking ();
 		}
 	}
 
@@ -162,7 +174,8 @@ public class EnemyController : MonoBehaviour
 			_timeIntermitent = kTimeIntermitent;
 			_sprite.enabled = !_sprite.enabled;
 		}
-		if (Time.time > _timeChangeState + 2.0f) {
+		if (Time.time > _timeChangeState + kTimeIntermitentTotal) 
+		{
 			Destroy (this.gameObject);
 		}
 	}
@@ -188,20 +201,7 @@ public class EnemyController : MonoBehaviour
 			}
 		}
 		Debug.Log ("damage(" + damage + ") " + _health + " -> " + (_health - damage));
-		_health -= damage;
-
-		const float injuredFactor = 0.4f;
-		bool isDead = _health <= 0.0f;				
-		bool isInjured = _health <= _data.life * injuredFactor;
-
-		if (isDead)
-		{
-			SetStateDie();
-		}
-		else if ( isInjured )
-		{
-			//onInjured();
-		}
+		Health -= damage;
 	}
 
 	public void Escupit()

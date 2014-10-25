@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour {
 	private float _timeChangeState;
 	private float _timeIntermitent;
 	private float kTimeIntermitent = 0.15f;
+	private float kTimeIntermitentTotal = 0.9f;
 	private SpriteRenderer _sprite;
 	private CircleCollider2D _collider2D;
 
@@ -174,7 +175,10 @@ public class PlayerController : MonoBehaviour {
 	
 	public void Disable()
 	{
-		State = EState.Disabled;
+		if (State != EState.Dying)
+		{
+			State = EState.Disabled;
+		}
 	}
 
 	private float Stamina
@@ -202,11 +206,12 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	/*
 	void OnGUI()
 	{
 		GUI.Label(new Rect(10, 10, 400, 100), "Player: " + State);
 	}
-
+	*/
 	public void Hit(string _typeEnemy)
 	{
 		Health = Health - 100;
@@ -223,9 +228,19 @@ public class PlayerController : MonoBehaviour {
 			_health = value;
 			if (_health <= 0)
 			{
+				_sprite.color = new Color(1, 0.25f, 0.25f, 1);
 				SetStateDie();
+			} else {
+				_sprite.color = new Color(1, 0.25f, 0.25f, 1);
+				StartCoroutine(GoBackToNormalColor());
 			}
 		}
+	}
+	
+	private IEnumerator GoBackToNormalColor()
+	{
+		yield return new WaitForSeconds(0.6f);
+		_sprite.color = new Color(1, 1, 1, 1);
 	}
 	
 	private void SetStateDie()
@@ -244,7 +259,7 @@ public class PlayerController : MonoBehaviour {
 			_timeIntermitent = kTimeIntermitent;
 			_sprite.enabled = !_sprite.enabled;
 		}
-		if (Time.time > _timeChangeState + 2.0f)
+		if (Time.time > _timeChangeState + kTimeIntermitentTotal)
 		{
 			GameController.me.EndGame();
 			Destroy (this.gameObject);
