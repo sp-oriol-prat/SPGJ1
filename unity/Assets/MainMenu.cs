@@ -3,13 +3,13 @@ using System.Collections;
 
 public class MainMenu : MonoBehaviour 
 {
-	private UIWidget me;
+	private UIPanel me;
 	public UIButton ButtonStart;
 
 	// Use this for initialization
 	void Start () 
 	{
-		me = this.GetComponent<UIWidget>();
+		me = this.GetComponent<UIPanel>();
 	}
 	
 	// Update is called once per frame
