@@ -112,32 +112,6 @@ public class EnemiesManager : MonoBehaviour
 			eData.hasShield = jEnemy["shield"].AsInt == 1;
 			eData.isElemental = jEnemy["elemental"].AsInt == 1;
 
-
-			//eData.damage = jEnemy["damage"].AsInt;
-			//eData.walk_speed = (float)jEnemy["walk_speed"].AsInt / 100.0f;
-			//eData.attack_speed = (float)jEnemy["attack_speed"].AsInt / 100.0f;
-			/*int j = 0;
-			foreach ( JSONNode inmunity in jEnemy["inmunities"].AsArray )
-			{
-				switch ( inmunity.ToString() )
-				{
-				case "fire":
-					eData.inmunity[(int)EnemyController.Element.Fire.GetTypeCode()] = inmunity.AsBool;
-					break;
-					
-				case "ice":
-					eData.inmunity[(int)EnemyController.Element.Ice.GetTypeCode()] = inmunity.AsBool;
-					break;
-					
-				case "wind":
-					eData.inmunity[(int)EnemyController.Element.Wind.GetTypeCode()] = inmunity.AsBool;
-					break;
-				}
-				
-				j++;				
-			}
-			*/
-
 			_enemiesData[i] = eData;
 		}
 
@@ -167,9 +141,7 @@ public class EnemiesManager : MonoBehaviour
 
 			for (int j = 0; j < jEnemies.Count; j++)
 			{
-				string enemyId = jEnemies[j].ToString();
-				enemyId = enemyId.Substring(1, enemyId.Length-2);
-				_wavesData[i].enemiesId[j] = isValidEnemyId(enemyId) ? enemyId : "";
+				_wavesData[i].enemiesId[j] = jEnemies[j];
 			}
 		}
 
@@ -191,7 +163,7 @@ public class EnemiesManager : MonoBehaviour
 
 	static bool isValidEnemyId(string s)
 	{
-		return s != " " && s != "";
+		return s != "_";
 	}
 
 	void spawnWave(WaveData wave)
@@ -215,7 +187,7 @@ public class EnemiesManager : MonoBehaviour
 
 				if (prefab)
 				{
-					GameObject go = (GameObject)GameObject.Instantiate(prefab, spawnPoints[i].position, Quaternion.identity);
+					GameObject go = (GameObject)GameObject.Instantiate(prefab, spawnPoints[street].position, Quaternion.identity);
 					go.GetComponent<EnemyController>().Init(getEnemyDataById(enemyId), street);
 				}
 			}
