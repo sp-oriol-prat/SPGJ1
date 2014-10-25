@@ -23,6 +23,12 @@ public class EnemyController : MonoBehaviour
 
 	}
 
+	public void init(float vel)
+	{
+		_velocity = vel;
+		_state = EState.Moving;
+	}
+
 	void FixedUpdate ()
 	{
 		switch (_state)
@@ -44,7 +50,6 @@ public class EnemyController : MonoBehaviour
 	void FixedUpdate_Moving()
 	{
 		Vector3 moveDir = new Vector3(-1,0,0);
-
 		transform.position += moveDir * _velocity * Time.fixedDeltaTime;
 	}
 
