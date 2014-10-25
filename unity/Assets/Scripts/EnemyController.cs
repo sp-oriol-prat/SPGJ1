@@ -58,6 +58,9 @@ public class EnemyController : MonoBehaviour
 	private SpriteRenderer _babosa;
 	private Animator _animator;
 	private GameObject _debugStatsGo;
+	private float _babosaFriction = 1.0f;
+	private float _babosaDuration;
+	private float _babosaStartTime;
 
 	void Start ()
 	{
@@ -125,7 +128,14 @@ public class EnemyController : MonoBehaviour
 			break;
 		}
 
-		updateDebugState ();
+		updateDebugState();
+
+		// update babosa
+		if ( _babosa.enabled && (Time.fixedTime - _babosaStartTime > _babosaDuration))
+		{
+			_babosa.enabled = false;
+			_babosaFriction = 1.0f;
+		}
 	}
 
 	private void SetStateDie ()
@@ -149,8 +159,9 @@ public class EnemyController : MonoBehaviour
 	void FixedUpdate_Moving ()
 	{
 		Vector3 moveDir = new Vector3 (-1, 0, 0);
-		transform.position += moveDir * _velocity * Time.fixedDeltaTime;
-		if (transform.position.x < GameController.me.GetPositionPlayers ().x) {
+		transform.position += moveDir * _velocity * Time.fixedDeltaTime * _babosaFriction;
+		if (transform.position.x < GameController.me.GetPositionPlayers ().x)
+		{
 			SetStateAttacking ();
 		}
 	}
@@ -204,10 +215,12 @@ public class EnemyController : MonoBehaviour
 		Health -= damage;
 	}
 
-	public void Escupit()
+	public void Escupit(float babosaFriction, float babosaDuration)
 	{
-		Debug.Log ("Escupit!!!");
-		//TODO: Aqui hauria de disminuïr la velocitat!!
+		_babosaFriction = babosaFriction;
+		_babosaDuration = babosaDuration;
+		_babosaStartTime = Time.fixedTime;
+
 		if (_babosa != null)
 		{
 			_babosa.enabled = true;
