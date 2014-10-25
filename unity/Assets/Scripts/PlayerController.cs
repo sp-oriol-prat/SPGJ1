@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour {
 			GameController.me.Arrow.transform.rotation = Quaternion.Euler (0, 0, angle);
 			GameController.me.Arrow.transform.position += dir*2;
 			Vector3 scale = GameController.me.Tirachinas.transform.localScale;
-			scale.x = dirRaw.magnitude*0.2f;
+			scale.x = dirRaw.magnitude*1.2f;
 			GameController.me.Tirachinas.transform.localScale = scale;
 			break;
 		case EState.Dying:
