@@ -39,10 +39,10 @@ public class ProjectileController : MonoBehaviour {
 		public int boomerangDamage;
 		public float babosaGlueTime;
 		public float babosaFrictionFactor;
+		public float fireDamageBoost;
 		public PhysicsParams boomerangPhysics;
 		public PhysicsParams firePhysics;
 		public PhysicsParams babosaPhysics;
-
 	};
 	static WeaponsParams _weaponsParams = null;
 
@@ -171,7 +171,7 @@ public class ProjectileController : MonoBehaviour {
 				enemy.Escupit(_weaponsParams.babosaFrictionFactor, _weaponsParams.babosaGlueTime);
 				break;
 			case EProjectileType.Boomerang:
-				enemy.Hit(_baseDamage, isFrontHit, _isOnFire);
+				enemy.Hit(_baseDamage, isFrontHit, _isOnFire, _weaponsParams.fireDamageBoost);
 				break;
 			case EProjectileType.Fire:
 				break;
@@ -216,6 +216,7 @@ public class ProjectileController : MonoBehaviour {
 		_weaponsParams.boomerangDamage = json["boomerang_damage"].AsInt;
 		_weaponsParams.babosaGlueTime = json["babosa_glue_time"].AsFloat;
 		_weaponsParams.babosaFrictionFactor = json["babosa_friction_factor"].AsFloat;
+		_weaponsParams.fireDamageBoost = json["fire_damage_boost"].AsFloat;
 
 		_weaponsParams.boomerangPhysics = parsePhysicsParams(json["boomerang_physics"]);
 		_weaponsParams.babosaPhysics 	= parsePhysicsParams(json["babosa_physics"]);

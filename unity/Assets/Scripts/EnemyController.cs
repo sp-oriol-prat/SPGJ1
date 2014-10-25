@@ -191,7 +191,7 @@ public class EnemyController : MonoBehaviour
 		}
 	}
 
-	public void Hit (float baseDamage, bool isFrontHit, bool isFireHit)
+	public void Hit (float baseDamage, bool isFrontHit, bool isFireHit, float fireBoostDamage)
 	{
 		if (_animator != null)
 		{
@@ -207,8 +207,7 @@ public class EnemyController : MonoBehaviour
 		{
 			if (isFireHit)
 			{
-				const float FireBoostDamage = 1.5f;
-				damage *= FireBoostDamage;
+				damage *= fireBoostDamage;
 			}
 		}
 		Debug.Log ("damage(" + damage + ") " + _health + " -> " + (_health - damage));
