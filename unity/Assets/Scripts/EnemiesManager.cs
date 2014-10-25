@@ -11,6 +11,8 @@ public class EnemiesManager : MonoBehaviour
 	GameObject _enemyPrefab_A;
 	GameObject _enemyPrefab_B;
 	GameObject _enemyPrefab_C;
+	GameObject _enemyPrefab_D;
+	GameObject _enemyPrefab_E;
 	
 	class WaveData
 	{
@@ -38,6 +40,8 @@ public class EnemiesManager : MonoBehaviour
 		_enemyPrefab_A = Resources.Load("Enemy_A") as GameObject;
 		_enemyPrefab_B = Resources.Load("Enemy_B") as GameObject;
 		_enemyPrefab_C = Resources.Load("Enemy_C") as GameObject;
+		_enemyPrefab_D = Resources.Load("Enemy_D") as GameObject;
+		_enemyPrefab_E = Resources.Load("Enemy_E") as GameObject;
 	}
 
 	public void doCanStart()
@@ -205,6 +209,8 @@ public class EnemiesManager : MonoBehaviour
 				case "A":	prefab = _enemyPrefab_A;	break;
 				case "B":	prefab = _enemyPrefab_B;	break;
 				case "C":	prefab = _enemyPrefab_C;	break;
+				case "D":	prefab = _enemyPrefab_D;	break;
+				case "E":	prefab = _enemyPrefab_E;	break;
 				}
 
 				if (prefab)
