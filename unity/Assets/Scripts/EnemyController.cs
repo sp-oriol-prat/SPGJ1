@@ -48,17 +48,17 @@ public class EnemyController : MonoBehaviour
 	private float _timeIntermitent;
 	private float kTimeIntermitent = 0.15f;
 
-	//private int _indexRow;
+	private int _streetIndex;
 
 	void Start ()
 	{
 		_sprite = GetComponent<SpriteRenderer>();
 	}
 
-	public void Init(Data data, int indexRow)
+	public void Init(Data data, int streetIndex)
 	{
 		_data = new Data(data);	
-		//_indexRow = indexRow;
+		_streetIndex = streetIndex;
 
 		_velocity = _data.walk_speed;
 		_health = _data.life;		
