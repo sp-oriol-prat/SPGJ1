@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour {
 	private float kTimeIntermitentTotal = 0.9f;
 	private SpriteRenderer _sprite;
 	private CircleCollider2D _collider2D;
+	private ArrowsPuti _arrowsPuti;
 
 	class CharacterParams
 	{
@@ -60,11 +61,18 @@ public class PlayerController : MonoBehaviour {
 		//Stamina
 		_staminaBar = GameController.me.InstantiateUI("HealthBar").GetComponent<ProgressBar>();
 		_staminaBar.transform.localScale = Vector3.one *0.65f;
-		GameController.me.SetWorldToUIPosition(transform.position + new Vector3(_collider2D.center.x, _collider2D.center.y, 0), _staminaBar.transform, new Vector2(-30, -100));
+		GameController.me.SetWorldToUIPosition(PositionCollider(), _staminaBar.transform, new Vector2(-30, -100));
 		_staminaBar.SetProgress(Random.value);
 		//Animator
 		_animator = GetComponentInChildren<Animator>();
 		_sprite = GetComponent<SpriteRenderer>();
+		//Arrow Putis
+		_arrowsPuti = (GameObject.Instantiate(Resources.Load("ArrowsPuti") as GameObject, PositionCollider()-(Vector3.right*1.4f), Quaternion.identity) as GameObject).GetComponent<ArrowsPuti>(); 
+	}
+
+	private Vector3 PositionCollider()
+	{
+		return transform.position + new Vector3(_collider2D.center.x, _collider2D.center.y, 0);
 	}
 
 	public void InitParams()
@@ -109,7 +117,7 @@ public class PlayerController : MonoBehaviour {
 			Vector3 dir = dirRaw.normalized;
 			GameController.me.Arrow.transform.position = _positionOnPress;
 			GameController.me.Tirachinas.transform.position = _positionOnPress;
-			float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;;
+			float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 			GameController.me.Tirachinas.transform.rotation = Quaternion.Euler (0, 0, angle);
 			GameController.me.Arrow.transform.rotation = Quaternion.Euler (0, 0, angle);
 			GameController.me.Arrow.transform.position += dir*2;
@@ -171,10 +179,12 @@ public class PlayerController : MonoBehaviour {
 	public void Enable()
 	{
 		State = EState.Idle;
+		_arrowsPuti.Enable = true;
 	}
 	
 	public void Disable()
 	{
+		_arrowsPuti.Enable = false;
 		if (State != EState.Dying)
 		{
 			State = EState.Disabled;
@@ -191,6 +201,14 @@ public class PlayerController : MonoBehaviour {
 		{
 			_stamina = value;
 			_staminaBar.SetProgress(_stamina);
+			if (Stamina<StaminaSpend && _arrowsPuti.Enable)
+			{
+				_arrowsPuti.Enable = false;
+			}
+			if (Stamina>StaminaSpend && State != EState.Dying && State != EState.Disabled)
+			{
+				_arrowsPuti.Enable = true;
+			}
 		}
 	}
 
