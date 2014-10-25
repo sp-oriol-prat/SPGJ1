@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
-	private EState _state = EState.Idle;
+	private EState _state = EState.Disabled;
 	private Vector3 _positionOnPress;
 	public float Friction = 0.8f;
 	//private ProgressBar _healthBar;
@@ -15,8 +15,8 @@ public class PlayerController : MonoBehaviour {
 
 	public enum EState
 	{
+		Disabled,
 		Idle,
-		//Press,
 		Drag,
 		Release
 	}
@@ -91,6 +91,11 @@ public class PlayerController : MonoBehaviour {
 			_animator.SetTrigger("Attack");
 			Stamina -= StaminaSpend;
 		}
+	}
+
+	public void Enable()
+	{
+		State = EState.Idle;
 	}
 
 	private float Stamina
