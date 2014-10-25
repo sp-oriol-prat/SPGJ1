@@ -175,7 +175,10 @@ public class PlayerController : MonoBehaviour {
 	
 	public void Disable()
 	{
-		State = EState.Disabled;
+		if (State != EState.Dying)
+		{
+			State = EState.Disabled;
+		}
 	}
 
 	private float Stamina
