@@ -217,7 +217,7 @@ public class EnemyController : MonoBehaviour
 	void updateDebugState()
 	{
 		TextMesh tm = GetComponentInChildren<TextMesh>();
-		if (TextMesh)
+		if (tm)
 		{
 			string textStr = "live(" + _health + ")";
 			tm.text = textStr;
