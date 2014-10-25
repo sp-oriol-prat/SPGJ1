@@ -5,9 +5,9 @@ public class PlayerController : MonoBehaviour {
 
 	private EState _state = EState.Disabled;
 	private Vector3 _positionOnPress;
-	public float Friction = 0.8f;
 	//private ProgressBar _healthBar;
 	private float _stamina = 1.0f;
+	public ETypes PlayerType = ETypes.Paladin;
 	public float StaminaCharge = 0.1f;
 	public float StaminaSpend = 0.4f;
 	private RadialBar _radialBar;
@@ -25,6 +25,13 @@ public class PlayerController : MonoBehaviour {
 		Drag,
 		Release,
 		Dying
+	}
+
+	public enum ETypes
+	{
+		Paladin,
+		Mago,
+		Babosa
 	}
 
 	// Use this for initialization
@@ -95,7 +102,17 @@ public class PlayerController : MonoBehaviour {
 			GameController.me.Tirachinas.enabled = false;
 			Vector3 positionOnRelease = GameController.me.GetPosMouse3D;
 			Vector3 force = (_positionOnPress - positionOnRelease);
-			GameObject projectileRes = Resources.Load ("Projectile") as GameObject;
+			string path = "ProjectileBoomerang";
+			switch(PlayerType)
+			{
+			case ETypes.Mago:
+				path = "ProjectileFire";
+				break;
+			case ETypes.Babosa:
+				path = "ProjectileBabosa";
+				break;
+			}
+			GameObject projectileRes = Resources.Load (path) as GameObject;
 			GameObject projectileGo = Instantiate(projectileRes, transform.position, Quaternion.identity) as GameObject;
 			projectileGo.GetComponent<ProjectileController>().Shot(force);
 			State = EState.Idle;
