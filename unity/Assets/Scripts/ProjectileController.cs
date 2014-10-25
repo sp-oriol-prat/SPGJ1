@@ -204,7 +204,8 @@ public class ProjectileController : MonoBehaviour {
 
 	static public IEnumerator parseWeapons()
 	{
-		string url = "https://dl.dropboxusercontent.com/u/64292958/spgj1/weapons.txt";
+		string v = GameObject.Find ("GameController").GetComponent<GameController> ().json_version;
+		string url = "https://dl.dropboxusercontent.com/u/64292958/spgj1"+v+"/weapons.txt";
 		WWW www = new WWW(url);
 		//Debug.Log ("downloading... " + url);
 		
