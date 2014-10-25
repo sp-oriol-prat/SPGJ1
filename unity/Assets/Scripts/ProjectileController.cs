@@ -51,7 +51,20 @@ public class ProjectileController : MonoBehaviour {
 		{
 		case EState.Moving:
 			//Debug.Log ("VEL: " + rigidbody2D.velocity.magnitude);
-			transform.Rotate (new Vector3(0, 0, Time.deltaTime*720));
+			//Diferent behaviour per type
+			switch(ProjectileType)
+			{
+			case EProjectileType.Boomerang:
+				transform.Rotate (new Vector3(0, 0, Time.deltaTime*720));
+				break;
+			case EProjectileType.Babosa:
+				if (rigidbody2D.velocity.magnitude>0.1f)
+				{
+					float angle = Mathf.Atan2(rigidbody2D.velocity.y, rigidbody2D.velocity.x) * Mathf.Rad2Deg;
+					transform.rotation = Quaternion.Euler (0, 0, angle);
+				}
+				break;
+			}
 			if(Time.time - _timeCreation > TimeDuration)
 			{
 				DestroyProjectile();
@@ -81,7 +94,10 @@ public class ProjectileController : MonoBehaviour {
 			//Debug.Log ("Projectile Destroyed!");
 			GameController.me.RegisterProjectile(this, false);
 			State = EState.Destroy;
-			Instantiate(_particlesDead, transform.position, Quaternion.identity);
+			if (ProjectileType == EProjectileType.Boomerang)
+			{
+				Instantiate(_particlesDead, transform.position, Quaternion.identity);
+			}
 			Destroy(gameObject);
 		}
 	}
@@ -109,17 +125,17 @@ public class ProjectileController : MonoBehaviour {
 			switch ( ProjectileType )
 			{
 			case EProjectileType.Babosa:
-				baseDamage = 1;
+				baseDamage = 0;
+				enemy.Escupit();
 				break;
 			case EProjectileType.Boomerang:
 				baseDamage = 1;
+				enemy.Hit(baseDamage, isFrontHit, _isOnFire);
 				break;
 			case EProjectileType.Fire:
 				baseDamage = 1;
 				break;
 			}
-
-			enemy.Hit(baseDamage, isFrontHit, _isOnFire);
 			DestroyProjectile();
 		}
 	}
