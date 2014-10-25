@@ -4,7 +4,6 @@ using System.Collections;
 public class ProjectileController : MonoBehaviour {
 
 	private EState _state = EState.Moving;
-	private Vector3 _positionOnOrigin;
 	private float _timeCreation;
 	public float TimeDuration = 2.0f;
 	public float Force = 5000;
@@ -28,7 +27,6 @@ public class ProjectileController : MonoBehaviour {
 	void Start () 
 	{
 		_timeCreation = Time.time;
-		_positionOnOrigin = transform.position;
 		_particlesDead = Resources.Load ("ProjectileDead") as GameObject;
 	}
 	

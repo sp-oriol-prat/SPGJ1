@@ -13,7 +13,6 @@ public class EnemiesManager : MonoBehaviour
 		public string id;
 		public int life;
 		public int damage;
-		public float speed;
 		public bool[] inmunity = new bool[3]; // Fire, Ice, Wind
 	};
 
@@ -30,13 +29,14 @@ public class EnemiesManager : MonoBehaviour
 	EnemyData[] _enemiesData;
 	WaveData[] _wavesData;
 
-	int _currentWave;
-	bool _dataReady;
-	float _startTime;
-	bool _wavesDataReady = false;
-	bool _enemiesDataReady = false;
+	float _startTime = 0.0f;
 	bool _isStarted = false;
 	bool _canStart = false;
+	bool _enemiesDataReady = false;
+	bool _wavesDataReady = false;
+
+	int _currentWave = 0;
+
 
 
 	void Start()
@@ -81,8 +81,12 @@ public class EnemiesManager : MonoBehaviour
 			return;
 		}
 
+<<<<<<< HEAD
 		float t = Time.fixedTime;
-		float dt = t - _startTime;
+		float dt = t - _onStartTime;
+=======
+		float dt = Time.fixedTime - _startTime;
+>>>>>>> feature/enemies-manager-more-robust
 		if ( dt > _wavesData[_currentWave].time )
 		{
 			spawnWave(_wavesData[_currentWave]);
@@ -106,7 +110,6 @@ public class EnemiesManager : MonoBehaviour
 			eData.id = jEnemy["id"].ToString();
 			eData.life = jEnemy["life"].AsInt;
 			eData.damage = jEnemy["damage"].AsInt;
-			eData.speed = (float)jEnemy["speed"].AsInt / 100.0f;
 			int j = 0;
 			foreach ( JSONNode inmunity in jEnemy["inmunities"].AsArray )
 			{
