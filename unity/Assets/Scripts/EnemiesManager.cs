@@ -19,6 +19,9 @@ public class EnemiesManager : MonoBehaviour
 	{
 		public float delayTime;
 		public SpawnData[] spawns;
+
+		public float messageDelayTime;
+		public string message;
 	}
 
 	class SpawnData
@@ -37,6 +40,7 @@ public class EnemiesManager : MonoBehaviour
 
 	float _lastWavetime = 0.0f;
 	float _lastSpawnTime = 0.0f;
+	float _currentWaveBeginTime = 0.0f;
 
 	int _currentWave = 0;
 	int _currentSpawn = 0;
@@ -94,6 +98,7 @@ public class EnemiesManager : MonoBehaviour
 				_waveState = WaveState.WaitingDelay;
 				_currentWave = 0;
 				_lastWavetime = Time.fixedTime;
+				_currentWaveBeginTime = Time.fixedTime;
 			}
 		}
 
@@ -112,6 +117,11 @@ public class EnemiesManager : MonoBehaviour
 			FixedUpdate_WaveState_Finished();
 			break;
 		}
+
+		if ( _waveState == WaveState.Spawning || _waveState == WaveState.WaitingLastEnemy )
+		{
+			FixedUpdate_ShowWaveMessage();
+		}
 	}
 
 	void FixedUpdate_WaveState_WaitingDelay()
@@ -121,12 +131,16 @@ public class EnemiesManager : MonoBehaviour
 			_waveState = WaveState.Spawning;
 			_lastSpawnTime = Time.fixedTime;
 			_currentSpawn = 0;
+			_currentWaveBeginTime = Time.fixedTime;
 		}
 	}
 
 	void FixedUpdate_WaveState_Spawning()
 	{
-		SpawnData spawn = _wavesData[_currentWave].spawns[_currentSpawn];
+		WaveData wave = _wavesData[_currentWave];
+		SpawnData spawn = wave.spawns[_currentSpawn];
+
+		// spawn enemies
 		if ( (Time.fixedTime - _lastSpawnTime) > spawn.delayTime )
 		{
 			doSpawn(spawn);
@@ -150,12 +164,27 @@ public class EnemiesManager : MonoBehaviour
 			{
 				_waveState = WaveState.WaitingDelay;
 				_lastWavetime = Time.fixedTime;
+
+				//GameObject.Find("GameController").GetComponent<GameController>().onStartWave(_currentWave+1, false);
 			}
 			else
 			{
 				// FINISH
 				onFinishedEnemies();
 			}
+		}
+	}
+
+	void FixedUpdate_ShowWaveMessage()
+	{
+		WaveData wave = _wavesData[_currentWave];
+
+		// show message?
+		Debug.Log("show message?" + (Time.fixedTime - _currentWaveBeginTime));
+		if ( (Time.fixedTime - _currentWaveBeginTime) > wave.messageDelayTime )
+		{
+			//GameObject.Find("GameController").GetComponent<GameController>().onStartWave(_currentWave+1, false);
+			GameObject.Find("GameController").GetComponent<GameController>().showWaveMessage(wave.message);
 		}
 	}
 
@@ -249,6 +278,11 @@ public class EnemiesManager : MonoBehaviour
 		WaveData waveData = new WaveData();
 
 		waveData.delayTime = jWave["delay_time"].AsFloat;
+
+		JSONNode jWaveMessage = jWave["wave_message"];
+		waveData.messageDelayTime = jWaveMessage["delay_time"].AsFloat;
+		waveData.message = jWaveMessage["text"];
+
 		JSONArray jSpawns = jWave["spawns"].AsArray;
 
 		waveData.spawns = new SpawnData[jSpawns.Count];
