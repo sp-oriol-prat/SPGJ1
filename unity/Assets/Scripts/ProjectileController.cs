@@ -56,6 +56,20 @@ public class ProjectileController : MonoBehaviour {
 			{
 				DestroyProjectile();
 			}
+			//Mira si ha tocat amb la paret de darrera
+			if (rigidbody2D.velocity.x < 0 && transform.position.x < GameController.me.GetPositionPlayers().x)
+			{
+				DestroyProjectile();
+			}
+			//Mira si s'ha parat (Nomes si es babosa o boomerang)
+			if (ProjectileType != EProjectileType.Fire)
+			{
+				//Debug.Log ("Projectile: " + rigidbody2D.velocity.magnitude);
+				if (Time.time > (_timeCreation+0.2f) && rigidbody2D.velocity.magnitude <= 1.5f)
+				{
+					DestroyProjectile();
+				}
+			}
 			break;
 		}
 	}
@@ -64,6 +78,7 @@ public class ProjectileController : MonoBehaviour {
 	{
 		if (State != EState.Destroy)
 		{
+			//Debug.Log ("Projectile Destroyed!");
 			GameController.me.RegisterProjectile(this, false);
 			State = EState.Destroy;
 			Instantiate(_particlesDead, transform.position, Quaternion.identity);
