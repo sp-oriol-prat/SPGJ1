@@ -85,9 +85,23 @@ public class ProjectileController : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D collision) 
 	{
-		EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
-		if (enemy != null)
+		if (ProjectileType == EProjectileType.Boomerang)
 		{
+			EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
+			if (enemy != null)
+			{
+				enemy.Hit(ProjectileType);
+				DestroyProjectile();
+			}
+		}
+	}
+	
+	void OnTriggerEnter2D(Collider2D collider) 
+	{
+		//Aquest es nomes per quan el boomerang passa per sobre del foc
+		if (ProjectileType == EProjectileType.Fire)
+		{
+<<<<<<< HEAD
 			bool isFrontHit = rigidbody2D.velocity.x > 0.0f;
 
 			int baseDamage = 1;
@@ -106,6 +120,13 @@ public class ProjectileController : MonoBehaviour {
 
 			enemy.Hit(baseDamage, isFrontHit, _isOnFire);
 			DestroyProjectile();
+=======
+			ProjectileController proj = collider.GetComponent<ProjectileController>();
+			if (proj != null && proj.ProjectileType == EProjectileType.Boomerang)
+			{
+				proj.IsOnFire = true;
+			}
+>>>>>>> develop
 		}
 	}
 

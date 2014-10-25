@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 _positionOnPress;
 	//private ProgressBar _healthBar;
 	private float _stamina = 1.0f;
+	private const float kLengthTirachinas = 2.0f;
 	public ETypes PlayerType = ETypes.Paladin;
 	public float StaminaCharge = 0.1f;
 	public float StaminaSpend = 0.4f;
@@ -64,6 +65,11 @@ public class PlayerController : MonoBehaviour {
 		case EState.Drag:
 			Vector3 positionOnDrag = GameController.me.GetPosMouse3D;
 			Vector3 dirRaw = (_positionOnPress - positionOnDrag);
+			//Limita la Força del Tirachinas
+			if (dirRaw.magnitude > kLengthTirachinas)
+			{
+				dirRaw = dirRaw.normalized * kLengthTirachinas;
+			}
 			Vector3 dir = dirRaw.normalized;
 			GameController.me.Arrow.transform.position = _positionOnPress;
 			GameController.me.Tirachinas.transform.position = _positionOnPress;
@@ -102,6 +108,11 @@ public class PlayerController : MonoBehaviour {
 			GameController.me.Tirachinas.enabled = false;
 			Vector3 positionOnRelease = GameController.me.GetPosMouse3D;
 			Vector3 force = (_positionOnPress - positionOnRelease);
+			//Limita la Força del Tirachinas
+			if (force.magnitude > kLengthTirachinas)
+			{
+				force = force.normalized * kLengthTirachinas;
+			}
 			string path = "ProjectileBoomerang";
 			switch(PlayerType)
 			{
