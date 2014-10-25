@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using SimpleJSON;
 
 public class ProjectileController : MonoBehaviour {
 
@@ -24,6 +25,12 @@ public class ProjectileController : MonoBehaviour {
 		Moving,
 		Destroy
 	}
+
+	class WeaponsParams
+	{
+		public int boomerangDamage;
+	};
+	static WeaponsParams _weaponsParams = null;
 
 	// Use this for initialization
 	void Start () 
@@ -97,7 +104,7 @@ public class ProjectileController : MonoBehaviour {
 				baseDamage = 1;
 				break;
 			case EProjectileType.Boomerang:
-				baseDamage = 1;
+				baseDamage = _weaponsParams.boomerangDamage;
 				break;
 			case EProjectileType.Fire:
 				baseDamage = 1;
@@ -129,5 +136,23 @@ public class ProjectileController : MonoBehaviour {
 	void OnGUI()
 	{
 		//GUI.Label(new Rect(10, 10, 400, 100), "Player: " + State);
+	}
+
+	static public IEnumerator parseWeapons()
+	{
+		string url = "https://dl.dropboxusercontent.com/u/64292958/spgj1/weapons.txt";
+		WWW www = new WWW(url);
+		Debug.Log ("downloading... " + url);
+		
+		yield return www;
+		//yield return new WaitForSeconds(2);
+		JSONNode json = JSONNode.Parse(www.text);
+		_weaponsParams = new WeaponsParams();
+		_weaponsParams.boomerangDamage = json["boomerang_damage"].AsInt;
+	}
+
+	static public bool isParseDone()
+	{
+		return _weaponsParams != null;
 	}
 }

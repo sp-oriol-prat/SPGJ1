@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using SimpleJSON;
 
 public class PlayerController : MonoBehaviour {
 
@@ -18,6 +19,17 @@ public class PlayerController : MonoBehaviour {
 	private float _timeIntermitent;
 	private float kTimeIntermitent = 0.15f;
 	private SpriteRenderer _sprite;
+
+	class CharacterParams
+	{
+		public float chargeTime_paladin;
+		public int attackSpend_paladin;
+		public float chargeTime_mago;
+		public int attackSpend_mago;
+		public float chargeTime_babosa;
+		public int attackSpend_babosa;
+	};
+	static CharacterParams _characterParams = null;
 
 	public enum EState
 	{
@@ -214,5 +226,29 @@ public class PlayerController : MonoBehaviour {
 			GameController.me.EndGame();
 			Destroy (this.gameObject);
 		}
+	}
+
+	static public IEnumerator parseCharacters()
+	{
+		string url = "https://dl.dropboxusercontent.com/u/64292958/spgj1/characters.txt";
+		WWW www = new WWW(url);
+		Debug.Log ("downloading... " + url);
+		
+		yield return www;
+		//yield return new WaitForSeconds(2);
+		JSONNode json = JSONNode.Parse(www.text);
+		_characterParams = new CharacterParams();
+
+		_characterParams.chargeTime_paladin 	= 1.0f/(float)json["paladin_stamina_charge_time"].AsInt;
+		_characterParams.chargeTime_mago 		= 1.0f/(float)json["mago_stamina_charge_time"].AsInt;
+		_characterParams.chargeTime_babosa 		= 1.0f/(float)json["babosa_stamina_charge_time"].AsInt;
+		_characterParams.attackSpend_paladin 	= json["paladin_stamina_charge_time"].AsInt;
+		_characterParams.attackSpend_mago 		= json["mago_stamina_charge_time"].AsInt;
+		_characterParams.attackSpend_babosa 	= json["babosa_stamina_charge_time"].AsInt;
+	}
+	
+	static public bool isParseDone()
+	{
+		return _characterParams != null;
 	}
 }

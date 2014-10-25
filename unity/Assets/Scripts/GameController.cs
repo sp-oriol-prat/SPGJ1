@@ -41,6 +41,9 @@ public class GameController : MonoBehaviour {
 		_mainMenu = FindObjectOfType<MainMenu>();
 		_endMenu = FindObjectOfType<EndMenu>();
 		_testMenu = FindObjectOfType<TestMenu>();
+
+		StartCoroutine(ProjectileController.parseWeapons());
+		StartCoroutine(PlayerController.parseCharacters());
 	}
 
 	public GameObject InstantiateUI(string path)
@@ -113,14 +116,21 @@ public class GameController : MonoBehaviour {
 
 	public void StartGame()
 	{
-		_mainMenu.Show(false);
-		_testMenu.Show(true);
-		for (int i=0; i<Players.Length; i++)
-		{
-			Players[i].Enable();
-		}
+		bool readyToStart = true;
+		readyToStart &= ProjectileController.isParseDone();
+		readyToStart &= PlayerController.isParseDone();
 
-		_enemiesManager.doCanStart();
+		if (readyToStart)
+		{
+			_mainMenu.Show(false);
+			_testMenu.Show(true);
+			for (int i=0; i<Players.Length; i++)
+			{
+				Players[i].Enable();
+			}
+			
+			_enemiesManager.doCanStart();
+		}
 	}
 
 	public void EndGame()

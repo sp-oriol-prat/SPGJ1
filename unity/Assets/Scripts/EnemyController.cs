@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using SimpleJSON;
 
 public class EnemyController : MonoBehaviour
 {
@@ -178,4 +179,5 @@ public class EnemyController : MonoBehaviour
 			//onInjured();
 		}
 	}
+
 }
