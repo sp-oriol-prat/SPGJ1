@@ -58,7 +58,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400004}
@@ -70,7 +70,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 108, y: 19, z: 0}
+  m_LocalPosition: {x: 410, y: 312, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400000}
@@ -83,7 +83,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 289, y: 295, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.00007987, y: 1.00007987, z: 1.00007987}
   m_Children:
   - {fileID: 400004}
@@ -130,18 +130,18 @@ MonoBehaviour:
     absolute: 0
   mColor: {r: 0, g: 0, b: 0, a: 1}
   mPivot: 4
-  mWidth: 122
-  mHeight: 62
+  mWidth: 130
+  mHeight: 48
   mDepth: 2
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 1.96774197
+  aspectRatio: 2.70833325
   keepCrispWhenShrunk: 1
-  mTrueTypeFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  mTrueTypeFont: {fileID: 12800000, guid: ec0fe8d27f51d453abdbcebaeea8d044, type: 3}
   mFont: {fileID: 0}
-  mText: ReStart
-  mFontSize: 144
+  mText: Restart
+  mFontSize: 46
   mFontStyle: 0
   mEncoding: 1
   mMaxLineCount: 0
@@ -209,7 +209,7 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  mColor: {r: 1, g: .977890432, b: .198529422, a: 1}
+  mColor: {r: .801470578, g: .801470578, b: .801470578, a: 1}
   mPivot: 4
   mWidth: 140
   mHeight: 62
@@ -255,29 +255,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftAnchor:
     target: {fileID: 0}
-    relative: 1
-    absolute: -369
+    relative: 0
+    absolute: 0
   rightAnchor:
     target: {fileID: 0}
     relative: 1
-    absolute: -13
+    absolute: 0
   bottomAnchor:
     target: {fileID: 0}
-    relative: 1
-    absolute: -115
+    relative: 0
+    absolute: 0
   topAnchor:
     target: {fileID: 0}
     relative: 1
-    absolute: -15
+    absolute: 0
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 356
-  mHeight: 100
+  mWidth: 960
+  mHeight: 720
   mDepth: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 3.55999994
+  aspectRatio: 1.36170208
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
