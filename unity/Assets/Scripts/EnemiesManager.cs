@@ -61,7 +61,6 @@ public class EnemiesManager : MonoBehaviour
 			}
 			else
 			{
-				Debug.Log ("STARTEDD!!!");
 				_isStarted = true;
 				_startTime = Time.fixedTime;
 			}

@@ -12,7 +12,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 212: {fileID: 21200000}
   - 50: {fileID: 5000000}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: ProjectileFire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,7 +29,7 @@ GameObject:
   - 4: {fileID: 400002}
   - 198: {fileID: 19800000}
   - 199: {fileID: 19900000}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .849216461, y: -.902409554, z: 0}
+  m_LocalPosition: {x: 1.4329443, y: .26504454, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -67,8 +67,8 @@ Rigidbody2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Mass: 12
-  m_LinearDrag: .100000001
+  m_Mass: 6
+  m_LinearDrag: 1
   m_AngularDrag: .200000003
   m_GravityScale: 0
   m_FixedAngle: 1
@@ -98,8 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9f35b354f0764cc58cae7de1ff3dc2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeDuration: 2
-  Force: 500
+  TimeDuration: 10
+  Force: 2000
   ProjectileType: 1
 --- !u!198 &19800000
 ParticleSystem:
