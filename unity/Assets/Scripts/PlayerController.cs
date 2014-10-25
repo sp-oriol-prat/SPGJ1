@@ -6,13 +6,13 @@ public class PlayerController : MonoBehaviour {
 
 	private EState _state = EState.Disabled;
 	private Vector3 _positionOnPress;
-	//private ProgressBar _healthBar;
+	private ProgressBar _staminaBar;
 	private float _stamina = 1.0f;
 	private const float kLengthTirachinas = 2.0f;
 	public ETypes PlayerType = ETypes.Paladin;
 	public float StaminaCharge = 0.1f;
 	public float StaminaSpend = 0.4f;
-	private RadialBar _radialBar;
+	//private RadialBar _radialBar;
 	private Animator _animator;
 	private int _health;
 	private float _timeChangeState;
@@ -58,10 +58,10 @@ public class PlayerController : MonoBehaviour {
 		//GameController.me.SetWorldToUIPosition(transform.position, _healthBar.transform, new Vector2(0, -100));
 		//_healthBar.SetProgress(Random.value);
 		//Stamina
-		_radialBar = GameController.me.InstantiateUI("StaminaBar").GetComponent<RadialBar>();
-		_radialBar.transform.localScale = Vector3.one *0.65f;
-		GameController.me.SetWorldToUIPosition(transform.position + new Vector3(_collider2D.center.x, _collider2D.center.y, 0), _radialBar.transform, new Vector2(-80, -60));
-		_radialBar.SetProgress(Random.value);
+		_staminaBar = GameController.me.InstantiateUI("HealthBar").GetComponent<ProgressBar>();
+		_staminaBar.transform.localScale = Vector3.one *0.65f;
+		GameController.me.SetWorldToUIPosition(transform.position + new Vector3(_collider2D.center.x, _collider2D.center.y, 0), _staminaBar.transform, new Vector2(-30, -100));
+		_staminaBar.SetProgress(Random.value);
 		//Animator
 		_animator = GetComponentInChildren<Animator>();
 		_sprite = GetComponent<SpriteRenderer>();
@@ -190,7 +190,7 @@ public class PlayerController : MonoBehaviour {
 		set
 		{
 			_stamina = value;
-			_radialBar.SetProgress(_stamina);
+			_staminaBar.SetProgress(_stamina);
 		}
 	}
 

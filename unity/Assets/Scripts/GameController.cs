@@ -116,6 +116,7 @@ public class GameController : MonoBehaviour {
 
 	public void StartGame()
 	{
+		_testMenu.Wave(1);
 		bool readyToStart = true;
 		readyToStart &= ProjectileController.isParseDone();
 		readyToStart &= PlayerController.isParseDone();
