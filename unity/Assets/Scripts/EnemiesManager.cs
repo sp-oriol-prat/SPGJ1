@@ -67,7 +67,6 @@ public class EnemiesManager : MonoBehaviour
 
 		float t = Time.fixedTime;
 		float dt = t - _onStartTime;
-		Debug.Log("dt: " + dt);
 		if ( dt > _wavesData[_currentWave].time )
 		{
 			spawnWave(_wavesData[_currentWave]);
@@ -182,7 +181,7 @@ public class EnemiesManager : MonoBehaviour
 				if (prefab)
 				{
 					GameObject go = (GameObject)GameObject.Instantiate(prefab, spawnPoints[i].position, Quaternion.identity);
-					go.GetComponent<EnemyController>().init(2);
+					go.GetComponent<EnemyController>().Init(0.5f);
 				}
 			}
 		}

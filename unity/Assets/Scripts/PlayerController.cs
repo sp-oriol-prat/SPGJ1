@@ -73,6 +73,7 @@ public class PlayerController : MonoBehaviour {
 			GameController.me.Tirachinas.enabled = true;
 			State = EState.Drag;
 			_positionOnPress = GameController.me.GetPosMouse3D;
+			_animator.SetTrigger("AttackPrepare");
 		}
 	}
 	
