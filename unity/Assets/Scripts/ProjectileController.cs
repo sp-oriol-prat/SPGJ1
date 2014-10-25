@@ -58,7 +58,6 @@ public class ProjectileController : MonoBehaviour {
 
 	public void applyParams()
 	{
-		Debug.Log ("Apply physics!");
 		switch ( ProjectileType )
 		{
 		case EProjectileType.Babosa:

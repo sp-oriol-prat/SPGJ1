@@ -180,7 +180,6 @@ public class EnemiesManager : MonoBehaviour
 		WaveData wave = _wavesData[_currentWave];
 
 		// show message?
-		Debug.Log("show message?" + (Time.fixedTime - _currentWaveBeginTime));
 		if ( (Time.fixedTime - _currentWaveBeginTime) > wave.messageDelayTime )
 		{
 			//GameObject.Find("GameController").GetComponent<GameController>().onStartWave(_currentWave+1, false);

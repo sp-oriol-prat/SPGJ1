@@ -196,15 +196,24 @@ public class EnemyController : MonoBehaviour
 
 	public void Hit (float baseDamage, bool isFrontHit, bool isFireHit, float fireBoostDamage)
 	{
+		Debug.Log ("baseDamage: " + baseDamage + " isfronthit:" + isFrontHit + " ifFireHit: " + isFireHit + " boostDamage:" + fireBoostDamage);
 		if (_animator != null)
 		{
 			_animator.SetTrigger("Hit");
 		}
+
 		float damage = baseDamage;
-		if (_data.hasShield && isFrontHit || _data.isElemental && !isFireHit)
+		string log = "";
+		log += "(baseDamage: " + damage + ") >> ";
+
+		bool preventByShield = _data.hasShield && isFrontHit;
+		bool preventByElement = _data.isElemental && !isFireHit;
+		if (preventByShield || preventByElement)
 		{
 			damage = 0.0f;
 		}
+
+		log += "(shield:" +preventByShield +", element:" + preventByElement + " -> " + damage + ") >> ";
 
 		if (damage != 0.0f)
 		{
@@ -212,8 +221,13 @@ public class EnemyController : MonoBehaviour
 			{
 				damage *= fireBoostDamage;
 			}
+
+			log += "(fire-boost:" +fireBoostDamage +" -> " + damage + ") = ";
 		}
-		Debug.Log ("damage(" + damage + ") " + _health + " -> " + (_health - damage));
+
+		log += "DAMAGE: " + damage;
+		Debug.Log(log);
+
 		Health -= damage;
 	}
 
