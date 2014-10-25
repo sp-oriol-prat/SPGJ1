@@ -71,14 +71,34 @@ public class EnemyController : MonoBehaviour
 		_timeIntermitent = 0;
 	}
 
+	private void SetStateAttacking()
+	{
+		_state = EState.Attacking;
+		_timeChangeState = Time.time;
+	}
+
 	void FixedUpdate_Moving()
 	{
 		Vector3 moveDir = new Vector3(-1,0,0);
 		transform.position += moveDir * _velocity * Time.fixedDeltaTime;
+		if (transform.position.x < GameController.me.GetPositionPlayers().x)
+		{
+			SetStateAttacking();
+		}
 	}
 
 	void FixedUpdate_Attacking()
 	{
+		if (Time.time > _timeChangeState + 1.0f)
+		{
+			//TODO: Attack animation and selecciona el player correcte per atacar (passant com a valor el tipus d'enemic del quer es tracta)
+			PlayerController player = GameController.me.GetPlayer(0);
+			if (player != null)
+			{
+				GameController.me.GetPlayer(0).Hit("A");
+			}
+			SetStateDie();
+		}
 	}
 
 	void FixedUpdate_Dying()
