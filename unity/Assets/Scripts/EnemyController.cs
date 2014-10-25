@@ -10,22 +10,58 @@ public class EnemyController : MonoBehaviour
 		Dying
 	};
 
+	public enum Element { Fire = 0, Ice = 1, Wind = 2 };
+	public class Data
+	{
+		public string id;
+		public int life;
+		public int damage;
+		public float walk_speed;
+		public float attack_speed;
+		public bool[] inmunity = new bool[3]; // Fire, Ice, Wind
+
+		public Data()
+		{
+		}
+
+		public Data(Data d)
+		{
+			id = d.id;
+			life = d.life;
+			damage = d.damage;
+			walk_speed = d.walk_speed;
+			attack_speed = d.attack_speed;
+			for ( int i = 0; i < d.inmunity.Length; i++)
+			{
+				inmunity[i] = d.inmunity[i];
+			}
+		}
+	};
+
+	private Data _data;
+
 	public EState _state;
-	public float _velocity = 0.5f;
-	private int _health = 100;
+	private float _velocity;
+	private int _health;
 	private SpriteRenderer _sprite;
 	private float _timeChangeState;
 	private float _timeIntermitent;
 	private float kTimeIntermitent = 0.15f;
+
+	//private int _indexRow;
 
 	void Start ()
 	{
 		_sprite = GetComponent<SpriteRenderer>();
 	}
 
-	public void Init(float vel)
+	public void Init(Data data, int indexRow)
 	{
-		_velocity = vel;
+		_data = new Data(data);	
+		//_indexRow = indexRow;
+
+		_velocity = _data.walk_speed;
+		_health = _data.life;		
 		_state = EState.Moving;
 	}
 

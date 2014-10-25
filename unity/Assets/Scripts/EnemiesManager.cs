@@ -8,15 +8,6 @@ public class EnemiesManager : MonoBehaviour
 
 	static int kNumStreets = 6;
 
-	enum Element { Fire = 0, Ice = 1, Wind = 2 };
-	class EnemyData {
-		public string id;
-		public int life;
-		public int damage;
-		public float speed;
-		public bool[] inmunity = new bool[3]; // Fire, Ice, Wind
-	};
-
 	GameObject _enemyPrefab_A;
 	GameObject _enemyPrefab_B;
 	GameObject _enemyPrefab_C;
@@ -27,7 +18,7 @@ public class EnemiesManager : MonoBehaviour
 		public string[] enemiesId = new string[kNumStreets];
 	}
 
-	EnemyData[] _enemiesData;
+	EnemyController.Data[] _enemiesData;
 	WaveData[] _wavesData;
 
 	int _currentWave;
@@ -92,41 +83,46 @@ public class EnemiesManager : MonoBehaviour
 	
 	IEnumerator parseEnemies()
 	{
-		string enemiesUrl = "https://dl.dropboxusercontent.com/u/64292958/spgj1/enemies.txt";
+		string enemiesUrl = "https://dl.dropboxusercontent.com/u/64292958/spgj1/enemies_v2.txt";
 		WWW www = new WWW(enemiesUrl);
 		Debug.Log ("downloading... " + enemiesUrl);
 
 		yield return www;
 		JSONNode jEnemies = JSONNode.Parse(www.text).AsArray;
+
+		_enemiesData = new EnemyController.Data[jEnemies.Count];
 		for (int i = 0; i < jEnemies.Count; i++)
 		{
 			JSONNode jEnemy = jEnemies[i];
 			
-			EnemyData eData = new EnemyData();
-			eData.id = jEnemy["id"].ToString();
+			EnemyController.Data eData = new EnemyController.Data();
+			eData.id = jEnemy["id"];
 			eData.life = jEnemy["life"].AsInt;
 			eData.damage = jEnemy["damage"].AsInt;
-			eData.speed = (float)jEnemy["speed"].AsInt / 100.0f;
+			eData.walk_speed = (float)jEnemy["walk_speed"].AsInt / 100.0f;
+			eData.attack_speed = (float)jEnemy["attack_speed"].AsInt / 100.0f;
 			int j = 0;
 			foreach ( JSONNode inmunity in jEnemy["inmunities"].AsArray )
 			{
 				switch ( inmunity.ToString() )
 				{
 				case "fire":
-					eData.inmunity[(int)Element.Fire.GetTypeCode()] = inmunity.AsBool;
+					eData.inmunity[(int)EnemyController.Element.Fire.GetTypeCode()] = inmunity.AsBool;
 					break;
 					
 				case "ice":
-					eData.inmunity[(int)Element.Ice.GetTypeCode()] = inmunity.AsBool;
+					eData.inmunity[(int)EnemyController.Element.Ice.GetTypeCode()] = inmunity.AsBool;
 					break;
 					
 				case "wind":
-					eData.inmunity[(int)Element.Wind.GetTypeCode()] = inmunity.AsBool;
+					eData.inmunity[(int)EnemyController.Element.Wind.GetTypeCode()] = inmunity.AsBool;
 					break;
 				}
 				
 				j++;				
 			}
+
+			_enemiesData[i] = eData;
 		}
 
 		_enemiesDataReady = true;
@@ -164,6 +160,19 @@ public class EnemiesManager : MonoBehaviour
 		_wavesDataReady = true;
 	}
 
+	EnemyController.Data getEnemyDataById(string id)
+	{
+		for (int i = 0; i < _enemiesData.Length; i++)
+		{
+			if ( _enemiesData[i].id == id)
+			{
+				return _enemiesData[i];
+			}
+		}
+
+		return null;
+	}
+
 	static bool isValidEnemyId(string s)
 	{
 		return s != " " && s != "";
@@ -171,12 +180,15 @@ public class EnemiesManager : MonoBehaviour
 
 	void spawnWave(WaveData wave)
 	{
+		// for each street....
 		for ( int i = 0; i < wave.enemiesId.Length; i++ )
 		{
+			int street = i;
 			if ( isValidEnemyId(wave.enemiesId[i]) )
 			{
 				GameObject prefab = null;
-				switch ( wave.enemiesId[i] )
+				string enemyId = wave.enemiesId[i];
+				switch ( enemyId )
 				{
 				case "A":	prefab = _enemyPrefab_A;	break;
 				case "B":	prefab = _enemyPrefab_B;	break;
@@ -199,7 +211,7 @@ public class EnemiesManager : MonoBehaviour
 				if (prefab)
 				{
 					GameObject go = (GameObject)GameObject.Instantiate(prefab, spawnPoints[i].position, Quaternion.identity);
-					go.GetComponent<EnemyController>().Init(0.5f);
+					go.GetComponent<EnemyController>().Init(getEnemyDataById(enemyId), street);
 				}
 			}
 		}
