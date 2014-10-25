@@ -61,6 +61,7 @@ public class EnemyController : MonoBehaviour
 	private float _babosaFriction = 1.0f;
 	private float _babosaDuration;
 	private float _babosaStartTime;
+	private float _previousXPos = 0.0f;
 
 	void Start ()
 	{
@@ -78,6 +79,8 @@ public class EnemyController : MonoBehaviour
 		_debugStatsGo = (GameObject)GameObject.Instantiate(Resources.Load("EnemyStats"), Vector3.zero, Quaternion.identity);
 		_debugStatsGo.transform.parent = transform;
 		_debugStatsGo.transform.localPosition = new Vector3(-5.10f, 0.69f, 0.0f);
+
+		_previousXPos = transform.position.x;
 	}
 
 	public void Init (Data data, int streetIndex)
@@ -160,7 +163,7 @@ public class EnemyController : MonoBehaviour
 	{
 		Vector3 moveDir = new Vector3 (-1, 0, 0);
 		transform.position += moveDir * _velocity * Time.fixedDeltaTime * _babosaFriction;
-		if (transform.position.x < GameController.me.GetPositionPlayers ().x)
+		if (transform.position.x < GameController.me.GetPositionPlayers().x)
 		{
 			SetStateAttacking ();
 		}
@@ -231,7 +234,9 @@ public class EnemyController : MonoBehaviour
 		TextMesh tm = GetComponentInChildren<TextMesh>();
 		if (tm)
 		{
-			string textStr = "live(" + _health + ")";
+			float velx = (transform.position.x - _previousXPos)/Time.fixedDeltaTime;
+			_previousXPos = transform.position.x;
+			string textStr = "live(" + _health + ") vel(" + velx.ToString("0.00") + ")";
 			tm.text = textStr;
 		}
 	}
