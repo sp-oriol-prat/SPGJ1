@@ -129,7 +129,8 @@ public class GameController : MonoBehaviour {
 
 	public void StartGame()
 	{
-		_testMenu.Wave(1);
+		_testMenu.Message("");
+
 		bool readyToStart = true;
 		readyToStart &= ProjectileController.isParseDone();
 		readyToStart &= PlayerController.isParseDone();
@@ -203,5 +204,15 @@ public class GameController : MonoBehaviour {
 		} else {
 			_projectiles.Remove(projectile);
 		}
+	}
+
+	public void onStartWave(int numWave, bool isLast)
+	{
+		_testMenu.Wave(numWave);
+	}
+
+	public void showWaveMessage(string msg)
+	{
+		_testMenu.Message(msg);
 	}
 }

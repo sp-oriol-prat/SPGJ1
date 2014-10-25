@@ -30,4 +30,15 @@ public class TestMenu : MonoBehaviour
 		GoTween tweenSpawn = new GoTween( WaveLabel.transform, 0.6f, config );
         Go.addTween( tweenSpawn );
 	}
+
+	public void Message(string msg)
+	{
+		WaveLabel.text = msg;
+		WaveLabel.transform.localScale = new Vector3(5, 1, 1);
+		GoTweenConfig config = new GoTweenConfig();
+		config.setEaseType(GoEaseType.ElasticOut);
+		config.addTweenProperty( new ScaleTweenProperty(Vector3.one));
+		GoTween tweenSpawn = new GoTween( WaveLabel.transform, 0.6f, config );
+		Go.addTween( tweenSpawn );
+	}
 }
