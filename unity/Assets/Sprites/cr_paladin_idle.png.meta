@@ -65,8 +65,8 @@ TextureImporter:
         y: 512
         width: 430
         height: 512
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .5, y: .469999999}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: cr_paladin_idle_2
       rect:
@@ -75,8 +75,8 @@ TextureImporter:
         y: 512
         width: 430
         height: 512
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .468922883, y: .440343022}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: cr_paladin_idle_3
       rect:
@@ -85,8 +85,8 @@ TextureImporter:
         y: 512
         width: 430
         height: 512
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .442285448, y: .399328828}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: cr_paladin_idle_4
       rect:
@@ -95,8 +95,8 @@ TextureImporter:
         y: 0
         width: 430
         height: 512
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 9
+      pivot: {x: .5, y: .440342844}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
