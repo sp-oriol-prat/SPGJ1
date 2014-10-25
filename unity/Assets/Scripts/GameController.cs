@@ -10,8 +10,11 @@ public class GameController : MonoBehaviour {
 	private SpriteRenderer _tirachinas;
 	private SpriteRenderer _arrow;
 	private UIRoot _uiRoot;
-	private PlayerController[] _players;
+	public PlayerController[] Players;
 	private MainMenu _mainMenu;
+	private EndMenu _endMenu;
+	private TestMenu _testMenu;
+	private Vector3 _positionPlayers;
 	private EnemiesManager _enemiesManager;
 
 	// Use this for initialization
@@ -27,8 +30,11 @@ public class GameController : MonoBehaviour {
 		_enemiesManager = GameObject.Find ("EnemyManager").GetComponent<EnemiesManager> ();
 		_tirachinas.enabled = false;
 		_arrow.enabled = false;
-		_players = FindObjectsOfType<PlayerController>();
+		_positionPlayers = Players[0].transform.position;
+		_positionPlayers.x += 1;
 		_mainMenu = FindObjectOfType<MainMenu>();
+		_endMenu = FindObjectOfType<EndMenu>();
+		_testMenu = FindObjectOfType<TestMenu>();
 	}
 
 	public GameObject InstantiateUI(string path)
@@ -73,6 +79,16 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
+	public PlayerController GetPlayer(int indexRow)
+	{
+		return Players[Mathf.FloorToInt((float)((float)indexRow*0.5f))] ;
+	}
+
+	public Vector3 GetPositionPlayers()
+	{
+		return _positionPlayers;
+	}
+
 	public SpriteRenderer Tirachinas
 	{
 		get
@@ -92,11 +108,39 @@ public class GameController : MonoBehaviour {
 	public void StartGame()
 	{
 		_mainMenu.Show(false);
-		for (int i=0; i<_players.Length; i++)
+		_testMenu.Show(true);
+		for (int i=0; i<Players.Length; i++)
 		{
-			_players[i].Enable();
+			Players[i].Enable();
 		}
 
 		_enemiesManager.doCanStart();
+	}
+
+	public void EndGame()
+	{
+		Debug.Log ("END GAME!!!");
+		_testMenu.Show(false);
+		_endMenu.Show(true);
+		for (int i=0; i<Players.Length; i++)
+		{
+			if (Players[i] != null)
+			{
+				Players[i].Disable();
+			}
+		}
+		//TODO: Stop the Enemies from moving
+		//EnemiesManager.Stop()
+		StartCoroutine(EndGameDelayed());
+	}
+
+	private IEnumerator EndGameDelayed()
+	{
+		yield return new WaitForSeconds(1.0f);
+	}
+	
+	public void RestartGame()
+	{
+		Application.LoadLevel(Application.loadedLevelName);
 	}
 }

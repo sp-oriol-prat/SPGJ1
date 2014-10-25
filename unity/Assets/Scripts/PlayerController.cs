@@ -12,13 +12,19 @@ public class PlayerController : MonoBehaviour {
 	public float StaminaSpend = 0.4f;
 	private RadialBar _radialBar;
 	private Animator _animator;
+	private int _health;
+	private float _timeChangeState;
+	private float _timeIntermitent;
+	private float kTimeIntermitent = 0.15f;
+	private SpriteRenderer _sprite;
 
 	public enum EState
 	{
 		Disabled,
 		Idle,
 		Drag,
-		Release
+		Release,
+		Dying
 	}
 
 	// Use this for initialization
@@ -34,6 +40,7 @@ public class PlayerController : MonoBehaviour {
 		_radialBar.SetProgress(Random.value);
 		//Animator
 		_animator = GetComponentInChildren<Animator>();
+		_sprite = GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
@@ -60,6 +67,9 @@ public class PlayerController : MonoBehaviour {
 			Vector3 scale = GameController.me.Tirachinas.transform.localScale;
 			scale.x = dirRaw.magnitude*0.2f;
 			GameController.me.Tirachinas.transform.localScale = scale;
+			break;
+		case EState.Dying:
+			StateDyingBehaviour();
 			break;
 		}
 	}
@@ -98,6 +108,11 @@ public class PlayerController : MonoBehaviour {
 	{
 		State = EState.Idle;
 	}
+	
+	public void Disable()
+	{
+		State = EState.Disabled;
+	}
 
 	private float Stamina
 	{
@@ -127,5 +142,49 @@ public class PlayerController : MonoBehaviour {
 	void OnGUI()
 	{
 		GUI.Label(new Rect(10, 10, 400, 100), "Player: " + State);
+	}
+
+	public void Hit(string _typeEnemy)
+	{
+		Health = Health - 100;
+	}
+	
+	public int Health
+	{
+		get
+		{
+			return _health;
+		}
+		set
+		{
+			_health = value;
+			if (_health <= 0)
+			{
+				SetStateDie();
+			}
+		}
+	}
+	
+	private void SetStateDie()
+	{
+		collider2D.enabled = false;
+		_state = EState.Dying;
+		_timeChangeState = Time.time;
+		_timeIntermitent = 0;
+	}
+	
+	private void StateDyingBehaviour()
+	{
+		_timeIntermitent -= Time.deltaTime;
+		if (_timeIntermitent <= 0)
+		{
+			_timeIntermitent = kTimeIntermitent;
+			_sprite.enabled = !_sprite.enabled;
+		}
+		if (Time.time > _timeChangeState + 2.0f)
+		{
+			GameController.me.EndGame();
+			Destroy (this.gameObject);
+		}
 	}
 }
