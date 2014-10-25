@@ -54,10 +54,13 @@ public class EnemyController : MonoBehaviour
 	private float _timeIntermitent;
 	private float kTimeIntermitent = 0.15f;
 	private int _streetIndex;
+	private SpriteRenderer _babosa;
 
 	void Start ()
 	{
 		_sprite = GetComponent<SpriteRenderer> ();
+		_babosa = transform.Find("babosa_attack").GetComponent<SpriteRenderer>();
+		_babosa.enabled = false;
 	}
 
 	public void Init (Data data, int streetIndex)
@@ -105,6 +108,7 @@ public class EnemyController : MonoBehaviour
 		_state = EState.Dying;
 		_timeChangeState = Time.time;
 		_timeIntermitent = 0;
+		_babosa.enabled = false;
 	}
 
 	private void SetStateAttacking ()
@@ -176,6 +180,16 @@ public class EnemyController : MonoBehaviour
 		else if ( isInjured )
 		{
 			//onInjured();
+		}
+	}
+
+	public void Escupit()
+	{
+		Debug.Log ("Escupit!!!");
+		//TODO: Aqui hauria de disminuïr la velocitat!!
+		if (_babosa != null)
+		{
+			_babosa.enabled = true;
 		}
 	}
 }
