@@ -11,7 +11,7 @@ public class EnemyController : MonoBehaviour
 	};
 
 	public EState _state;
-	public float _velocity = 1.0f;
+	public float _velocity = 0.5f;
 	private int _health = 100;
 	private SpriteRenderer _sprite;
 	private float _timeChangeState;
@@ -65,6 +65,7 @@ public class EnemyController : MonoBehaviour
 
 	private void SetStateDie()
 	{
+		collider2D.enabled = false;
 		_state = EState.Dying;
 		_timeChangeState = Time.time;
 		_timeIntermitent = 0;

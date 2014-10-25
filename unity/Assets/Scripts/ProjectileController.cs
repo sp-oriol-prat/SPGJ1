@@ -81,6 +81,7 @@ public class ProjectileController : MonoBehaviour {
 		if (enemy != null)
 		{
 			enemy.Hit(ProjectileType);
+			DestroyProjectile();
 		}
 	}
 

@@ -181,7 +181,7 @@ public class EnemiesManager : MonoBehaviour
 				if (prefab)
 				{
 					GameObject go = (GameObject)GameObject.Instantiate(prefab, spawnPoints[i].position, Quaternion.identity);
-					go.GetComponent<EnemyController>().Init(2);
+					go.GetComponent<EnemyController>().Init(0.5f);
 				}
 			}
 		}
