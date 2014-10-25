@@ -56,6 +56,7 @@ public class EnemyController : MonoBehaviour
 	private int _streetIndex;
 	private SpriteRenderer _babosa;
 	private Animator _animator;
+	private GameObject _debugStatsGo;
 
 	void Start ()
 	{
@@ -67,6 +68,12 @@ public class EnemyController : MonoBehaviour
 		_babosa = transform.Find("babosa_attack").GetComponent<SpriteRenderer>();
 		_babosa.enabled = false;
 		_animator = GetComponentInChildren<Animator>();
+
+
+		// Enemy stats.
+		_debugStatsGo = (GameObject)GameObject.Instantiate(Resources.Load("EnemyStats"), Vector3.zero, Quaternion.identity);
+		_debugStatsGo.transform.parent = transform;
+		_debugStatsGo.transform.localPosition = new Vector3(-5.10f, 0.69f, 0.0f);
 	}
 
 	public void Init (Data data, int streetIndex)
@@ -94,18 +101,20 @@ public class EnemyController : MonoBehaviour
 	void FixedUpdate ()
 	{
 			switch (_state) {
-			case EState.Moving:
-					FixedUpdate_Moving ();
-					break;
+		case EState.Moving:
+			FixedUpdate_Moving ();
+			break;
 
-			case EState.Attacking:
-					FixedUpdate_Attacking ();
-					break;
+		case EState.Attacking:
+			FixedUpdate_Attacking ();
+			break;
 
-			case EState.Dying:
-					FixedUpdate_Dying ();
-					break;
-			}
+		case EState.Dying:
+			FixedUpdate_Dying ();
+			break;
+		}
+
+		updateDebugState ();
 	}
 
 	private void SetStateDie ()
@@ -178,7 +187,7 @@ public class EnemyController : MonoBehaviour
 				damage *= FireBoostDamage;
 			}
 		}
-		Debug.Log ("damage: " + damage + " -- " + _health + " -> " + (_health - damage));
+		Debug.Log ("damage(" + damage + ") " + _health + " -> " + (_health - damage));
 		_health -= damage;
 
 		const float injuredFactor = 0.4f;
@@ -202,6 +211,16 @@ public class EnemyController : MonoBehaviour
 		if (_babosa != null)
 		{
 			_babosa.enabled = true;
+		}
+	}
+
+	void updateDebugState()
+	{
+		TextMesh tm = GetComponentInChildren<TextMesh>();
+		if (TextMesh)
+		{
+			string textStr = "live(" + _health + ")";
+			tm.text = textStr;
 		}
 	}
 }
