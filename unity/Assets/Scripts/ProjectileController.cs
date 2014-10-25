@@ -10,6 +10,7 @@ public class ProjectileController : MonoBehaviour {
 	private GameObject _particlesDead;
 	public EProjectileType ProjectileType;
 	private bool _isOnFire = false;
+	private ParticleSystem _fx;
 
 	public enum EProjectileType
 	{
@@ -27,8 +28,10 @@ public class ProjectileController : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		GameController.me.RegisterProjectile(this, true);
 		_timeCreation = Time.time;
 		_particlesDead = Resources.Load ("ProjectileDead") as GameObject;
+		_fx = GetComponentInChildren<ParticleSystem>();
 	}
 	
 	public void Shot(Vector3 dir)
@@ -39,6 +42,11 @@ public class ProjectileController : MonoBehaviour {
 	
 	void FixedUpdate()
 	{
+		//Mira si un boomerang entra dintre d'un foc
+		if (ProjectileType == EProjectileType.Fire)
+		{
+			GameController.me.CheckProjectileOnRadius(transform.position, 0.6f);
+		}
 		switch(State)
 		{
 		case EState.Moving:
@@ -56,6 +64,7 @@ public class ProjectileController : MonoBehaviour {
 	{
 		if (State != EState.Destroy)
 		{
+			GameController.me.RegisterProjectile(this, false);
 			State = EState.Destroy;
 			Instantiate(_particlesDead, transform.position, Quaternion.identity);
 			Destroy(gameObject);
@@ -76,11 +85,27 @@ public class ProjectileController : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D collision) 
 	{
-		EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
-		if (enemy != null)
+		if (ProjectileType == EProjectileType.Boomerang)
 		{
-			enemy.Hit(ProjectileType);
-			DestroyProjectile();
+			EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
+			if (enemy != null)
+			{
+				enemy.Hit(ProjectileType);
+				DestroyProjectile();
+			}
+		}
+	}
+	
+	void OnTriggerEnter2D(Collider2D collider) 
+	{
+		//Aquest es nomes per quan el boomerang passa per sobre del foc
+		if (ProjectileType == EProjectileType.Fire)
+		{
+			ProjectileController proj = collider.GetComponent<ProjectileController>();
+			if (proj != null && proj.ProjectileType == EProjectileType.Boomerang)
+			{
+				proj.IsOnFire = true;
+			}
 		}
 	}
 
@@ -92,7 +117,12 @@ public class ProjectileController : MonoBehaviour {
 		}
 		set
 		{
+			Debug.Log("Boomerang on Fire");
 			_isOnFire = value;
+			if (_fx != null)
+			{
+				_fx.Play();
+			}
 		}
 	}
 

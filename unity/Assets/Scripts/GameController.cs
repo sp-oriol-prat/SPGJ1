@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameController : MonoBehaviour {
 
@@ -16,7 +17,12 @@ public class GameController : MonoBehaviour {
 	private TestMenu _testMenu;
 	private Vector3 _positionPlayers;
 	private EnemiesManager _enemiesManager;
+	private List<ProjectileController> _projectiles;
 
+	void Awake()
+	{
+		_projectiles = new List<ProjectileController>();
+	}
 	// Use this for initialization
 	void Start () 
 	{
@@ -142,5 +148,36 @@ public class GameController : MonoBehaviour {
 	public void RestartGame()
 	{
 		Application.LoadLevel(Application.loadedLevelName);
+	}
+
+	public void CheckProjectileOnRadius(Vector3 pos, float radius)
+	{
+		//De moment nomes mira si son els boomerangs
+		for(int i=0; i<_projectiles.Count; i++)
+		{
+			if (_projectiles[i].ProjectileType == ProjectileController.EProjectileType.Boomerang && !_projectiles[i].IsOnFire)
+			{
+				float dist = Vector3.Distance(pos, _projectiles[i].transform.position);
+				if (dist < radius)
+				{
+					_projectiles[i].IsOnFire = true;
+				}
+			}
+		}
+	}
+
+	public void RegisterProjectile(ProjectileController projectile, bool flag)
+	{
+		if (_projectiles == null)
+		{
+			_projectiles = new List<ProjectileController>();
+		}
+
+		if (flag)
+		{
+			_projectiles.Add(projectile);
+		} else {
+			_projectiles.Remove(projectile);
+		}
 	}
 }
