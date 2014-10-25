@@ -6,8 +6,9 @@ public class ProjectileController : MonoBehaviour {
 	private EState _state = EState.Moving;
 	private Vector3 _positionOnOrigin;
 	private float _timeCreation;
-	public float TimeDuration = 1.0f;
+	public float TimeDuration = 2.0f;
 	public float Force = 5000;
+	private GameObject _particlesDead;
 
 	public enum EState
 	{
@@ -20,6 +21,7 @@ public class ProjectileController : MonoBehaviour {
 	{
 		_timeCreation = Time.time;
 		_positionOnOrigin = transform.position;
+		_particlesDead = Resources.Load ("ProjectileDead") as GameObject;
 	}
 	
 	public void Shot(Vector3 dir)
@@ -34,6 +36,7 @@ public class ProjectileController : MonoBehaviour {
 		{
 		case EState.Moving:
 			//Debug.Log ("VEL: " + rigidbody2D.velocity.magnitude);
+			transform.Rotate (new Vector3(0, 0, Time.deltaTime*720));
 			if(Time.time - _timeCreation > TimeDuration)
 			{
 				DestroyProjectile();
@@ -47,6 +50,7 @@ public class ProjectileController : MonoBehaviour {
 		if (State != EState.Destroy)
 		{
 			State = EState.Destroy;
+			Instantiate(_particlesDead, transform.position, Quaternion.identity);
 			Destroy(gameObject);
 		}
 	}
