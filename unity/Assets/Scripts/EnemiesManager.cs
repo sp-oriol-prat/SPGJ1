@@ -22,14 +22,15 @@ public class EnemiesManager : MonoBehaviour
 
 	class SpawnData
 	{
-		public float time;
+		public float delayTime;
 		public string[] enemiesId = new string[kNumStreets];
 	}
 
 	EnemyController.Data[] _enemiesData;
 	WaveData[] _wavesData;
 
-	int _currentWave;
+
+
 	bool _dataReady;
 	float _startTime;
 	bool _wavesDataReady = false;
@@ -37,6 +38,18 @@ public class EnemiesManager : MonoBehaviour
 	bool _isStarted = false;
 	bool _canStart = false;
 
+	float _lastWavetime = 0.0f;
+	float _lastSpawnTime = 0.0f;
+
+	int _currentWave = 0;
+	int _currentSpawn = 0;
+	
+	enum WaveState {
+		Spawning,
+		WaitingDelay,
+		WaitingLastEnemy
+	};
+	WaveState _waveState;
 
 	void Start()
 	{
@@ -72,15 +85,18 @@ public class EnemiesManager : MonoBehaviour
 			else
 			{
 				_isStarted = true;
-				_startTime = Time.fixedTime;
+				//_startTime = Time.fixedTime;
+				_waveState = WaveState.WaitingDelay;
+				_currentWave = 0;
+				_lastWavetime = Time.fixedTime;
 			}
 		}
 
-		if (_currentWave == _wavesData.Length)
+		/*if (_currentWave == _wavesData.Length)
 		{
 			onFinishedEnemies();
 			return;
-		}
+		}*/
 
 		/*float t = Time.fixedTime;
 		float dt = t - _startTime;
@@ -90,8 +106,83 @@ public class EnemiesManager : MonoBehaviour
 			_currentWave++;
 		}
 		*/
+
+
+		switch (_waveState)
+		{
+		case WaveState.WaitingDelay:
+			FixedUpdate_WaveState_WaitingDelay();
+			break;
+		case WaveState.WaitingLastEnemy:
+			FixedUpdate_WaveState_WaitingLastEnemy();
+			break;
+		case WaveState.Spawning:
+			FixedUpdate_WaveState_Spawning();
+			break;
+		}
 	}
-	
+
+	void FixedUpdate_WaveState_WaitingDelay()
+	{
+		if ( (Time.fixedTime - _lastWavetime) > _wavesData[_currentWave].delayTime )
+		{
+			_waveState = WaveState.Spawning;
+			_lastSpawnTime = Time.fixedTime;
+			_currentSpawn = 0;
+		}
+	}
+
+	void FixedUpdate_WaveState_Spawning()
+	{
+		SpawnData spawn = _wavesData[_currentWave].spawns[_currentSpawn];
+		if ( (Time.fixedTime - _lastSpawnTime) > spawn.delayTime )
+		{
+			doSpawn(spawn);
+
+			_currentSpawn++;
+			_lastSpawnTime = Time.fixedTime;
+
+			if ( _currentSpawn == _wavesData[_currentWave].spawns.Length )
+			{ // end of wave.
+				_waveState = WaveState.WaitingLastEnemy;
+			}
+		}
+	}
+
+	void FixedUpdate_WaveState_WaitingLastEnemy()
+	{
+
+	}
+
+	void doSpawn(SpawnData spawn)
+	{
+		// for each street....
+		for ( int i = 0; i < spawn.enemiesId.Length; i++ )
+		{
+			int street = i;
+			if ( isValidEnemyId(spawn.enemiesId[i]) )
+			{
+				GameObject prefab = null;
+				string enemyId = spawn.enemiesId[i];
+				switch ( enemyId )
+				{
+				case "A":	prefab = _enemyPrefab_A;	break;
+				case "B":	prefab = _enemyPrefab_B;	break;
+				case "C":	prefab = _enemyPrefab_C;	break;
+				case "D":	prefab = _enemyPrefab_D;	break;
+				case "E":	prefab = _enemyPrefab_E;	break;
+				}
+				
+				if (prefab)
+				{
+					GameObject go = (GameObject)GameObject.Instantiate(prefab, spawnPoints[street].position, Quaternion.identity);
+					go.GetComponent<EnemyController>().Init(getEnemyDataById(enemyId), street);
+				}
+			}
+		}
+	}
+
+
 	IEnumerator parseEnemies()
 	{
 		string enemiesUrl = "https://dl.dropboxusercontent.com/u/64292958/spgj1/enemies.txt";
@@ -135,21 +226,6 @@ public class EnemiesManager : MonoBehaviour
 		for (int i = 0; i < jWaves.Count; i++)
 		{
 			_wavesData[i] = parseWavesData(jWaves[i]);
-
-
-			/*_wavesData[i] = new WaveData();
-			JSONNode jWave = jWaves[i];
-			_wavesData[i].time = (float)jWave["time"].AsFloat;
-
-			JSONArray jEnemies = jWave["enemies"].AsArray;
-			if ( jEnemies.Count != kNumStreets ){
-				Debug.LogWarning("JSON: wave" + i + " num streets failed (" + jEnemies.Count + ")");
-			}
-
-			for (int j = 0; j < jEnemies.Count; j++)
-			{
-				_wavesData[i].enemiesId[j] = jEnemies[j];
-			}*/
 		}
 
 		_wavesDataReady = true;
@@ -167,7 +243,7 @@ public class EnemiesManager : MonoBehaviour
 		{
 			SpawnData spawnData = waveData.spawns[i] = new SpawnData();
 			JSONNode jSpawn = jSpawns[i];
-			spawnData.time = (float)jSpawn["delay_time"].AsFloat;
+			spawnData.delayTime = (float)jSpawn["delay_time"].AsFloat;
 			
 			JSONArray jEnemies = jSpawn["enemies"].AsArray;
 			if ( jEnemies.Count != kNumStreets ){
@@ -201,34 +277,6 @@ public class EnemiesManager : MonoBehaviour
 		return s != "_";
 	}
 
-	/*void spawnWave(WaveData wave)
-	{
-		// for each street....
-		for ( int i = 0; i < wave.enemiesId.Length; i++ )
-		{
-			int street = i;
-			if ( isValidEnemyId(wave.enemiesId[i]) )
-			{
-				GameObject prefab = null;
-				string enemyId = wave.enemiesId[i];
-				switch ( enemyId )
-				{
-				case "A":	prefab = _enemyPrefab_A;	break;
-				case "B":	prefab = _enemyPrefab_B;	break;
-				case "C":	prefab = _enemyPrefab_C;	break;
-				case "D":	prefab = _enemyPrefab_D;	break;
-				case "E":	prefab = _enemyPrefab_E;	break;
-				}
-
-				if (prefab)
-				{
-					GameObject go = (GameObject)GameObject.Instantiate(prefab, spawnPoints[street].position, Quaternion.identity);
-					go.GetComponent<EnemyController>().Init(getEnemyDataById(enemyId), street);
-				}
-			}
-		}
-	}
-*/
 	void onFinishedEnemies()
 	{
 	}
