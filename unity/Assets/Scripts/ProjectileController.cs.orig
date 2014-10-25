@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using SimpleJSON;
 
 public class ProjectileController : MonoBehaviour {
 
@@ -11,6 +12,7 @@ public class ProjectileController : MonoBehaviour {
 	public EProjectileType ProjectileType;
 	private bool _isOnFire = false;
 	private ParticleSystem _fx;
+	private float _baseDamage;
 
 	public enum EProjectileType
 	{
@@ -25,6 +27,24 @@ public class ProjectileController : MonoBehaviour {
 		Destroy
 	}
 
+	class WeaponsParams
+	{
+		public class PhysicsParams {
+			public float force;
+			public float mass;
+			public float drag;
+		};
+
+		public int boomerangDamage;
+		public float babosaGlueTime;
+
+		public PhysicsParams boomerangPhysics;
+		public PhysicsParams firePhysics;
+		public PhysicsParams babosaPhysics;
+
+	};
+	static WeaponsParams _weaponsParams = null;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -33,9 +53,31 @@ public class ProjectileController : MonoBehaviour {
 		_particlesDead = Resources.Load ("ProjectileDead") as GameObject;
 		_fx = GetComponentInChildren<ParticleSystem>();
 	}
+
+	public void applyParams()
+	{
+		Debug.Log ("Apply physics!");
+		switch ( ProjectileType )
+		{
+		case EProjectileType.Babosa:
+			_baseDamage = 0;
+			applyPhysicParams(_weaponsParams.babosaPhysics);
+			break;
+		case EProjectileType.Boomerang:
+			_baseDamage = _weaponsParams.boomerangDamage;
+			applyPhysicParams(_weaponsParams.boomerangPhysics);
+			break;
+		case EProjectileType.Fire:
+			_baseDamage = 0;
+			applyPhysicParams(_weaponsParams.firePhysics);
+			break;
+		}
+	}
 	
 	public void Shot(Vector3 dir)
 	{
+		applyParams();
+
 		rigidbody2D.AddForce(dir * Force);
 	}
 
@@ -51,10 +93,37 @@ public class ProjectileController : MonoBehaviour {
 		{
 		case EState.Moving:
 			//Debug.Log ("VEL: " + rigidbody2D.velocity.magnitude);
-			transform.Rotate (new Vector3(0, 0, Time.deltaTime*720));
+			//Diferent behaviour per type
+			switch(ProjectileType)
+			{
+			case EProjectileType.Boomerang:
+				transform.Rotate (new Vector3(0, 0, Time.deltaTime*720));
+				break;
+			case EProjectileType.Babosa:
+				if (rigidbody2D.velocity.magnitude>0.1f)
+				{
+					float angle = Mathf.Atan2(rigidbody2D.velocity.y, rigidbody2D.velocity.x) * Mathf.Rad2Deg;
+					transform.rotation = Quaternion.Euler (0, 0, angle);
+				}
+				break;
+			}
 			if(Time.time - _timeCreation > TimeDuration)
 			{
 				DestroyProjectile();
+			}
+			//Mira si ha tocat amb la paret de darrera
+			if (rigidbody2D.velocity.x < 0 && transform.position.x < GameController.me.GetPositionPlayers().x)
+			{
+				DestroyProjectile();
+			}
+			//Mira si s'ha parat (Nomes si es babosa o boomerang)
+			if (ProjectileType != EProjectileType.Fire)
+			{
+				//Debug.Log ("Projectile: " + rigidbody2D.velocity.magnitude);
+				if (Time.time > (_timeCreation+0.2f) && rigidbody2D.velocity.magnitude <= 1.5f)
+				{
+					DestroyProjectile();
+				}
 			}
 			break;
 		}
@@ -64,9 +133,13 @@ public class ProjectileController : MonoBehaviour {
 	{
 		if (State != EState.Destroy)
 		{
+			//Debug.Log ("Projectile Destroyed!");
 			GameController.me.RegisterProjectile(this, false);
 			State = EState.Destroy;
-			Instantiate(_particlesDead, transform.position, Quaternion.identity);
+			if (ProjectileType == EProjectileType.Boomerang)
+			{
+				Instantiate(_particlesDead, transform.position, Quaternion.identity);
+			}
 			Destroy(gameObject);
 		}
 	}
@@ -85,48 +158,31 @@ public class ProjectileController : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D collision) 
 	{
-		if (ProjectileType == EProjectileType.Boomerang)
+		EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
+		if (enemy != null)
 		{
-			EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
-			if (enemy != null)
-			{
-				enemy.Hit(ProjectileType);
-				DestroyProjectile();
-			}
-		}
-	}
-	
-	void OnTriggerEnter2D(Collider2D collider) 
-	{
-		//Aquest es nomes per quan el boomerang passa per sobre del foc
-		if (ProjectileType == EProjectileType.Fire)
-		{
-<<<<<<< HEAD
 			bool isFrontHit = rigidbody2D.velocity.x > 0.0f;
+<<<<<<< HEAD
+			enemy.Hit(_baseDamage, isFrontHit, _isOnFire);
+=======
 
 			int baseDamage = 1;
 			switch ( ProjectileType )
 			{
 			case EProjectileType.Babosa:
-				baseDamage = 1;
+				baseDamage = 0;
+				enemy.Escupit();
 				break;
 			case EProjectileType.Boomerang:
 				baseDamage = 1;
+				enemy.Hit(baseDamage, isFrontHit, _isOnFire);
 				break;
 			case EProjectileType.Fire:
 				baseDamage = 1;
 				break;
 			}
-
-			enemy.Hit(baseDamage, isFrontHit, _isOnFire);
-			DestroyProjectile();
-=======
-			ProjectileController proj = collider.GetComponent<ProjectileController>();
-			if (proj != null && proj.ProjectileType == EProjectileType.Boomerang)
-			{
-				proj.IsOnFire = true;
-			}
 >>>>>>> develop
+			DestroyProjectile();
 		}
 	}
 
@@ -150,5 +206,46 @@ public class ProjectileController : MonoBehaviour {
 	void OnGUI()
 	{
 		//GUI.Label(new Rect(10, 10, 400, 100), "Player: " + State);
+	}
+
+	static public IEnumerator parseWeapons()
+	{
+		string url = "https://dl.dropboxusercontent.com/u/64292958/spgj1/weapons.txt";
+		WWW www = new WWW(url);
+		Debug.Log ("downloading... " + url);
+		
+		yield return www;
+		//yield return new WaitForSeconds(2);
+		JSONNode json = JSONNode.Parse(www.text);
+		_weaponsParams = new WeaponsParams();
+
+		_weaponsParams.boomerangDamage = json["boomerang_damage"].AsInt;
+		_weaponsParams.babosaGlueTime = json["babosa_glue_time"].AsFloat;
+
+		_weaponsParams.boomerangPhysics = parsePhysicsParams(json["boomerang_physics"]);
+		_weaponsParams.babosaPhysics 	= parsePhysicsParams(json["fire_physics"]);
+		_weaponsParams.firePhysics 		= parsePhysicsParams(json["babosa_physics"]);
+	}
+
+	static WeaponsParams.PhysicsParams parsePhysicsParams(JSONNode json)
+	{
+		WeaponsParams.PhysicsParams p = new WeaponsParams.PhysicsParams();
+		p.force = json["force"].AsFloat;
+		p.mass = json["mass"].AsFloat;
+		p.drag = json["drag"].AsFloat;
+
+		return p;
+	}
+
+	void applyPhysicParams(WeaponsParams.PhysicsParams p)
+	{
+		transform.rigidbody2D.mass = p.mass;
+		transform.rigidbody2D.drag = p.drag;
+		Force = p.force;
+	}
+
+	static public bool isParseDone()
+	{
+		return _weaponsParams != null;
 	}
 }

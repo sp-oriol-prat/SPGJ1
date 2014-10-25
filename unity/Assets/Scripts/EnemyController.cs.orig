@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using SimpleJSON;
 
 public class EnemyController : MonoBehaviour
 {
@@ -183,6 +184,8 @@ public class EnemyController : MonoBehaviour
 		}
 	}
 
+<<<<<<< HEAD
+=======
 	public void Escupit()
 	{
 		Debug.Log ("Escupit!!!");
@@ -192,4 +195,5 @@ public class EnemyController : MonoBehaviour
 			_babosa.enabled = true;
 		}
 	}
+>>>>>>> develop
 }

@@ -56,7 +56,8 @@ public class PlayerController : MonoBehaviour {
 		//_healthBar.SetProgress(Random.value);
 		//Stamina
 		_radialBar = GameController.me.InstantiateUI("StaminaBar").GetComponent<RadialBar>();
-		GameController.me.SetWorldToUIPosition(transform.position, _radialBar.transform, new Vector2(-140, -90));
+		_radialBar.transform.localScale = Vector3.one *0.65f;
+		GameController.me.SetWorldToUIPosition(transform.position, _radialBar.transform, new Vector2(-60, 0));
 		_radialBar.SetProgress(Random.value);
 		//Animator
 		_animator = GetComponentInChildren<Animator>();

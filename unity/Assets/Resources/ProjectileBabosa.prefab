@@ -14,7 +14,7 @@ GameObject:
   - 50: {fileID: 5000000}
   - 96: {fileID: 9600000}
   m_Layer: 10
-  m_Name: ProjectileBoomerang
+  m_Name: ProjectileBabosa
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,7 +44,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.7134523, y: 1.79493189, z: 0}
+  m_LocalPosition: {x: -9.82524967, y: 7.03585529, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -68,7 +68,7 @@ Rigidbody2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Mass: 4
+  m_Mass: 6
   m_LinearDrag: .5
   m_AngularDrag: .200000003
   m_GravityScale: 0
@@ -86,7 +86,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 6200000, guid: 5d7bb4d0a6aa54c58a20843e8061b1ca, type: 2}
   m_IsTrigger: 0
-  m_Radius: .5
+  m_Radius: .550000012
   m_Center: {x: 0, y: 0}
 --- !u!96 &9600000
 TrailRenderer:
@@ -108,22 +108,22 @@ TrailRenderer:
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Time: .5
-  m_StartWidth: 1
-  m_EndWidth: .200000003
+  m_Time: .300000012
+  m_StartWidth: .600000024
+  m_EndWidth: .100000001
   m_Colors:
     m_Color[0]:
       serializedVersion: 2
       rgba: 16777215
     m_Color[1]:
       serializedVersion: 2
-      rgba: 3875536895
+      rgba: 3187671039
     m_Color[2]:
       serializedVersion: 2
-      rgba: 3087007743
+      rgba: 2197815295
     m_Color[3]:
       serializedVersion: 2
-      rgba: 1593835519
+      rgba: 956301311
     m_Color[4]:
       serializedVersion: 2
       rgba: 16777215
@@ -141,8 +141,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeDuration: 1000
-  Force: 2500
-  ProjectileType: 0
+  Force: 2200
+  ProjectileType: 2
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1167,7 +1167,7 @@ SpriteRenderer:
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 85affbf6295d44adaac3fcc2b87d8b70, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 72f0f692ad6e548d4b148f4f87f96577, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
