@@ -4,6 +4,7 @@ using SimpleJSON;
 
 public class EnemiesManager : MonoBehaviour
 {
+	public Transform SpawnPointsContainer;
 	public Transform[] spawnPoints;
 
 	static int kNumStreets = 6;
@@ -60,6 +61,12 @@ public class EnemiesManager : MonoBehaviour
 		_enemyPrefab_C = Resources.Load("Enemy_C") as GameObject;
 		_enemyPrefab_D = Resources.Load("Enemy_D") as GameObject;
 		_enemyPrefab_E = Resources.Load("Enemy_E") as GameObject;
+
+		//Coloca la sortida d'enemics a la part dreta de la pantalla independentment del dispositiu
+		Vector3 posRightMargin = GameController.me.CameraRef.ScreenToWorldPoint(new Vector3(GameController.me.CameraRef.pixelWidth, 0, 0));
+		Vector3 posSpawnPoints = SpawnPointsContainer.transform.position;
+		posSpawnPoints.x = posRightMargin.x;
+		SpawnPointsContainer.transform.position = posSpawnPoints;
 	}
 
 	public void doCanStart()

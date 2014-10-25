@@ -29,7 +29,6 @@ public class GameController : MonoBehaviour {
 	void Start () 
 	{
 		me = this;
-		_cameraRef = GameObject.Find ("CameraMain").camera;
 		_cameraUI = GameObject.Find ("CameraUI").camera;
 		_groundPlane = new Plane(Vector3.back, Vector3.zero);
 		_tirachinas = GameObject.Find("Tirachinas").GetComponent<SpriteRenderer>();
@@ -48,6 +47,18 @@ public class GameController : MonoBehaviour {
 		StartCoroutine(PlayerController.parseCharacters());
 	}
 
+	public Camera CameraRef
+	{
+		get
+		{
+			if (_cameraRef == null)
+			{
+				_cameraRef = GameObject.Find ("CameraMain").camera;
+			}
+			return _cameraRef;
+		}
+	}
+
 	public GameObject InstantiateUI(string path)
 	{
 		GameObject go = Resources.Load("UI/" + path) as GameObject;
@@ -61,7 +72,7 @@ public class GameController : MonoBehaviour {
 
 	public void SetWorldToUIPosition(Vector3 pos3D, Transform transUI, Vector2 offset)
 	{
-		Vector3 pos = _cameraRef.camera.WorldToViewportPoint(pos3D);
+		Vector3 pos = CameraRef.camera.WorldToViewportPoint(pos3D);
 		if (_cameraUI == null)
 		{
 			_cameraUI = GameObject.Find("UICamera").camera;
@@ -79,7 +90,7 @@ public class GameController : MonoBehaviour {
 	{
 		get
 		{
-			Ray ray = _cameraRef.ScreenPointToRay(Input.mousePosition);
+			Ray ray = CameraRef.ScreenPointToRay(Input.mousePosition);
 			float rayDistance;
 			Vector3 posMouse3D = Vector3.zero;
 			if (_groundPlane.Raycast(ray, out rayDistance))
@@ -139,7 +150,6 @@ public class GameController : MonoBehaviour {
 
 	public void EndGame()
 	{
-		Debug.Log ("END GAME!!!");
 		_testMenu.Show(false);
 		_endMenu.Show(true);
 		for (int i=0; i<Players.Length; i++)
