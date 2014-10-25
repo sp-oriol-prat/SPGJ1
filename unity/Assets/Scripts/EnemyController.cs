@@ -109,6 +109,8 @@ public class EnemyController : MonoBehaviour
 		_timeChangeState = Time.time;
 		_timeIntermitent = 0;
 		_babosa.enabled = false;
+
+		GameObject.Find ("EnemyManager").GetComponent<EnemiesManager>().onEnemyDied();
 	}
 
 	private void SetStateAttacking ()

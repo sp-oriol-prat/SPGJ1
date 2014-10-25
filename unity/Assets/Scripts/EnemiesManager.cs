@@ -28,11 +28,7 @@ public class EnemiesManager : MonoBehaviour
 
 	EnemyController.Data[] _enemiesData;
 	WaveData[] _wavesData;
-
-
-
-	bool _dataReady;
-	float _startTime;
+	
 	bool _wavesDataReady = false;
 	bool _enemiesDataReady = false;
 	bool _isStarted = false;
@@ -43,11 +39,14 @@ public class EnemiesManager : MonoBehaviour
 
 	int _currentWave = 0;
 	int _currentSpawn = 0;
+
+	int _aliveEnemiesCount = 0;
 	
 	enum WaveState {
 		Spawning,
 		WaitingDelay,
-		WaitingLastEnemy
+		WaitingLastEnemy,
+		Finished
 	};
 	WaveState _waveState;
 
@@ -85,28 +84,11 @@ public class EnemiesManager : MonoBehaviour
 			else
 			{
 				_isStarted = true;
-				//_startTime = Time.fixedTime;
 				_waveState = WaveState.WaitingDelay;
 				_currentWave = 0;
 				_lastWavetime = Time.fixedTime;
 			}
 		}
-
-		/*if (_currentWave == _wavesData.Length)
-		{
-			onFinishedEnemies();
-			return;
-		}*/
-
-		/*float t = Time.fixedTime;
-		float dt = t - _startTime;
-		if ( dt > _wavesData[_currentWave].time )
-		{
-			spawnWave(_wavesData[_currentWave]);
-			_currentWave++;
-		}
-		*/
-
 
 		switch (_waveState)
 		{
@@ -118,6 +100,9 @@ public class EnemiesManager : MonoBehaviour
 			break;
 		case WaveState.Spawning:
 			FixedUpdate_WaveState_Spawning();
+			break;
+		case WaveState.Finished:
+			FixedUpdate_WaveState_Finished();
 			break;
 		}
 	}
@@ -151,6 +136,24 @@ public class EnemiesManager : MonoBehaviour
 
 	void FixedUpdate_WaveState_WaitingLastEnemy()
 	{
+		if ( _aliveEnemiesCount == 0 )
+		{
+			_currentWave++;
+			if ( _currentWave < _wavesData.Length )
+			{
+				_waveState = WaveState.WaitingDelay;
+				_lastWavetime = Time.fixedTime;
+			}
+			else
+			{
+				// FINISH
+				onFinishedEnemies();
+			}
+		}
+	}
+
+	void FixedUpdate_WaveState_Finished()
+	{
 
 	}
 
@@ -177,6 +180,7 @@ public class EnemiesManager : MonoBehaviour
 				{
 					GameObject go = (GameObject)GameObject.Instantiate(prefab, spawnPoints[street].position, Quaternion.identity);
 					go.GetComponent<EnemyController>().Init(getEnemyDataById(enemyId), street);
+					_aliveEnemiesCount++;
 				}
 			}
 		}
@@ -286,5 +290,10 @@ public class EnemiesManager : MonoBehaviour
 		foreach (Transform spt in spawnPoints) {
 			Gizmos.DrawCube(spt.position, new Vector3(1,1,1) );
 		}
+	}
+
+	public void onEnemyDied()
+	{
+		_aliveEnemiesCount--;
 	}
 }
