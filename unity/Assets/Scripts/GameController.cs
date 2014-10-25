@@ -10,6 +10,8 @@ public class GameController : MonoBehaviour {
 	private SpriteRenderer _tirachinas;
 	private SpriteRenderer _arrow;
 	private UIRoot _uiRoot;
+	private PlayerController[] _players;
+	private MainMenu _mainMenu;
 
 	// Use this for initialization
 	void Start () 
@@ -23,6 +25,8 @@ public class GameController : MonoBehaviour {
 		_uiRoot = GameObject.Find("UI Root").GetComponent<UIRoot>();
 		_tirachinas.enabled = false;
 		_arrow.enabled = false;
+		_players = FindObjectsOfType<PlayerController>();
+		_mainMenu = FindObjectOfType<MainMenu>();
 	}
 
 	public GameObject InstantiateUI(string path)
@@ -80,6 +84,15 @@ public class GameController : MonoBehaviour {
 		get
 		{
 			return _arrow;
+		}
+	}
+
+	public void StartGame()
+	{
+		_mainMenu.Show(false);
+		for (int i=0; i<_players.Length; i++)
+		{
+			_players[i].Enable();
 		}
 	}
 }
