@@ -15,10 +15,14 @@ public class EnemyController : MonoBehaviour
 	{
 		public string id;
 		public int life;
-		public int damage;
-		public float walk_speed;
-		public float attack_speed;
-		public bool[] inmunity = new bool[3]; // Fire, Ice, Wind
+		public float walkSpeed;
+		public float attackDamage;
+		public float attackSpeed;
+		public float stopTimeOnHit;
+		public int damageOnFrontHit;
+		public int damageOnBackHit;
+		public bool hasShield;
+		public bool isElemental;
 
 		public Data()
 		{
@@ -28,13 +32,14 @@ public class EnemyController : MonoBehaviour
 		{
 			id = d.id;
 			life = d.life;
-			damage = d.damage;
-			walk_speed = d.walk_speed;
-			attack_speed = d.attack_speed;
-			for ( int i = 0; i < d.inmunity.Length; i++)
-			{
-				inmunity[i] = d.inmunity[i];
-			}
+			walkSpeed = d.walkSpeed;
+			attackDamage = d.attackDamage;
+			attackSpeed = d.attackSpeed;
+			stopTimeOnHit = d.stopTimeOnHit;
+			damageOnFrontHit = d.damageOnFrontHit;
+			damageOnBackHit = d.damageOnBackHit;
+			hasShield = d.hasShield;
+			isElemental = d.isElemental;
 		}
 	};
 
@@ -60,7 +65,7 @@ public class EnemyController : MonoBehaviour
 		_data = new Data(data);	
 		_streetIndex = streetIndex;
 
-		_velocity = _data.walk_speed;
+		_velocity = _data.walkSpeed;
 		_health = _data.life;		
 		_state = EState.Moving;
 	}

@@ -99,10 +99,20 @@ public class EnemiesManager : MonoBehaviour
 			EnemyController.Data eData = new EnemyController.Data();
 			eData.id = jEnemy["id"];
 			eData.life = jEnemy["life"].AsInt;
-			eData.damage = jEnemy["damage"].AsInt;
-			eData.walk_speed = (float)jEnemy["walk_speed"].AsInt / 100.0f;
-			eData.attack_speed = (float)jEnemy["attack_speed"].AsInt / 100.0f;
-			int j = 0;
+			eData.walkSpeed = (float)jEnemy["walk_speed"].AsInt / 100.0f;
+			eData.attackDamage = jEnemy["attack_damage"].AsInt;
+			eData.attackSpeed = (float)jEnemy["attack_speed"].AsInt / 100.0f;
+			eData.stopTimeOnHit = (float)jEnemy["hit_stop_time"].AsInt / 100.0f;
+			eData.damageOnFrontHit = jEnemy["hit_damage_font"].AsInt;
+			eData.damageOnBackHit = jEnemy["hit_damage_back"].AsInt;
+			eData.hasShield = jEnemy["shield"].AsInt == 1;
+			eData.isElemental = jEnemy["elemental"].AsInt == 1;
+
+
+			//eData.damage = jEnemy["damage"].AsInt;
+			//eData.walk_speed = (float)jEnemy["walk_speed"].AsInt / 100.0f;
+			//eData.attack_speed = (float)jEnemy["attack_speed"].AsInt / 100.0f;
+			/*int j = 0;
 			foreach ( JSONNode inmunity in jEnemy["inmunities"].AsArray )
 			{
 				switch ( inmunity.ToString() )
@@ -122,6 +132,7 @@ public class EnemiesManager : MonoBehaviour
 				
 				j++;				
 			}
+			*/
 
 			_enemiesData[i] = eData;
 		}
