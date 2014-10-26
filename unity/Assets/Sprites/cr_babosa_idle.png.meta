@@ -1,11 +1,10 @@
 fileFormatVersion: 2
-guid: e02864f170aa543e7872704cfb5584e8
+guid: 5846608a240c145948722c83d2451038
 TextureImporter:
   fileIDToRecycleName:
-    21300000: cr_boss_idle_0
-    21300002: cr_boss_idle_1
-    21300004: cr_boss_idle_2
-    21300006: cr_boss_idle_3
+    21300000: cr_babosa_idle_0
+    21300002: cr_babosa_idle_1
+    21300004: cr_babosa_idle_2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -41,13 +40,13 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 200
+  spritePixelsToUnits: 260
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: cr_boss_idle_0
+    - name: cr_babosa_idle_0
       rect:
         serializedVersion: 2
         x: 0
@@ -57,7 +56,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: cr_boss_idle_1
+    - name: cr_babosa_idle_1
       rect:
         serializedVersion: 2
         x: 1024
@@ -67,20 +66,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: cr_boss_idle_2
+    - name: cr_babosa_idle_2
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 1024
-        height: 1024
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: cr_boss_idle_3
-      rect:
-        serializedVersion: 2
-        x: 1024
         y: 0
         width: 1024
         height: 1024
