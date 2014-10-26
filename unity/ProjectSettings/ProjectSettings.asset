@@ -10,8 +10,8 @@ PlayerSettings:
   targetGlesGraphics: 1
   targetResolution: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
-  productName: GameJam
+  companyName: The Juriols
+  productName: FluckeStrike
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   defaultScreenWidth: 1024
@@ -56,6 +56,7 @@ PlayerSettings:
   visibleInBackground: 0
   macFullscreenMode: 2
   d3d9FullscreenMode: 1
+  d3d11ForceExclusiveMode: 0
   xboxSpeechDB: 0
   xboxEnableHeadOrientation: 0
   xboxEnableGuest: 0
@@ -90,13 +91,25 @@ PlayerSettings:
   uIStatusBarHidden: 1
   uIExitOnSuspend: 0
   uIStatusBarStyle: 0
-  iPhoneSplashScreen: {fileID: 0}
-  iPhoneHighResSplashScreen: {fileID: 0}
-  iPhoneTallHighResSplashScreen: {fileID: 0}
-  iPadPortraitSplashScreen: {fileID: 0}
-  iPadHighResPortraitSplashScreen: {fileID: 0}
-  iPadLandscapeSplashScreen: {fileID: 0}
-  iPadHighResLandscapeSplashScreen: {fileID: 0}
+  iPhoneSplashScreen: {fileID: 2800000, guid: 1724f5866db104048b3416db51b20533, type: 3}
+  iPhoneHighResSplashScreen: {fileID: 2800000, guid: 1724f5866db104048b3416db51b20533,
+    type: 3}
+  iPhoneTallHighResSplashScreen: {fileID: 2800000, guid: 1724f5866db104048b3416db51b20533,
+    type: 3}
+  iPhone47inSplashScreen: {fileID: 2800000, guid: 1724f5866db104048b3416db51b20533,
+    type: 3}
+  iPhone55inPortraitSplashScreen: {fileID: 2800000, guid: 1724f5866db104048b3416db51b20533,
+    type: 3}
+  iPhone55inLandscapeSplashScreen: {fileID: 2800000, guid: 1724f5866db104048b3416db51b20533,
+    type: 3}
+  iPadPortraitSplashScreen: {fileID: 2800000, guid: 1724f5866db104048b3416db51b20533,
+    type: 3}
+  iPadHighResPortraitSplashScreen: {fileID: 2800000, guid: 1724f5866db104048b3416db51b20533,
+    type: 3}
+  iPadLandscapeSplashScreen: {fileID: 2800000, guid: 1724f5866db104048b3416db51b20533,
+    type: 3}
+  iPadHighResLandscapeSplashScreen: {fileID: 2800000, guid: 1724f5866db104048b3416db51b20533,
+    type: 3}
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 0
   AndroidKeystoreName: 
@@ -105,7 +118,7 @@ PlayerSettings:
   m_BuildTargetIcons:
   - m_BuildTarget: 
     m_Icons:
-    - m_Icon: {fileID: 0}
+    - m_Icon: {fileID: 2800000, guid: 74efeb6c0ae934d228e1eaa248d5dc9f, type: 3}
       m_Size: 128
   m_BuildTargetBatching: []
   webPlayerTemplate: APPLICATION:Default
