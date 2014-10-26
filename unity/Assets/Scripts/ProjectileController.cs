@@ -163,7 +163,8 @@ public class ProjectileController : MonoBehaviour {
 		EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
 		if (enemy != null)
 		{
-			bool isFrontHit = rigidbody2D.velocity.x > 0.0f;
+			//bool isFrontHit = rigidbody2D.velocity.x > 0.0f;
+			bool isFrontHit = collision.contacts[0].normal.x < 0.0f;
 
 			switch ( ProjectileType )
 			{
