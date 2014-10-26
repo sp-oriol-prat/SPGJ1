@@ -43,7 +43,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.7028116, y: .524292588, z: 0}
+  m_LocalPosition: {x: 2.10047221, y: .657525599, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -86,7 +86,7 @@ CircleCollider2D:
   m_Material: {fileID: 6200000, guid: 5d7bb4d0a6aa54c58a20843e8061b1ca, type: 2}
   m_IsTrigger: 0
   m_Radius: .5
-  m_Center: {x: 0, y: .239999995}
+  m_Center: {x: 0, y: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -141,7 +141,7 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 3
     startSpeed:
-      scalar: .699999988
+      scalar: .899999976
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -156,7 +156,7 @@ ParticleSystem:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: .571428597
+          value: .555555582
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -664,7 +664,7 @@ ParticleSystem:
       minMaxState: 0
     inWorldSpace: 0
   ForceModule:
-    enabled: 1
+    enabled: 0
     x:
       scalar: 1
       maxCurve:

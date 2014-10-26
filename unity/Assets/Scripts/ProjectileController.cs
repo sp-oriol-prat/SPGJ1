@@ -93,7 +93,7 @@ public class ProjectileController : MonoBehaviour {
 		//Mira si un boomerang entra dintre d'un foc
 		if (ProjectileType == EProjectileType.Fire)
 		{
-			GameController.me.CheckProjectileOnRadius(transform.position + new Vector3(_collider2D.center.x, _collider2D.center.y, 0), 0.6f);
+			GameController.me.CheckProjectileOnRadius(transform.position + new Vector3(_collider2D.center.x, _collider2D.center.y, 0), 0.75f);
 		}
 
 		switch(State)
