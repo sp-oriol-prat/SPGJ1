@@ -127,7 +127,12 @@ public class PlayerController : MonoBehaviour {
 			float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 			GameController.me.Tirachinas.transform.rotation = Quaternion.Euler (0, 0, angle);
 			GameController.me.Arrow.transform.rotation = Quaternion.Euler (0, 0, angle);
-			GameController.me.Arrow.transform.position += dir*2;
+			//Scale Arrow
+			float xLength = 0.2f + (dirRaw.magnitude*0.3f);
+			Vector3 arrowScale = GameController.me.Arrow.transform.localScale;
+			arrowScale.x = xLength;
+			GameController.me.Arrow.transform.localScale = arrowScale;
+			//Scale Tirachinas
 			Vector3 scale = GameController.me.Tirachinas.transform.localScale;
 			scale.x = dirRaw.magnitude*1.2f;
 			GameController.me.Tirachinas.transform.localScale = scale;
