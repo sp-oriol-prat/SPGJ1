@@ -17,7 +17,7 @@ public class TestMenu : MonoBehaviour
 	public void Show(bool flag)
 	{
 		me.alpha = flag?1:0;
-		ButtonStart.enabled = flag;
+		//ButtonStart.enabled = flag;
 	}
 
 	public void Wave(int idWave)

@@ -79,9 +79,10 @@ public class EnemyController : MonoBehaviour
 
 
 		// Enemy stats.
-		_debugStatsGo = (GameObject)GameObject.Instantiate(Resources.Load("EnemyStats"), Vector3.zero, Quaternion.identity);
+		/*_debugStatsGo = (GameObject)GameObject.Instantiate(Resources.Load("EnemyStats"), Vector3.zero, Quaternion.identity);
 		_debugStatsGo.transform.parent = transform;
 		_debugStatsGo.transform.localPosition = new Vector3(-5.10f, 0.69f, 0.0f);
+		*/
 
 		_previousXPos = transform.position.x;
 	}

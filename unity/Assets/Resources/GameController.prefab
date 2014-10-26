@@ -44,11 +44,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  _levelsNames:
-  - level1.txt
-  - level2.txt
-  - level3.txt
-  - level4.txt
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
