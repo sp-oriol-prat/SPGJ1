@@ -51,7 +51,7 @@ public class GameController : MonoBehaviour {
 
 		if ( _currentLevel > 0 )
 		{
-			_mainMenu.SetStartButton("Next level!", new Color(0.1f, 1.0f, 0.1f));
+			_mainMenu.OnNextLevel();
 		}
 	}
 

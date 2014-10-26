@@ -5,6 +5,7 @@ public class MainMenu : MonoBehaviour
 {
 	private UIPanel me;
 	public UIButton ButtonStart;
+	public UILabel TitleLabel;
 
 	// Use this for initialization
 	void Start () 
@@ -23,9 +24,10 @@ public class MainMenu : MonoBehaviour
 		ButtonStart.enabled = flag;
 	}
 
-	public void SetStartButton(string text, Color col)
+	public void OnNextLevel()
 	{
-		ButtonStart.GetComponentInChildren<UILabel>().text = text;
-		ButtonStart.GetComponentInChildren<UIWidget> ().color = col;
+		ButtonStart.GetComponentInChildren<UILabel>().text = "Next level!";
+		ButtonStart.GetComponentInChildren<UIWidget> ().color = new Color(0.1f, 1.0f, 0.1f);
+		TitleLabel.enabled = false;
 	}
 }

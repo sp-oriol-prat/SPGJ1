@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400010}
   m_Layer: 0
-  m_Name: Label
+  m_Name: TitleLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -158,6 +158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ButtonStart: {fileID: 11400004}
+  TitleLabel: {fileID: 11400010}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -246,7 +247,7 @@ MonoBehaviour:
     target: {fileID: 400006}
     relative: .5
     absolute: 53
-  mColor: {r: .10294117, g: .587474763, b: .875, a: 1}
+  mColor: {r: .10294117, g: .68331635, b: .875, a: 1}
   mPivot: 4
   mWidth: 340
   mHeight: 106
@@ -356,13 +357,13 @@ MonoBehaviour:
     absolute: -28
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 612
+  mWidth: 732
   mHeight: 126
   mDepth: 0
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 4.85714293
+  aspectRatio: 5.80952358
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 12800000, guid: ec0fe8d27f51d453abdbcebaeea8d044, type: 3}
   mFont: {fileID: 0}
