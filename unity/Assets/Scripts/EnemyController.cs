@@ -91,7 +91,7 @@ public class EnemyController : MonoBehaviour
 	{
 		_data = new Data (data);	
 		_streetIndex = streetIndex;
-
+		PlayerController player = GameController.me.GetPlayer(_streetIndex);
 		_velocity = _data.walkSpeed;
 		_health = _data.life;		
 		_state = EState.Moving;
@@ -181,9 +181,7 @@ public class EnemyController : MonoBehaviour
 	{
 		if (Time.time > _timeChangeState + 1.0f) {
 			//TODO: Attack animation and selecciona el player correcte per atacar (passant com a valor el tipus d'enemic del quer es tracta)
-
-			int playerToAttackIndex = _streetIndex/2;
-			PlayerController player = GameController.me.GetPlayer(playerToAttackIndex);
+			PlayerController player = GameController.me.GetPlayer(_streetIndex);
 			if (player != null) {
 				player.Hit(_data.id);
 				if ( player.Health <= 0.0f )

@@ -143,7 +143,20 @@ public class GameController : MonoBehaviour {
 
 	public PlayerController GetPlayer(int indexRow)
 	{
-		return Players[Mathf.FloorToInt((float)((float)indexRow*0.5f))] ;
+		int indexPlayer = Mathf.FloorToInt((float)((float)indexRow*0.5f));
+		if (Players[indexPlayer] == null)
+		{
+			//Busca algun Player
+			for (int i=0;i<Players.Length; i++)
+			{
+				if (Players[i] != null)
+				{
+					indexPlayer = i;
+					break;
+				}
+			}
+		}
+		return Players[indexPlayer];
 	}
 
 	public Vector3 GetPositionPlayers()
