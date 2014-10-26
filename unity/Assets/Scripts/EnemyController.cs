@@ -209,6 +209,7 @@ public class EnemyController : MonoBehaviour
 
 	public void Hit (float baseDamage, bool isFrontHit, bool isFireHit, float fireBoostDamage)
 	{
+		SoundManager soundMgr = GameObject.Find("SoundManager").GetComponent<SoundManager>();
 		Debug.Log("front_hit: " + (isFrontHit ? 1 : 0));
 
 		float damage = baseDamage;
@@ -241,6 +242,15 @@ public class EnemyController : MonoBehaviour
 			{
 				_animator.SetTrigger("HitShield");
 			}
+		}
+
+		if ( preventedByShield )
+		{
+			soundMgr.playSoundEffect(soundMgr.shieldBlock);
+		}
+		else if ( damage > 0.0f )
+		{
+			soundMgr.playSoundEffect (soundMgr.hit);
 		}
 
 		if ( damage > 0.0f )

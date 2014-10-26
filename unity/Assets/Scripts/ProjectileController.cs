@@ -51,6 +51,8 @@ public class ProjectileController : MonoBehaviour {
 	};
 	static WeaponsParams _weaponsParams = null;
 
+
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -83,8 +85,21 @@ public class ProjectileController : MonoBehaviour {
 	public void Shot(Vector3 dir)
 	{
 		applyParams();
-
 		rigidbody2D.AddForce(dir * Force);
+
+		SoundManager soundMgr = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+		switch ( ProjectileType )
+		{
+		case EProjectileType.Boomerang:
+			soundMgr.playSoundEffect(soundMgr.shootBoomerang);
+			break;
+		case EProjectileType.Fire:
+			soundMgr.playSoundEffect(soundMgr.shootFire);
+			break;
+		case EProjectileType.Babosa:
+			soundMgr.playSoundEffect(soundMgr.shootBabosa);
+			break;
+		}
 	}
 
 	
@@ -219,6 +234,11 @@ public class ProjectileController : MonoBehaviour {
 		set
 		{
 			Debug.Log("Boomerang on Fire");
+			if ( value && !_isOnFire )
+			{
+				SoundManager soundMgr = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+				soundMgr.playSoundEffect(soundMgr.shootFire);
+			}
 			_isOnFire = value;
 			if (_fx != null)
 			{
