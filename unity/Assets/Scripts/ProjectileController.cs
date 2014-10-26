@@ -14,6 +14,9 @@ public class ProjectileController : MonoBehaviour {
 	private ParticleSystem _fx;
 	private float _baseDamage;
 	private CircleCollider2D _collider2D;
+	private bool _isStopped = false;
+	private float _stopMotionTime;
+	private bool _firstUpdate = true;
 
 	public enum EProjectileType
 	{
@@ -40,6 +43,8 @@ public class ProjectileController : MonoBehaviour {
 		public float babosaGlueTime;
 		public float babosaFrictionFactor;
 		public float fireDamageBoost;
+		public float fireGlueTime;
+		public float fireStopVel;
 		public PhysicsParams boomerangPhysics;
 		public PhysicsParams firePhysics;
 		public PhysicsParams babosaPhysics;
@@ -90,6 +95,7 @@ public class ProjectileController : MonoBehaviour {
 		{
 			GameController.me.CheckProjectileOnRadius(transform.position + new Vector3(_collider2D.center.x, _collider2D.center.y, 0), 0.6f);
 		}
+
 		switch(State)
 		{
 		case EState.Moving:
@@ -108,10 +114,7 @@ public class ProjectileController : MonoBehaviour {
 				}
 				break;
 			}
-			if(Time.time - _timeCreation > TimeDuration)
-			{
-				DestroyProjectile();
-			}
+
 			//Mira si ha tocat amb la paret de darrera
 			if (rigidbody2D.velocity.x < 0 && transform.position.x < GameController.me.GetPositionPlayers().x)
 			{
@@ -120,14 +123,41 @@ public class ProjectileController : MonoBehaviour {
 			//Mira si s'ha parat (Nomes si es babosa o boomerang)
 			if (ProjectileType != EProjectileType.Fire)
 			{
+				if(Time.time - _timeCreation > TimeDuration)
+				{
+					DestroyProjectile();
+				}
+
 				//Debug.Log ("Projectile: " + rigidbody2D.velocity.magnitude);
 				if (Time.time > (_timeCreation+0.2f) && rigidbody2D.velocity.magnitude <= 1.5f)
 				{
 					DestroyProjectile();
 				}
 			}
+			else // fire
+			{
+
+				if ( _isStopped )
+				{
+					if ( (Time.fixedTime - _stopMotionTime) > _weaponsParams.fireGlueTime )
+					{
+						DestroyProjectile();
+					}
+				}
+				else
+				{
+					if ( rigidbody2D.velocity.magnitude <= _weaponsParams.fireStopVel && !_firstUpdate)
+					{
+						rigidbody2D.velocity = Vector2.zero;
+						Debug.Log ("STOP!!: " + rigidbody2D.velocity.magnitude);
+						_isStopped = true;
+						_stopMotionTime = Time.fixedTime;
+					}
+				}
+			}
 			break;
 		}
+		_firstUpdate = false;
 	}
 
 	public void DestroyProjectile()
@@ -218,6 +248,8 @@ public class ProjectileController : MonoBehaviour {
 		_weaponsParams.babosaGlueTime = json["babosa_glue_time"].AsFloat;
 		_weaponsParams.babosaFrictionFactor = json["babosa_friction_factor"].AsFloat;
 		_weaponsParams.fireDamageBoost = json["fire_damage_boost"].AsFloat;
+		_weaponsParams.fireGlueTime = json["fire_glue_time"].AsFloat;
+		_weaponsParams.fireStopVel = json["fire_stop_vel"].AsFloat;
 
 		_weaponsParams.boomerangPhysics = parsePhysicsParams(json["boomerang_physics"]);
 		_weaponsParams.babosaPhysics 	= parsePhysicsParams(json["babosa_physics"]);
