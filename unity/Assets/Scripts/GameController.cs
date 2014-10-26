@@ -361,7 +361,7 @@ public class GameController : MonoBehaviour {
 			config.characters = new bool[3];
 			for ( int j = 0; j < 3; j++ ){ config.characters[j] = false; }
 			JSONArray jCharacters = jLevelConf["characters"].AsArray;
-			for ( int j = 0; j < json.Count; j++ )
+			for ( int j = 0; j < jCharacters.Count; j++ )
 			{
 				config.characters[jCharacters[j].AsInt] = true;
 			}
