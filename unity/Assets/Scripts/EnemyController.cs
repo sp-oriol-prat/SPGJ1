@@ -196,12 +196,12 @@ public class EnemyController : MonoBehaviour
 
 	public void Hit (float baseDamage, bool isFrontHit, bool isFireHit, float fireBoostDamage)
 	{
-		if (_animator != null)
-		{
-			_animator.SetTrigger("Hit");
-		}
+		Debug.Log("front_hit: " + (isFrontHit ? 1 : 0));
+
 		float damage = baseDamage;
-		if (_data.hasShield && isFrontHit || _data.isElemental && !isFireHit)
+		bool preventedByShield = _data.hasShield && isFrontHit;
+		bool preventedByElement = _data.isElemental && !isFireHit;
+		if (preventedByShield || preventedByElement)
 		{
 			damage = 0.0f;
 		}
@@ -213,8 +213,23 @@ public class EnemyController : MonoBehaviour
 				damage *= fireBoostDamage;
 			}
 		}
-		Debug.Log ("damage(" + damage + ") " + _health + " -> " + (_health - damage));
-		Health -= damage;
+		//Debug.Log ("damage(" + damage + ") " + _health + " -> " + (_health - damage));
+		if (_animator != null)
+		{
+			if ( damage > 0.0f )
+			{
+				_animator.SetTrigger("Hit");
+			}
+			else if ( _data.id == "E" && preventedByShield )
+			{
+				_animator.SetTrigger("HitShield");
+			}
+		}
+
+		if ( damage > 0.0f )
+		{
+			Health -= damage;
+		}
 	}
 
 	public void Escupit(float babosaFriction, float babosaDuration)
@@ -234,9 +249,9 @@ public class EnemyController : MonoBehaviour
 		TextMesh tm = GetComponentInChildren<TextMesh>();
 		if (tm)
 		{
-			float velx = (transform.position.x - _previousXPos)/Time.fixedDeltaTime;
+			float velx = -(transform.position.x - _previousXPos)/Time.fixedDeltaTime;
 			_previousXPos = transform.position.x;
-			string textStr = "live(" + _health + ") vel(" + velx.ToString("0.00") + ")";
+			string textStr = "<3:" + _health + " vel:" + velx.ToString("0.00") + " shield: " + (_data.hasShield ? 1 : 0);
 			tm.text = textStr;
 		}
 	}
