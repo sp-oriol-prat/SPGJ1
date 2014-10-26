@@ -4,6 +4,8 @@ using SimpleJSON;
 
 public class EnemiesManager : MonoBehaviour
 {
+	GameController _gameController;
+
 	public Transform SpawnPointsContainer;
 	public Transform[] spawnPoints;
 
@@ -57,6 +59,8 @@ public class EnemiesManager : MonoBehaviour
 
 	void Start()
 	{
+		_gameController = GameObject.Find ("GameController").GetComponent<GameController>();
+
 		StartCoroutine(parseEnemies());
 		StartCoroutine(parseWaves());
 
@@ -164,15 +168,21 @@ public class EnemiesManager : MonoBehaviour
 			{
 				_waveState = WaveState.WaitingDelay;
 				_lastWavetime = Time.fixedTime;
-
-				//GameObject.Find("GameController").GetComponent<GameController>().onStartWave(_currentWave+1, false);
 			}
 			else
 			{
-				// FINISH
-				onFinishedEnemies();
+				// Finish level.
+				_waveState = WaveState.Finished;
+				StartCoroutine( endLevelAfterDelay() );
 			}
 		}
+	}
+
+	IEnumerator endLevelAfterDelay()
+	{
+		float delay = 1.0f;
+		yield return new WaitForSeconds(delay);
+		_gameController.EndLevel();
 	}
 
 	void FixedUpdate_ShowWaveMessage()
@@ -182,8 +192,7 @@ public class EnemiesManager : MonoBehaviour
 		// show message?
 		if ( (Time.fixedTime - _currentWaveBeginTime) > wave.messageDelayTime )
 		{
-			//GameObject.Find("GameController").GetComponent<GameController>().onStartWave(_currentWave+1, false);
-			GameObject.Find("GameController").GetComponent<GameController>().showWaveMessage(wave.message);
+			_gameController.showWaveMessage(wave.message);
 		}
 	}
 
@@ -256,7 +265,8 @@ public class EnemiesManager : MonoBehaviour
 	IEnumerator parseWaves()
 	{
 		string v = GameObject.Find ("GameController").GetComponent<GameController> ().json_version;
-		string url = "https://dl.dropboxusercontent.com/u/64292958/spgj1"+v+"/waves.txt";
+		string url = "https://dl.dropboxusercontent.com/u/64292958/spgj1"+v+"/" + _gameController.getCurrentLevelName();
+		Debug.Log(url);
 		WWW www = new WWW(url);
 		//Debug.Log ("downloading... " + wavesUrl);
 
@@ -321,10 +331,6 @@ public class EnemiesManager : MonoBehaviour
 	static bool isValidEnemyId(string s)
 	{
 		return s != "_";
-	}
-
-	void onFinishedEnemies()
-	{
 	}
 
 	void OnDrawGizmos()

@@ -21,6 +21,9 @@ public class GameController : MonoBehaviour {
 	private EnemiesManager _enemiesManager;
 	private List<ProjectileController> _projectiles;
 
+	public string[] _levelsNames;
+	private static int _currentLevel = 0;
+
 	void Awake()
 	{
 		_projectiles = new List<ProjectileController>();
@@ -45,6 +48,11 @@ public class GameController : MonoBehaviour {
 
 		StartCoroutine(ProjectileController.parseWeapons());
 		StartCoroutine(PlayerController.parseCharacters());
+
+		if ( _currentLevel > 0 )
+		{
+			_mainMenu.SetStartButton("Next level!", new Color(0.1f, 1.0f, 0.1f));
+		}
 	}
 
 	public Camera CameraRef
@@ -129,23 +137,53 @@ public class GameController : MonoBehaviour {
 
 	public void StartGame()
 	{
+		Debug.Log ("StartGame");
 		_testMenu.Message("");
 
 		bool readyToStart = true;
 		readyToStart &= ProjectileController.isParseDone();
 		readyToStart &= PlayerController.isParseDone();
 
+		Debug.Log ("readytostart: " + (readyToStart ? 1:0));
 		if (readyToStart)
 		{
+			/*if ( _currentLevel == 0 )
+			{
+				_mainMenu.Show(false);
+			}*/
 			_mainMenu.Show(false);
 			_testMenu.Show(true);
+
 			for (int i=0; i<Players.Length; i++)
 			{
-				Players[i].Enable();
-				Players[i].InitParams();
+				if ( _currentLevel >= i )
+				{
+					Players[i].Enable();
+					Players[i].InitParams();
+				}
 			}
 			
 			_enemiesManager.doCanStart();
+		}
+	}
+
+	public string getCurrentLevelName()
+	{
+		return _levelsNames[_currentLevel];
+	}
+
+	public void EndLevel()
+	{
+		_currentLevel++;
+		if ( _currentLevel == _levelsNames.Length )
+		{
+			Debug.Log("END GAME!");
+			EndGame();
+		}
+		else
+		{
+			Debug.Log("NEXT LEVEL!");
+			RestartGame();
 		}
 	}
 

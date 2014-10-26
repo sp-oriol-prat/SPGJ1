@@ -22,4 +22,10 @@ public class MainMenu : MonoBehaviour
 		me.alpha = flag?1:0;
 		ButtonStart.enabled = flag;
 	}
+
+	public void SetStartButton(string text, Color col)
+	{
+		ButtonStart.GetComponentInChildren<UILabel>().text = text;
+		ButtonStart.GetComponentInChildren<UIWidget> ().color = col;
+	}
 }
