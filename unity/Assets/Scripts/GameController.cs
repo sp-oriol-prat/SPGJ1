@@ -221,14 +221,18 @@ public class GameController : MonoBehaviour {
 			}
 		}
 
-		RestartGame();
-
-		_repeatLevel = true;
-
 		//TODO: Stop the Enemies from moving
 		//EnemiesManager.Stop()
-		//StartCoroutine(EndGameDelayed());
+		StartCoroutine(ResetGameWithDelay());
 	}
+
+	private IEnumerator ResetGameWithDelay()
+	{
+		yield return new WaitForSeconds(1.0f);
+		_repeatLevel = true;
+		RestartGame();
+	}
+
 
 	public void EndGame()
 	{

@@ -28,7 +28,6 @@ public class MainMenu : MonoBehaviour
 	public void OnStartGame()
 	{
 		ButtonStart.GetComponentInChildren<UILabel>().text = "Start!";
-		//ButtonStart.GetComponentInChildren<UIWidget> ().color = new Color(0.1f, 1.0f, 0.1f);
 		TitleLabel.enabled = true;
 		SubLabel.enabled = false;
 	}
