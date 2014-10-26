@@ -7,7 +7,8 @@ public class EnemyController : MonoBehaviour
 	{
 		Moving,
 		Attacking,
-		Dying
+		Dying,
+		Idle
 	};
 
 	public enum Element
@@ -117,7 +118,8 @@ public class EnemyController : MonoBehaviour
 
 	void FixedUpdate ()
 	{
-			switch (_state) {
+		switch (_state)
+		{
 		case EState.Moving:
 			FixedUpdate_Moving ();
 			break;
@@ -128,6 +130,9 @@ public class EnemyController : MonoBehaviour
 
 		case EState.Dying:
 			FixedUpdate_Dying ();
+			break;
+
+		case EState.Idle:
 			break;
 		}
 
@@ -173,11 +178,17 @@ public class EnemyController : MonoBehaviour
 	{
 		if (Time.time > _timeChangeState + 1.0f) {
 			//TODO: Attack animation and selecciona el player correcte per atacar (passant com a valor el tipus d'enemic del quer es tracta)
-			PlayerController player = GameController.me.GetPlayer (0);
+
+			int playerToAttackIndex = _streetIndex/2;
+			PlayerController player = GameController.me.GetPlayer(playerToAttackIndex);
 			if (player != null) {
-				GameController.me.GetPlayer (_streetIndex).Hit (_data.id);
+				player.Hit(_data.id);
+				if ( player.Health <= 0.0f )
+				{
+					_state = EState.Idle;
+				}
 			}
-			SetStateDie ();
+			//SetStateDie ();
 		}
 	}
 

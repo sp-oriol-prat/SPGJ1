@@ -279,9 +279,22 @@ public class PlayerController : MonoBehaviour {
 		}
 		if (Time.time > _timeChangeState + kTimeIntermitentTotal)
 		{
-			GameController.me.EndGame();
-			Destroy (this.gameObject);
+			Destroy(this.gameObject);
+			//StartCoroutine( loseGame() );
+			loseGame();
 		}
+	}
+
+	//IEnumerator loseGame()
+	void loseGame()
+	{
+		Debug.Log ("LOSER GAMEER");
+		//float delay = 1.0f;
+		//yield return new WaitForSeconds(delay);
+		//GameController.me.EndGame();
+		//GameController.me.OnLosedLevel();
+
+		GameObject.Find("GameController").GetComponent<GameController>().OnLosedLevel();
 	}
 
 	static public IEnumerator parseCharacters()

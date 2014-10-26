@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour {
 
 	public string[] _levelsNames;
 	private static int _currentLevel = 0;
+	private static bool _repeatLevel = false;
 
 	void Awake()
 	{
@@ -49,9 +50,20 @@ public class GameController : MonoBehaviour {
 		StartCoroutine(ProjectileController.parseWeapons());
 		StartCoroutine(PlayerController.parseCharacters());
 
-		if ( _currentLevel > 0 )
+		if ( !_repeatLevel )
 		{
-			_mainMenu.OnNextLevel();
+			if ( _currentLevel > 0 )
+			{
+				_mainMenu.OnNextLevel();
+			}
+			else
+			{
+				_mainMenu.OnStartGame();
+			}
+		}
+		else
+		{
+			_mainMenu.OnRepeatLevel();
 		}
 	}
 
@@ -161,10 +173,16 @@ public class GameController : MonoBehaviour {
 					Players[i].Enable();
 					Players[i].InitParams();
 				}
+				else
+				{
+					Players[i].enabled = false;
+				}
 			}
 			
 			_enemiesManager.doCanStart();
 		}
+
+		_repeatLevel = false;
 	}
 
 	public string getCurrentLevelName()
@@ -185,6 +203,31 @@ public class GameController : MonoBehaviour {
 			Debug.Log("NEXT LEVEL!");
 			RestartGame();
 		}
+	}
+
+	public void OnLosedLevel()
+	{
+		Debug.Log ("==LOSER GAMEER==");
+
+		//_testMenu.Show(false);
+		//_endMenu.Show(true);
+		//_endMenu.OnRepeatLevel()
+			//;
+		for (int i=0; i<Players.Length; i++)
+		{
+			if (Players[i] != null)
+			{
+				Players[i].Disable();
+			}
+		}
+
+		RestartGame();
+
+		_repeatLevel = true;
+
+		//TODO: Stop the Enemies from moving
+		//EnemiesManager.Stop()
+		//StartCoroutine(EndGameDelayed());
 	}
 
 	public void EndGame()
