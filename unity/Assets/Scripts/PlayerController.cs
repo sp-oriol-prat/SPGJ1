@@ -68,6 +68,8 @@ public class PlayerController : MonoBehaviour {
 		//Animator
 		_animator = GetComponentInChildren<Animator>();
 		_sprite = GetComponent<SpriteRenderer>();
+
+		Show(false);
 	}
 
 	public void Show(bool flag)

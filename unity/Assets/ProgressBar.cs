@@ -10,6 +10,7 @@ public class ProgressBar : MonoBehaviour {
 	void Start () 
 	{
 		me = GetComponent<UIWidget>();
+		Show (false);
 	}
 	
 	// Update is called once per frame
@@ -29,6 +30,9 @@ public class ProgressBar : MonoBehaviour {
 
 	public void Show(bool flag)
 	{
-		me.alpha = flag?1:0;
+		if (me != null)
+		{
+			me.alpha = flag?1:0;
+		}
 	}
 }
