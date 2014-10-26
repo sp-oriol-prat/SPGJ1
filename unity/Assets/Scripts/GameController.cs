@@ -52,13 +52,18 @@ public class GameController : MonoBehaviour {
 
 		if ( !_repeatLevel )
 		{
-			if ( _currentLevel > 0 )
+			if ( _currentLevel == 0 )
 			{
-				_mainMenu.OnNextLevel();
+				_mainMenu.OnStartGame();
+			}
+			else if (_currentLevel == _levelsNames.Length )
+			{
+				_mainMenu.OnEndedGame();
+				_currentLevel = 0;
 			}
 			else
 			{
-				_mainMenu.OnStartGame();
+				_mainMenu.OnNextLevel();
 			}
 		}
 		else
@@ -168,14 +173,14 @@ public class GameController : MonoBehaviour {
 
 			for (int i=0; i<Players.Length; i++)
 			{
-				if ( _currentLevel >= i )
+				//if ( _currentLevel >= i )
 				{
 					Players[i].Enable();
 					Players[i].InitParams();
 				}
-				else
+				//else
 				{
-					Players[i].enabled = false;
+				//	Players[i].enabled = false;
 				}
 			}
 			
@@ -236,8 +241,8 @@ public class GameController : MonoBehaviour {
 
 	public void EndGame()
 	{
-		_testMenu.Show(false);
-		_endMenu.Show(true);
+		//_testMenu.Show(false);
+		//_endMenu.Show(true);
 		for (int i=0; i<Players.Length; i++)
 		{
 			if (Players[i] != null)
@@ -253,6 +258,7 @@ public class GameController : MonoBehaviour {
 	private IEnumerator EndGameDelayed()
 	{
 		yield return new WaitForSeconds(1.0f);
+		RestartGame();
 	}
 	
 	public void RestartGame()

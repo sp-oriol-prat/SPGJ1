@@ -42,11 +42,19 @@ public class MainMenu : MonoBehaviour
 
 	public void OnRepeatLevel()
 	{
-
 		ButtonStart.GetComponentInChildren<UILabel>().text = "Try again";
 		ButtonStart.GetComponentInChildren<UIWidget> ().color = new Color(1.0f, 0.2f, 0.2f);
 		TitleLabel.enabled = false;
 		SubLabel.enabled = true;
 		SubLabel.text = "Game Over...";
+	}
+
+	public void OnEndedGame()
+	{
+		ButtonStart.GetComponentInChildren<UILabel>().text = "Play Again!";
+		ButtonStart.GetComponentInChildren<UIWidget> ().color = new Color(0.0f, 1.0f, 1.0f);
+		TitleLabel.enabled = true;
+		SubLabel.enabled = true;
+		SubLabel.text = "Game Completed!";
 	}
 }
