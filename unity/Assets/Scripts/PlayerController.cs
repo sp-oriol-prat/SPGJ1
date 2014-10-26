@@ -54,20 +54,27 @@ public class PlayerController : MonoBehaviour {
 	void Start () 
 	{
 		_collider2D = (CircleCollider2D)collider2D;
-		//Health
-		//_healthBar = GameController.me.InstantiateUI("HealthBar").GetComponent<ProgressBar>();
-		//GameController.me.SetWorldToUIPosition(transform.position, _healthBar.transform, new Vector2(0, -100));
-		//_healthBar.SetProgress(Random.value);
+		//Arrow Putis
+		_arrowsPuti = (GameObject.Instantiate(Resources.Load("ArrowsPuti") as GameObject, PositionCollider()-(Vector3.right*1.4f), Quaternion.identity) as GameObject).GetComponent<ArrowsPuti>();
 		//Stamina
 		_staminaBar = GameController.me.InstantiateUI("HealthBar").GetComponent<ProgressBar>();
 		_staminaBar.transform.localScale = Vector3.one *0.65f;
 		GameController.me.SetWorldToUIPosition(PositionCollider(), _staminaBar.transform, new Vector2(-30, -100));
 		_staminaBar.SetProgress(Random.value);
+		//Health
+		//_healthBar = GameController.me.InstantiateUI("HealthBar").GetComponent<ProgressBar>();
+		//GameController.me.SetWorldToUIPosition(transform.position, _healthBar.transform, new Vector2(0, -100));
+		//_healthBar.SetProgress(Random.value);
 		//Animator
 		_animator = GetComponentInChildren<Animator>();
 		_sprite = GetComponent<SpriteRenderer>();
-		//Arrow Putis
-		_arrowsPuti = (GameObject.Instantiate(Resources.Load("ArrowsPuti") as GameObject, PositionCollider()-(Vector3.right*1.4f), Quaternion.identity) as GameObject).GetComponent<ArrowsPuti>(); 
+	}
+
+	public void Show(bool flag)
+	{
+		gameObject.SetActive(flag);
+		_staminaBar.Show(flag);
+		_arrowsPuti.Enable = flag;
 	}
 
 	private Vector3 PositionCollider()
