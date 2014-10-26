@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 
 public class GameController : MonoBehaviour {
 
@@ -15,15 +16,28 @@ public class GameController : MonoBehaviour {
 	private UIRoot _uiRoot;
 	public PlayerController[] Players;
 	private MainMenu _mainMenu;
-	private EndMenu _endMenu;
+	//private EndMenu _endMenu;
 	private TestMenu _testMenu;
 	private Vector3 _positionPlayers;
 	private EnemiesManager _enemiesManager;
 	private List<ProjectileController> _projectiles;
 
-	public string[] _levelsNames;
+	//public string[] _levelsNames;
 	private static int _currentLevel = 0;
 	private static bool _repeatLevel = false;
+
+
+	private class LevelConfig
+	{
+		public string filename;
+		public bool[] characters;
+	};
+	private static LevelConfig[] _levelConfigs;
+	private static bool _levelsConfigParsed = false;
+	public static bool isLevelsConfigParsed()
+	{
+		return _levelsConfigParsed;
+	}
 
 	void Awake()
 	{
@@ -44,9 +58,10 @@ public class GameController : MonoBehaviour {
 		_positionPlayers = Players[0].transform.position;
 		_positionPlayers.x += 1;
 		_mainMenu = FindObjectOfType<MainMenu>();
-		_endMenu = FindObjectOfType<EndMenu>();
+		//_endMenu = FindObjectOfType<EndMenu>();
 		_testMenu = FindObjectOfType<TestMenu>();
 
+		StartCoroutine(parseLevelsConfig());
 		StartCoroutine(ProjectileController.parseWeapons());
 		StartCoroutine(PlayerController.parseCharacters());
 
@@ -56,7 +71,7 @@ public class GameController : MonoBehaviour {
 			{
 				_mainMenu.OnStartGame();
 			}
-			else if (_currentLevel == _levelsNames.Length )
+			else if (_currentLevel == _levelConfigs.Length )
 			{
 				_mainMenu.OnEndedGame();
 				_currentLevel = 0;
@@ -160,6 +175,7 @@ public class GameController : MonoBehaviour {
 		bool readyToStart = true;
 		readyToStart &= ProjectileController.isParseDone();
 		readyToStart &= PlayerController.isParseDone();
+		readyToStart &= _levelsConfigParsed;
 
 		Debug.Log ("readytostart: " + (readyToStart ? 1:0));
 		if (readyToStart)
@@ -167,7 +183,7 @@ public class GameController : MonoBehaviour {
 			_mainMenu.Show(false);
 			_testMenu.Show(true);
 
-			string levName = _levelsNames[_currentLevel];
+			//string levelName = _levelConfigs[_currentLevel].filename;
 
 			/*if (levName == "level1.txt")
 			{
@@ -188,9 +204,11 @@ public class GameController : MonoBehaviour {
 				ShowPlayer(2, true);
 			}
 			*/
-			ShowPlayer(0, true);
-			ShowPlayer(1, true);
-			ShowPlayer(2, true);
+			LevelConfig lconfig = _levelConfigs[_currentLevel];
+			ShowPlayer(0, lconfig.characters[0]);
+			ShowPlayer(1, lconfig.characters[1]);
+			ShowPlayer(2, lconfig.characters[2]);
+
 			_enemiesManager.doCanStart();
 		}
 
@@ -209,13 +227,13 @@ public class GameController : MonoBehaviour {
 
 	public string getCurrentLevelName()
 	{
-		return _levelsNames[_currentLevel];
+		return _levelConfigs[_currentLevel].filename;
 	}
 
 	public void EndLevel()
 	{
 		_currentLevel++;
-		if ( _currentLevel == _levelsNames.Length )
+		if ( _currentLevel == _levelConfigs.Length )
 		{
 			Debug.Log("END GAME!");
 			EndGame();
@@ -322,5 +340,33 @@ public class GameController : MonoBehaviour {
 	public void showWaveMessage(string msg)
 	{
 		_testMenu.Message(msg);
+	}
+
+	static public IEnumerator parseLevelsConfig()
+	{
+		string v = GameObject.Find ("GameController").GetComponent<GameController> ().json_version;
+		string url = "https://dl.dropboxusercontent.com/u/64292958/spgj1"+v+"/levels.config.txt";
+		WWW www = new WWW(url);
+		
+		yield return www;
+		JSONArray json = JSONNode.Parse(www.text).AsArray;
+		_levelConfigs = new LevelConfig[json.Count];
+
+		for ( int i = 0; i < json.Count; i++ )
+		{
+			LevelConfig config = _levelConfigs[i] = new LevelConfig();
+			JSONNode jLevelConf = json[i];
+			config.filename = jLevelConf["file"];
+
+			config.characters = new bool[3];
+			for ( int j = 0; j < 3; j++ ){ config.characters[j] = false; }
+			JSONArray jCharacters = jLevelConf["characters"].AsArray;
+			for ( int j = 0; j < json.Count; j++ )
+			{
+				config.characters[jCharacters[j].AsInt] = true;
+			}
+		}
+
+		_levelsConfigParsed = true;
 	}
 }

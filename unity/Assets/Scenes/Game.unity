@@ -308,11 +308,6 @@ MonoBehaviour:
   - {fileID: 989802235}
   - {fileID: 260651244}
   - {fileID: 907662480}
-  _levelsNames:
-  - level1.txt
-  - level2.txt
-  - level3.txt
-  - level4.txt
 --- !u!4 &31348840
 Transform:
   m_ObjectHideFlags: 0

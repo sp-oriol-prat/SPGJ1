@@ -265,6 +265,12 @@ public class EnemiesManager : MonoBehaviour
 	IEnumerator parseWaves()
 	{
 		string v = GameObject.Find ("GameController").GetComponent<GameController> ().json_version;
+
+		while ( !GameController.isLevelsConfigParsed())
+		{
+			yield return new WaitForSeconds(0.1f);
+		}
+
 		string url = "https://dl.dropboxusercontent.com/u/64292958/spgj1"+v+"/" + _gameController.getCurrentLevelName();
 		Debug.Log(url);
 		WWW www = new WWW(url);
