@@ -42,8 +42,8 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 0c8027e0d4a474eceaf145bab42b07cb, type: 2}
   mSprites:
   - name: bar
-    x: 0
-    y: 384
+    x: 1032
+    y: 1920
     width: 128
     height: 128
     borderLeft: 6
@@ -55,8 +55,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: barRound
-    x: 0
-    y: 249
+    x: 1032
+    y: 1513
     width: 127
     height: 127
     borderLeft: 0
@@ -67,6 +67,58 @@ MonoBehaviour:
     paddingRight: 1
     paddingTop: 0
     paddingBottom: 1
+  - name: boton_restart
+    x: 1032
+    y: 1784
+    width: 128
+    height: 128
+    borderLeft: 31
+    borderRight: 31
+    borderTop: 37
+    borderBottom: 35
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: boton_start
+    x: 1032
+    y: 1648
+    width: 128
+    height: 128
+    borderLeft: 30
+    borderRight: 30
+    borderTop: 39
+    borderBottom: 34
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: flucke_strike
+    x: 0
+    y: 1241
+    width: 1024
+    height: 807
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: white
+    x: 1032
+    y: 1473
+    width: 32
+    height: 32
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   mPixelSize: 1
   mReplacement: {fileID: 0}
   mCoordinates: 0

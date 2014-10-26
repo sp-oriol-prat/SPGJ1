@@ -80,7 +80,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3422.10669, y: 621.984985, z: 0}
+  m_LocalPosition: {x: 645.737915, y: -43.4565659, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400000}
@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3dd4b8ec879f46b398b269ffd6b9b61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  me: {fileID: 0}
   Bar: {fileID: 11400002}
   Background: {fileID: 11400004}
 --- !u!114 &11400002
@@ -127,15 +128,15 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  mColor: {r: .101211078, g: .105786867, b: .764705896, a: 1}
+  mColor: {r: .0725562423, g: .7401039, b: .897058845, a: 1}
   mPivot: 3
-  mWidth: 200
+  mWidth: 100
   mHeight: 20
   mDepth: 3
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 10
+  aspectRatio: 5
   mAtlas: {fileID: 11400000, guid: e8c06bda32c134d7fa3d9c3b569eced5, type: 2}
   mSpriteName: bar
   mType: 1
@@ -175,7 +176,7 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
-  mColor: {r: .210207626, g: .552499712, b: .79411763, a: 1}
+  mColor: {r: .257352948, g: .125727132, b: .0245999061, a: 1}
   mPivot: 3
   mWidth: 200
   mHeight: 20

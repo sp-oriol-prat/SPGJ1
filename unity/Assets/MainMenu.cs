@@ -5,7 +5,6 @@ public class MainMenu : MonoBehaviour
 {
 	private UIPanel me;
 	public UIButton ButtonStart;
-	public UILabel TitleLabel;
 	public UILabel SubLabel;
 
 	// Use this for initialization
@@ -28,23 +27,20 @@ public class MainMenu : MonoBehaviour
 	public void OnStartGame()
 	{
 		ButtonStart.GetComponentInChildren<UILabel>().text = "Start!";
-		TitleLabel.enabled = true;
 		SubLabel.enabled = false;
 	}
 
 	public void OnNextLevel()
 	{
 		ButtonStart.GetComponentInChildren<UILabel>().text = "Next level!";
-		ButtonStart.GetComponentInChildren<UIWidget> ().color = new Color(0.1f, 1.0f, 0.1f);
+		//ButtonStart.GetComponentInChildren<UIWidget> ().color = new Color(0.1f, 1.0f, 0.1f);
 		SubLabel.enabled = false;
-		TitleLabel.enabled = false;
 	}
 
 	public void OnRepeatLevel()
 	{
 		ButtonStart.GetComponentInChildren<UILabel>().text = "Try again";
-		ButtonStart.GetComponentInChildren<UIWidget> ().color = new Color(1.0f, 0.2f, 0.2f);
-		TitleLabel.enabled = false;
+		//ButtonStart.GetComponentInChildren<UIWidget> ().color = new Color(1.0f, 0.2f, 0.2f);
 		SubLabel.enabled = true;
 		SubLabel.text = "Game Over...";
 	}
@@ -52,8 +48,7 @@ public class MainMenu : MonoBehaviour
 	public void OnEndedGame()
 	{
 		ButtonStart.GetComponentInChildren<UILabel>().text = "Play Again!";
-		ButtonStart.GetComponentInChildren<UIWidget> ().color = new Color(0.0f, 1.0f, 1.0f);
-		TitleLabel.enabled = true;
+		//ButtonStart.GetComponentInChildren<UIWidget> ().color = new Color(0.0f, 1.0f, 1.0f);
 		SubLabel.enabled = true;
 		SubLabel.text = "Game Completed!";
 	}
