@@ -164,30 +164,47 @@ public class GameController : MonoBehaviour {
 		Debug.Log ("readytostart: " + (readyToStart ? 1:0));
 		if (readyToStart)
 		{
-			/*if ( _currentLevel == 0 )
-			{
-				_mainMenu.Show(false);
-			}*/
 			_mainMenu.Show(false);
 			_testMenu.Show(true);
 
-			for (int i=0; i<Players.Length; i++)
+			string levName = _levelsNames[_currentLevel];
+
+			/*if (levName == "level1.txt")
 			{
-				//if ( _currentLevel >= i )
-				{
-					Players[i].Enable();
-					Players[i].InitParams();
-				}
-				//else
-				{
-				//	Players[i].enabled = false;
-				}
+				ShowPlayer(0, false);
+				ShowPlayer(1, true);
+				ShowPlayer(2, false);
+			} 
+			else if (levName == "level2.txt")
+			{
+				ShowPlayer(0, false);
+				ShowPlayer(1, true);
+				ShowPlayer(2, true);
 			}
-			
+			else 
+			{
+				ShowPlayer(0, true);
+				ShowPlayer(1, true);
+				ShowPlayer(2, true);
+			}
+			*/
+			ShowPlayer(0, true);
+			ShowPlayer(1, true);
+			ShowPlayer(2, true);
 			_enemiesManager.doCanStart();
 		}
 
 		_repeatLevel = false;
+	}
+
+	public void ShowPlayer(int i, bool flag)
+	{
+		if (flag)
+		{
+			Players[i].Enable();
+			Players[i].InitParams();
+		}
+		Players[i].Show(flag);
 	}
 
 	public string getCurrentLevelName()
