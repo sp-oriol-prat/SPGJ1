@@ -73,7 +73,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.67444754, y: 3.39890695, z: 0}
+  m_LocalPosition: {x: 4.17124796, y: 2.9365809, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -88,7 +88,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: -.462191731, w: .886780083}
-  m_LocalPosition: {x: .463421822, y: -.000622272491, z: 0}
+  m_LocalPosition: {x: .435431004, y: -.0985927582, z: 0}
   m_LocalScale: {x: -.665194273, y: .6636163, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
@@ -100,7 +100,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .170000002, y: .349999994, z: 0}
+  m_LocalPosition: {x: .142009258, y: .252029419, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
@@ -112,7 +112,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.0252513885, y: -.55043292, z: 0}
+  m_LocalPosition: {x: -.0252513885, y: -.564428329, z: 0}
   m_LocalScale: {x: .445571989, y: .362744987, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
@@ -126,7 +126,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Radius: .5
+  m_Radius: .699999988
   m_Center: {x: 0, y: 0}
 --- !u!95 &9500000
 Animator:

@@ -28,7 +28,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400002}
   - 212: {fileID: 21200002}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: sombra
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,8 +55,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.109419346, y: -1.11259127, z: 0}
-  m_LocalScale: {x: .928418279, y: .928416014, z: 1}
+  m_LocalPosition: {x: -.197976112, y: -1.08146214, z: 0}
+  m_LocalScale: {x: .69394052, y: .524659157, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
   m_RootOrder: 0
@@ -143,7 +143,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 236d536b07e1b4741a5b8b8d13debc1c, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: .360784322, g: 1, b: .298039228, a: .470588237}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
