@@ -218,9 +218,9 @@ public class EnemyController : MonoBehaviour
 		{
 			damage = 0.0f;
 		}
-		Instantiate(_fxShield, transform.position, Quaternion.identity);
         if (preventedByShield)
 		{
+			Instantiate(_fxShield, transform.position, Quaternion.identity);
         }
 
 		if (damage != 0.0f)
