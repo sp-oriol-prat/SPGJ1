@@ -63,9 +63,11 @@ public class EnemyController : MonoBehaviour
 	private float _babosaDuration;
 	private float _babosaStartTime;
 	private float _previousXPos = 0.0f;
+	private GameObject _fxShield;
 
 	void Start ()
 	{
+		_fxShield = Resources.Load ("FxShield") as GameObject;
 		_sprite = GetComponent<SpriteRenderer>();
 		if (_sprite ==null)
 		{
@@ -216,6 +218,10 @@ public class EnemyController : MonoBehaviour
 		{
 			damage = 0.0f;
 		}
+		Instantiate(_fxShield, transform.position, Quaternion.identity);
+        if (preventedByShield)
+		{
+        }
 
 		if (damage != 0.0f)
 		{
